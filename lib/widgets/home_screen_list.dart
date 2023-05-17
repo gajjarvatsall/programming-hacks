@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:programming_hacks/app_theme/text_theme.dart';
 
-class LocationListItem extends StatelessWidget {
-  LocationListItem({
+class LanguageListItem extends StatefulWidget {
+  const LanguageListItem({
     super.key,
     required this.imageUrl,
     required this.name,
@@ -10,6 +11,12 @@ class LocationListItem extends StatelessWidget {
 
   final String imageUrl;
   final String name;
+
+  @override
+  State<LanguageListItem> createState() => _LanguageListItemState();
+}
+
+class _LanguageListItemState extends State<LanguageListItem> {
   final GlobalKey _backgroundImageKey = GlobalKey();
 
   @override
@@ -22,9 +29,9 @@ class LocationListItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           child: Stack(
             children: [
-              ParallaxBackground(backgroundImageKey: _backgroundImageKey, imageUrl: imageUrl, context: context),
-              Gradient(),
-              TitleAndSubtitle(name: name),
+              ParallaxBackground(backgroundImageKey: _backgroundImageKey, imageUrl: widget.imageUrl, context: context),
+              const Gradient(),
+              TitleAndSubtitle(name: widget.name),
             ],
           ),
         ),
@@ -43,11 +50,11 @@ class Gradient extends StatelessWidget {
     return Positioned.fill(
       child: DecoratedBox(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.transparent, Colors.black.withOpacity(0.7)],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            stops: const [0.6, 0.95],
+          gradient: RadialGradient(
+            // focalRadius: 0.2,
+            radius: 0.8,
+            colors: [Colors.transparent, Colors.black.withOpacity(0.5)],
+            stops: const [0.7, 0.95],
           ),
         ),
       ),
@@ -65,21 +72,12 @@ class TitleAndSubtitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      left: 20,
-      bottom: 20,
+    return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            name,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          Text(name, style: CustomTextTheme.titleText),
         ],
       ),
     );
@@ -111,6 +109,9 @@ class ParallaxBackground extends StatelessWidget {
           imageUrl,
           key: _backgroundImageKey,
           fit: BoxFit.cover,
+          gaplessPlayback: true,
+          cacheHeight: 1000,
+          cacheWidth: 1000,
         ),
       ],
     );
