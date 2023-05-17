@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:programming_hacks/app_theme/app_theme.dart';
 import 'package:programming_hacks/modules/details/bloc/hacks_bloc.dart';
 import 'package:programming_hacks/modules/details/view.dart';
 import 'package:programming_hacks/modules/home/view.dart';
+import 'package:programming_hacks/repository/hacks_repo.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
@@ -26,11 +28,13 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HacksBloc(),
+      create: (context) => HacksBloc(
+        hacksRepository: HacksRepository(),
+      ),
       child: MaterialApp(
         theme: AppTheme.themeData,
         debugShowCheckedModeBanner: false,
-        initialRoute: '/detailsScreen',
+        initialRoute: '/homeScreen',
         routes: {
           '/homeScreen': (context) => const HomeScreen(),
           '/detailsScreen': (context) => const DetailsScreen(),

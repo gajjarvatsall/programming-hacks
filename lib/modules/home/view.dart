@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:programming_hacks/widgets/home_screen_list.dart';
+import 'package:programming_hacks/models/language_model.dart';
+import 'package:programming_hacks/widgets/parallax_effect.dart';
+import 'package:programming_hacks/widgets/language_list_item.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({
@@ -50,45 +52,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
-class Language {
-  const Language({
-    required this.name,
-    required this.imageUrl,
-  });
-
-  final String name;
-
-  final String imageUrl;
-}
-
-const languages = [
-  Language(
-    name: 'D A R T',
-    imageUrl: 'assets/images/img1.jpg',
-  ),
-  Language(
-    name: 'F L U T T E R',
-    imageUrl: 'assets/images/img2.jpg',
-  ),
-  Language(
-    name: 'J A V A',
-    imageUrl: 'assets/images/img3.jpg',
-  ),
-  Language(
-    name: 'J A V A S C R I P T',
-    imageUrl: 'assets/images/img4.jpg',
-  ),
-  Language(
-    name: 'K O T L I N',
-    imageUrl: 'assets/images/img5.jpg',
-  ),
-  Language(
-    name: 'P H P',
-    imageUrl: 'assets/images/img6.jpg',
-  ),
-  Language(
-    name: 'S W I F T',
-    imageUrl: 'assets/images/img7.jpg',
-  ),
-];
