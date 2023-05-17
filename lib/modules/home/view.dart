@@ -9,26 +9,36 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [
-          const SliverAppBar(
-            title: Text(
-              "Programming Hacks",
-            ),
-            centerTitle: true,
+          SliverAppBar(
+            backgroundColor: Colors.black,
             floating: true,
             flexibleSpace: FlexibleSpaceBar(
-              stretchModes: [StretchMode.blurBackground],
+              title: const Text(
+                "Programming Hacks",
+                style: TextStyle(color: Colors.white),
+              ),
+              centerTitle: true,
+              background: Image.asset(
+                'assets/images/appbar_img.jpg',
+                fit: BoxFit.cover,
+              ),
+              stretchModes: const [
+                StretchMode.blurBackground,
+                StretchMode.zoomBackground,
+              ],
             ),
+            expandedHeight: 200,
             stretch: true,
           ),
           SliverList(
             delegate: SliverChildBuilderDelegate(
               childCount: languages.length,
+              addAutomaticKeepAlives: true,
               (context, index) {
-                return LocationListItem(
+                return LanguageListItem(
                   imageUrl: languages[index].imageUrl,
                   name: languages[index].name,
                 );
@@ -54,31 +64,31 @@ class Language {
 
 const languages = [
   Language(
-    name: 'Dart',
-    imageUrl: 'assets/images/dart.png',
+    name: 'D A R T',
+    imageUrl: 'assets/images/img1.jpg',
   ),
   Language(
-    name: 'Flutter',
-    imageUrl: 'assets/images/flutter.png',
+    name: 'F L U T T E R',
+    imageUrl: 'assets/images/img2.jpg',
   ),
   Language(
-    name: 'Java',
-    imageUrl: 'assets/images/java.png',
+    name: 'J A V A',
+    imageUrl: 'assets/images/img3.jpg',
   ),
   Language(
-    name: 'Javascript',
-    imageUrl: 'assets/images/javascript.webp',
+    name: 'J A V A S C R I P T',
+    imageUrl: 'assets/images/img4.jpg',
   ),
   Language(
-    name: 'Kotlin',
-    imageUrl: 'assets/images/kotlin.png',
+    name: 'K O T L I N',
+    imageUrl: 'assets/images/img5.jpg',
   ),
   Language(
-    name: 'Php',
-    imageUrl: 'assets/images/php.png',
+    name: 'P H P',
+    imageUrl: 'assets/images/img6.jpg',
   ),
   Language(
-    name: 'Swift',
-    imageUrl: 'assets/images/swift.jpeg',
+    name: 'S W I F T',
+    imageUrl: 'assets/images/img7.jpg',
   ),
 ];
