@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:programming_hacks/app_theme/app_theme.dart';
+import 'package:programming_hacks/modules/auth/login_screen.dart';
+import 'package:programming_hacks/modules/auth/signup_screen.dart';
 import 'package:programming_hacks/modules/details/bloc/hacks_bloc.dart';
 import 'package:programming_hacks/modules/details/view.dart';
 import 'package:programming_hacks/modules/home/bloc/home_bloc.dart';
@@ -37,8 +39,10 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         theme: AppTheme.themeData,
         debugShowCheckedModeBanner: false,
-        initialRoute: '/homeScreen',
+        initialRoute: '/signupScreen',
         routes: {
+          '/loginScreen': (context) => LoginScreen(),
+          '/signupScreen': (context) => SignupScreen(),
           '/homeScreen': (context) => const HomeScreen(),
           '/detailsScreen': (context) => const DetailsScreen(),
         },
