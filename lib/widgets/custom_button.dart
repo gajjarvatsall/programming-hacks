@@ -14,8 +14,7 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(25.0),
+    return SizedBox(
       width: double.infinity,
       height: 50,
       child: ElevatedButton(
@@ -27,7 +26,9 @@ class CustomButton extends StatelessWidget {
         onPressed: onTap,
         child: isLoading
             ? const Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                ),
               )
             : Text(
                 text,
