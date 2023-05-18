@@ -87,6 +87,9 @@ flutter:
     - family: Syne
       fonts:
         - asset: assets/fonts/Syne-Medium.ttf
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Medium.ttf
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:
