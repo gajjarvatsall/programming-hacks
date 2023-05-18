@@ -1,51 +1,82 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:programming_hacks/models/languages_model.dart';
+
+import 'package:programming_hacks/modules/home/bloc/home_bloc.dart';
 import 'package:programming_hacks/widgets/home_screen_list.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({
     super.key,
   });
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  List<LanguagesModel> languagesList = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    BlocProvider.of<HomeBloc>(context).add(GetLanguagesEvent());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        physics: const BouncingScrollPhysics(),
-        slivers: [
-          SliverAppBar(
-            backgroundColor: Colors.black,
-            floating: true,
-            flexibleSpace: FlexibleSpaceBar(
-              title: const Text(
-                "Programming Hacks",
-                style: TextStyle(color: Colors.white),
-              ),
-              centerTitle: true,
-              background: Image.asset(
-                'assets/images/appbar_img.jpg',
-                fit: BoxFit.cover,
-              ),
-              stretchModes: const [
-                StretchMode.blurBackground,
-                StretchMode.zoomBackground,
-              ],
-            ),
-            expandedHeight: 200,
-            stretch: true,
-          ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              childCount: languages.length,
-              addAutomaticKeepAlives: true,
-              (context, index) {
-                return LanguageListItem(
-                  imageUrl: languages[index].imageUrl,
-                  name: languages[index].name,
+      body: BlocConsumer<HomeBloc, HomeState>(
+        listener: (context, state) {
+          if (state is GetLanguagesState && state.isCompleted) {
+            languagesList = state.languagesModel ?? [];
+          }
+        },
+        builder: (context, state) {
+          return state is GetLanguagesState && state.isLoading
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : CustomScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  slivers: [
+                    SliverAppBar(
+                      backgroundColor: Colors.black,
+                      floating: true,
+                      flexibleSpace: FlexibleSpaceBar(
+                        title: const Text(
+                          "Programming Hacks",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        centerTitle: true,
+                        background: Image.asset(
+                          'assets/images/appbar_img.jpg',
+                          fit: BoxFit.cover,
+                        ),
+                        stretchModes: const [
+                          StretchMode.blurBackground,
+                          StretchMode.zoomBackground,
+                        ],
+                      ),
+                      expandedHeight: 200,
+                      stretch: true,
+                    ),
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        childCount: languagesList.length,
+                        addAutomaticKeepAlives: true,
+                        (context, index) {
+                          return LanguageListItem(
+                            imageUrl: languages[index].imageUrl,
+                            name: languagesList[index].name ?? "",
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 );
-              },
-            ),
-          ),
-        ],
+        },
       ),
     );
   }
@@ -82,13 +113,5 @@ const languages = [
   Language(
     name: 'K O T L I N',
     imageUrl: 'assets/images/img5.jpg',
-  ),
-  Language(
-    name: 'P H P',
-    imageUrl: 'assets/images/img6.jpg',
-  ),
-  Language(
-    name: 'S W I F T',
-    imageUrl: 'assets/images/img7.jpg',
   ),
 ];
