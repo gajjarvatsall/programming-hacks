@@ -23,6 +23,8 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
+final SupabaseClient client = Supabase.instance.client;
+
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -35,14 +37,19 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => HomeBloc(languagesRepository: LanguagesRepository())),
-        BlocProvider(create: (context) => HacksBloc(hacksRepository: HacksRepository())),
-        BlocProvider(create: (context) => AuthUserBloc(authRepo: AuthenticationRepository()))
+        BlocProvider(
+            create: (context) =>
+                HomeBloc(languagesRepository: LanguagesRepository())),
+        BlocProvider(
+            create: (context) => HacksBloc(hacksRepository: HacksRepository())),
+        BlocProvider(
+            create: (context) =>
+                AuthUserBloc(authRepo: AuthenticationRepository()))
       ],
       child: MaterialApp(
         theme: AppTheme.themeData,
         debugShowCheckedModeBanner: false,
-        initialRoute: '/homeScreen',
+        initialRoute: '/loginScreen',
         routes: {
           '/loginScreen': (context) => LoginScreen(),
           '/signupScreen': (context) => SignupScreen(),

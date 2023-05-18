@@ -9,7 +9,7 @@ part 'auth_event.dart';
 class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
   AuthenticationRepository authRepo = AuthenticationRepository();
 
-  AuthUserBloc({required this.authRepo}) : super(UserSignupLoadingState()) {
+  AuthUserBloc({required this.authRepo}) : super(UserInitialState()) {
     on<UserSignUpEvent>((event, emit) async {
       try {
         final response = await authRepo.signUpWithEmailAndPassword(
@@ -17,31 +17,43 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
         if (response == true) {
           emit(UserSignupLoadedState());
         }
-      } on SupabaseRealtimeError catch (e) {
-        emit(UserSignupErrorState(errorMsg: e.message.toString()));
       } on AuthException catch (e) {
         emit(UserSignupErrorState(errorMsg: e.message.toString()));
       }
+      //  on SupabaseRealtimeError catch (e) {
+      //   emit(UserSignupErrorState(errorMsg: e.message.toString()));
+      // } on AuthException catch (e) {
+      //   emit(UserSignupErrorState(errorMsg: e.message.toString()));
+      // }
     });
     on<UserLoginEvent>((event, emit) async {
       try {
+        emit(UserLoginLoadingState());
         await authRepo.login(event.email, event.password);
-        emit(UserSignupLoadedState());
+        emit(UserLoginLoadedState());
       } on SupabaseRealtimeError catch (e) {
-        emit(UserSignupErrorState(errorMsg: e.message.toString()));
+        emit(UserLoginErrorState(errorMsg: e.message.toString()));
       } on AuthException catch (e) {
-        emit(UserSignupErrorState(errorMsg: e.message.toString()));
+        emit(UserLoginErrorState(errorMsg: e.message.toString()));
       }
+      // on SupabaseRealtimeError catch (e) {
+      // } on AuthException catch (e) {
+      //   emit(UserSignupErrorState(errorMsg: e.message.toString()));
+      // }
     });
     on<UserLogoutEvent>((event, emit) async {
       try {
+        emit(UserLogoutLoadingState());
         await authRepo.logout();
-        emit(UserSignupLoadedState());
-      } on SupabaseRealtimeError catch (e) {
-        emit(UserSignupErrorState(errorMsg: e.message.toString()));
+        emit(UserLogoutLoadedState());
       } on AuthException catch (e) {
-        emit(UserSignupErrorState(errorMsg: e.message.toString()));
+        emit(UserLogoutErrorState(errorMsg: e.message.toString()));
       }
+      // on SupabaseRealtimeError catch (e) {
+      //   emit(UserSignupErrorState(errorMsg: e.message.toString()));
+      // } on AuthException catch (e) {
+      //   emit(UserSignupErrorState(errorMsg: e.message.toString()));
+      // }
     });
   }
 }

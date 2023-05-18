@@ -20,7 +20,8 @@ class SignupScreen extends StatelessWidget {
         child: BlocConsumer<AuthUserBloc, AuthUserState>(
           listener: (context, state) {
             if (state is UserSignupLoadedState) {
-              Navigator.pushNamedAndRemoveUntil(context, '/homeScreen', (route) => false);
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/homeScreen', (route) => false);
             }
             if (state is UserSignupErrorState) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -86,12 +87,13 @@ class SignupScreen extends StatelessWidget {
                   const SizedBox(height: 25),
 
                   // sign up button
-                  MyButton(
+                  CustomButton(
                     onTap: () {
-                      BlocProvider.of<AuthUserBloc>(context).add(UserSignUpEvent(
-                          name: usernameController.text,
-                          email: emailController.text,
-                          password: passwordController.text));
+                      BlocProvider.of<AuthUserBloc>(context).add(
+                          UserSignUpEvent(
+                              name: usernameController.text,
+                              email: emailController.text,
+                              password: passwordController.text));
                     },
                     text: 'Sign Up',
                   ),

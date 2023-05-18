@@ -1,11 +1,12 @@
+import 'package:programming_hacks/main.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthenticationRepository {
-  Future<bool> signUpWithEmailAndPassword(String email, String password, String name) async {
+  Future<bool> signUpWithEmailAndPassword(
+      String email, String password, String name) async {
     try {
-      final SupabaseClient client = Supabase.instance.client;
-      final response =
-          await client.auth.signUp(email: email, password: password, data: {'name': name});
+      final response = await client.auth
+          .signUp(email: email, password: password, data: {'name': name});
       if (response.user == null) {
         return false;
       } else {
@@ -17,12 +18,17 @@ class AuthenticationRepository {
   }
 
   Future<void> login(String email, String password) async {
-    final SupabaseClient client = Supabase.instance.client;
-    final response = await client.auth.signInWithPassword(email: email, password: password);
+    try {
+      final response = await client.auth.signInWithPassword(
+        email: email,
+        password: password,
+      );
+    } catch (e) {
+      rethrow;
+    }
   }
 
   Future<void> logout() async {
-    final SupabaseClient client = Supabase.instance.client;
     client.auth.signOut();
   }
 }
