@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => HomeBloc(languagesRepository: LanguagesRepository())),
-        BlocProvider(create: (context) => HacksBloc())
+        BlocProvider(create: (context) => HacksBloc(hacksRepository: HacksRepository()))
       ],
       child: MaterialApp(
         theme: AppTheme.themeData,
