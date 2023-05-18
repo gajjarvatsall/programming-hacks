@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
+import 'package:glassmorphism/glassmorphism.dart';
 import 'package:programming_hacks/app_theme/text_theme.dart';
 import 'package:programming_hacks/models/hacks_model.dart';
 import 'package:programming_hacks/modules/details/bloc/hacks_bloc.dart';
@@ -37,7 +38,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
           ),
         ],
       ),
-      body: SafeArea(
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/appbar_img.jpg"),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: BlocConsumer<HacksBloc, HacksState>(
           listener: (context, state) {
             if (state is GetHacksState && state.isCompleted) {
@@ -56,20 +63,46 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 isLoop: true,
                 cardsCount: hacksList.length,
                 controller: controller,
-                onSwipe: _onSwipe,
-                // onUndo: _onUndo,
-                numberOfCardsDisplayed: 3,
+                // onSwipe: _onSwipe,
+                // // onUndo: _onUndo,
+                numberOfCardsDisplayed: 1,
                 cardBuilder: (context, index) {
-                  return Container(
-                    padding: const EdgeInsets.only(right: 20, left: 20),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.orangeAccent.shade200,
-                    ),
-                    child: Center(
-                      child: Text(
-                        "${hacksList[index].hackDetails}",
-                        style: CustomTextTheme.titleText.copyWith(color: Colors.black),
+                  return Center(
+                    child: GlassmorphicContainer(
+                      width: 400,
+                      height: 500,
+                      borderRadius: 20,
+                      blur: 10,
+                      alignment: Alignment.bottomCenter,
+                      linearGradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          const Color(0xFFffffff).withOpacity(0.3),
+                          const Color(0xFFFFFFFF).withOpacity(0.10),
+                        ],
+                        stops: const [
+                          0.1,
+                          1,
+                        ],
+                      ),
+                      borderGradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          const Color(0xFFffffff).withOpacity(0.3),
+                          const Color((0xFFFFFFFF)).withOpacity(0.05),
+                        ],
+                      ),
+                      border: 0,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        child: Center(
+                          child: Text(
+                            "${hacksList[index].hackDetails}",
+                            style: CustomTextTheme.titleText,
+                          ),
+                        ),
                       ),
                     ),
                   );

@@ -39,6 +39,7 @@ dependencies:
   supabase_flutter: ^1.9.2
   flutter_bloc: ^8.1.2
   flutter_card_swiper: ^5.1.0
+  glassmorphism: ^3.0.0
 
 dev_dependencies:
   flutter_test:
