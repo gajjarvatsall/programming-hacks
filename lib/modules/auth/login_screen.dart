@@ -1,5 +1,6 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:programming_hacks/modules/auth/bloc/auth_bloc.dart';
@@ -69,7 +70,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   const Icon(
                     Icons.lock,
                     size: 100,
-                  ),
+                  )
+                      .animate()
+                      .fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc)
+                      .slideY(begin: 0.5, end: 0),
 
                   const SizedBox(height: 50),
 
@@ -82,7 +86,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontSize: 16,
                       ),
                     ),
-                  ),
+                  )
+                      .animate()
+                      .fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc)
+                      .slideY(begin: 0.5, end: 0),
 
                   const SizedBox(height: 25),
 
@@ -99,7 +106,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       FormBuilderValidators.email(
                           errorText: 'Please Provide a Valid Email ID'),
                     ]),
-                  ),
+                  )
+                      .animate()
+                      .fadeIn(
+                        duration: 1000.ms,
+                        curve: Curves.easeOutCirc,
+                        delay: 500.ms,
+                      )
+                      .slideY(begin: 0.5, end: 0),
 
                   const SizedBox(height: 10),
 
@@ -116,7 +130,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         errorText: 'Password is required',
                       ),
                     ]),
-                  ),
+                  )
+                      .animate()
+                      .fadeIn(
+                          duration: 1000.ms,
+                          curve: Curves.easeOutCirc,
+                          delay: 600.ms)
+                      .slideY(begin: 0.5, end: 0),
 
                   const SizedBox(height: 10),
 
@@ -127,7 +147,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       Text(
                         'Forgot Password?',
                         style: TextStyle(color: Colors.grey[600]),
-                      ),
+                      )
+                          .animate()
+                          .fadeIn(
+                              duration: 1000.ms,
+                              curve: Curves.easeOutCirc,
+                              delay: 700.ms)
+                          .slideY(begin: 0.5, end: 0),
                     ],
                   ),
 
@@ -148,7 +174,26 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     text: 'Login',
                     isLoading: (state is UserLoginLoadingState) ? true : false,
-                  ),
+                  )
+                      .animate()
+                      .scaleX(
+                        begin: 0.5,
+                        end: 1,
+                        curve: Curves.elasticInOut,
+                        duration: 1000.ms,
+                      )
+                      .then(delay: 100.ms)
+                      .shimmer(
+                        duration: 1000.ms,
+                        angle: 45,
+                        curve: Curves.easeOutQuad,
+                        // stops: [0, 0.2, 1],
+                        // colors: [
+                        //   Colors.white38,
+                        //   Colors.white54,
+                        //   Colors.white60,
+                        // ],
+                      ),
 
                   const SizedBox(height: 50),
 

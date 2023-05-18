@@ -46,37 +46,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 : CustomScrollView(
                     physics: const BouncingScrollPhysics(),
                     slivers: [
-                      /* SliverAppBar(
-                        backgroundColor: Colors.amber,
-                        actions: const [
-                          Padding(
-                            padding: EdgeInsets.all(16.0),
-                            child: Icon(
-                              Icons.notifications,
-                              color: Colors.black,
-                            ),
-                          )
-                        ],
-
-                        floating: true,
-                        flexibleSpace: FlexibleSpaceBar(
-                          title: Text(
-                            "Elon Musk",
-                            style: TextStyle(color: Colors.black, fontSize: 30),
-                          ),
-
-                          // background: Image.asset(
-                          //   'assets/images/appbar_img.jpg',
-                          //   fit: BoxFit.cover,
-                          // ),
-                          // stretchModes: const [
-                          //   StretchMode.blurBackground,
-                          //   StretchMode.zoomBackground,
-                          // ],
-                        ),
-                        // expandedHeight: 200,
-                        // stretch: true,
-                      ),*/
                       SliverToBoxAdapter(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
