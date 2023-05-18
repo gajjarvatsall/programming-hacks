@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:programming_hacks/animations/list_animation.dart';
 import 'package:programming_hacks/models/languages_model.dart';
+import 'package:programming_hacks/modules/auth/bloc/auth_bloc.dart';
 import 'package:programming_hacks/modules/details/bloc/hacks_bloc.dart';
 import 'package:programming_hacks/modules/home/bloc/home_bloc.dart';
 import 'package:programming_hacks/widgets/language_list_item.dart';
@@ -179,6 +180,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
           },
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          BlocProvider.of<AuthUserBloc>(context).add(UserLogoutEvent());
+          Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (route) => false);
+        },
+        child: const Icon(Icons.logout),
       ),
     );
   }

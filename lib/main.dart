@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:programming_hacks/app_theme/app_theme.dart';
+import 'package:programming_hacks/modules/auth/bloc/auth_bloc.dart';
 import 'package:programming_hacks/modules/auth/login_screen.dart';
+import 'package:programming_hacks/modules/auth/repository/auth_repository.dart';
 import 'package:programming_hacks/modules/auth/signup_screen.dart';
 import 'package:programming_hacks/modules/details/bloc/hacks_bloc.dart';
 import 'package:programming_hacks/modules/details/view.dart';
 import 'package:programming_hacks/modules/home/bloc/home_bloc.dart';
 import 'package:programming_hacks/modules/home/view.dart';
-import 'package:programming_hacks/repository/languages_repo.dart';
 import 'package:programming_hacks/repository/hacks_repo.dart';
+import 'package:programming_hacks/repository/languages_repo.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
@@ -34,7 +36,8 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => HomeBloc(languagesRepository: LanguagesRepository())),
-        BlocProvider(create: (context) => HacksBloc(hacksRepository: HacksRepository()))
+        BlocProvider(create: (context) => HacksBloc(hacksRepository: HacksRepository())),
+        BlocProvider(create: (context) => AuthUserBloc(authRepo: AuthenticationRepository()))
       ],
       child: MaterialApp(
         theme: AppTheme.themeData,
