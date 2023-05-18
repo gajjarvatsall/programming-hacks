@@ -18,12 +18,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
   final CardSwiperController controller = CardSwiperController();
 
   @override
-  void initState() {
-    BlocProvider.of<HacksBloc>(context).add(GetHacksEvent());
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -46,18 +40,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
           ),
         ),
         child: BlocConsumer<HacksBloc, HacksState>(
-          listener: (context, state) {
-            if (state is GetHacksState && state.isCompleted) {
-              hacksList = state.hacksModel ?? [];
-            }
-          },
+          listener: (context, state) {},
           builder: (context, state) {
-            if (state is GetHacksState && state.isLoading) {
+            if (state is HacksLoadingState) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
             }
-            if (state is GetHacksState && state.isCompleted) {
+            if (state is HacksLoadedState) {
               hacksList = state.hacksModel ?? [];
               return CardSwiper(
                 isLoop: true,

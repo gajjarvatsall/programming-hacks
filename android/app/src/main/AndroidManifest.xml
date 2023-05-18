@@ -1,5 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.programming_hacks">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+
    <application
         android:label="programming_hacks"
         android:name="${applicationName}"
