@@ -29,12 +29,12 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: BlocConsumer<HomeBloc, HomeState>(
         listener: (context, state) {
-          if (state is GetLanguagesState && state.isCompleted) {
+          if (state is LanguagesLoadedState) {
             languagesList = state.languagesModel ?? [];
           }
         },
         builder: (context, state) {
-          return state is GetLanguagesState && state.isLoading
+          return state is LanguagesLoadingState
               ? const Center(
                   child: CircularProgressIndicator(),
                 )

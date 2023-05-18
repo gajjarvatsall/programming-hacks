@@ -10,14 +10,14 @@ part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  HomeBloc() : super(HomeInitial()) {
+  final LanguagesRepository languagesRepository;
+  HomeBloc({required this.languagesRepository}) : super(LanguagesLoadingState()) {
     on<GetLanguagesEvent>((event, emit) async {
       try {
-        emit(GetLanguagesState(isLoading: true));
         final response = await LanguagesRepository().getLanguages();
-        emit(GetLanguagesState(isLoading: false, isCompleted: true, languagesModel: response));
+        emit(LanguagesLoadedState(languagesModel: response));
       } on SupabaseRealtimeError {
-        emit(GetLanguagesState(hasError: true));
+        emit(LanguagesErrorState());
       }
     });
   }
