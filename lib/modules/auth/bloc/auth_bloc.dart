@@ -12,19 +12,18 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
   AuthUserBloc({required this.authRepo}) : super(UserInitialState()) {
     on<UserSignUpEvent>((event, emit) async {
       try {
+        emit(UserSignupLoadingState());
         final response = await authRepo.signUpWithEmailAndPassword(
-            event.email, event.password, event.name ?? "");
+          event.email,
+          event.password,
+          event.name ?? "",
+        );
         if (response == true) {
           emit(UserSignupLoadedState());
         }
       } on AuthException catch (e) {
         emit(UserSignupErrorState(errorMsg: e.message.toString()));
       }
-      //  on SupabaseRealtimeError catch (e) {
-      //   emit(UserSignupErrorState(errorMsg: e.message.toString()));
-      // } on AuthException catch (e) {
-      //   emit(UserSignupErrorState(errorMsg: e.message.toString()));
-      // }
     });
     on<UserLoginEvent>((event, emit) async {
       try {
@@ -36,10 +35,6 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
       } on AuthException catch (e) {
         emit(UserLoginErrorState(errorMsg: e.message.toString()));
       }
-      // on SupabaseRealtimeError catch (e) {
-      // } on AuthException catch (e) {
-      //   emit(UserSignupErrorState(errorMsg: e.message.toString()));
-      // }
     });
     on<UserLogoutEvent>((event, emit) async {
       try {

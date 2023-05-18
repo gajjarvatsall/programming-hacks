@@ -24,8 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
-    BlocProvider.of<HomeBloc>(context).add(GetLanguagesEvent());
+    context.read<HomeBloc>().add(GetLanguagesEvent());
     super.initState();
   }
 
@@ -86,24 +85,34 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Column(
+                                const Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
                                     Text(
                                       "Welcome to Programming Hacks,",
-                                      style: TextStyle(color: Colors.black, fontSize: 14),
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                      ),
                                     ),
-                                    Text("Elon Musk", style: TextStyle(color: Colors.black, fontSize: 26))
+                                    Text(
+                                      "Elon Musk",
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 26,
+                                      ),
+                                    )
                                   ],
                                 ),
-                                SizedBox(
-                                  width: 40,
-                                ),
+                                const Flexible(child: SizedBox(width: 40)),
                                 GestureDetector(
                                   onTap: () {},
                                   child: Container(
-                                    decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(width: 1)),
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(width: 1)),
                                     child: const Padding(
                                       padding: EdgeInsets.all(8.0),
                                       child: Icon(
@@ -113,13 +122,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(
-                                  width: 10,
-                                ),
+                                const SizedBox(width: 10),
                                 GestureDetector(
                                   onTap: () {},
                                   child: Container(
-                                    decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(width: 1)),
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(width: 1)),
                                     child: const Padding(
                                       padding: EdgeInsets.all(8.0),
                                       child: Icon(
@@ -136,9 +145,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       NotificationListener<UserScrollNotification>(
                         onNotification: (UserScrollNotification notification) {
-                          if (notification.direction == ScrollDirection.forward ||
-                              notification.direction == ScrollDirection.reverse) {
-                            scrollDirectionNotifier.value = notification.direction;
+                          if (notification.direction ==
+                                  ScrollDirection.forward ||
+                              notification.direction ==
+                                  ScrollDirection.reverse) {
+                            scrollDirectionNotifier.value =
+                                notification.direction;
                           }
                           return true;
                         },
@@ -149,12 +161,15 @@ class _HomeScreenState extends State<HomeScreen> {
                             (context, index) {
                               return GestureDetector(
                                 onTap: () {
-                                  BlocProvider.of<HacksBloc>(context)
-                                      .add(GetHacksEvent(id: languagesList[index].id ?? 0));
-                                  Navigator.pushNamed(context, '/detailsScreen');
+                                  BlocProvider.of<HacksBloc>(context).add(
+                                      GetHacksEvent(
+                                          id: languagesList[index].id ?? 0));
+                                  Navigator.pushNamed(
+                                      context, '/detailsScreen');
                                 },
                                 child: ValueListenableBuilder(
-                                  builder: (context, ScrollDirection scrollDirection, child) {
+                                  builder: (context,
+                                      ScrollDirection scrollDirection, child) {
                                     return ListItemWrapper(
                                       scrollDirection: scrollDirection,
                                       keepAlive: false,
@@ -170,7 +185,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               );
                             },
                           ),
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             childAspectRatio: 9 / 14,
                           ),
@@ -184,7 +200,11 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           BlocProvider.of<AuthUserBloc>(context).add(UserLogoutEvent());
-          Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (route) => false);
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            '/loginScreen',
+            (route) => false,
+          );
         },
         child: const Icon(Icons.logout),
       ),
