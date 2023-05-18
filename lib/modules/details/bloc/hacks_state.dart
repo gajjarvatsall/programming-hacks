@@ -1,19 +1,21 @@
 part of 'hacks_bloc.dart';
 
 @immutable
-abstract class HacksState {}
+abstract class HacksState extends Equatable {}
 
-class HacksInitial extends HacksState {}
+class HacksLoadingState extends HacksState {
+  @override
+  List<Object?> get props => [];
+}
 
-class GetHacksState extends HacksState {
-  final bool isLoading;
-  final bool isCompleted;
-  final bool hasError;
+class HacksLoadedState extends HacksState {
+  HacksLoadedState({this.hacksModel});
   final List<HacksModel>? hacksModel;
-  GetHacksState({
-    this.isLoading = false,
-    this.isCompleted = false,
-    this.hasError = false,
-    this.hacksModel,
-  });
+  @override
+  List<Object?> get props => [hacksModel];
+}
+
+class HacksErrorState extends HacksState {
+  @override
+  List<Object?> get props => [];
 }

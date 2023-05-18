@@ -1,88 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:programming_hacks/app_theme/text_theme.dart';
-
-class LanguageListItem extends StatefulWidget {
-  const LanguageListItem({
-    super.key,
-    required this.imageUrl,
-    required this.name,
-  });
-
-  final String imageUrl;
-  final String name;
-
-  @override
-  State<LanguageListItem> createState() => _LanguageListItemState();
-}
-
-class _LanguageListItemState extends State<LanguageListItem> {
-  final GlobalKey _backgroundImageKey = GlobalKey();
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-      child: AspectRatio(
-        aspectRatio: 16 / 9,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(16),
-          child: Stack(
-            children: [
-              ParallaxBackground(backgroundImageKey: _backgroundImageKey, imageUrl: widget.imageUrl, context: context),
-              const Gradient(),
-              TitleAndSubtitle(name: widget.name),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class Gradient extends StatelessWidget {
-  const Gradient({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned.fill(
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: RadialGradient(
-            // focalRadius: 0.2,
-            radius: 0.8,
-            colors: [Colors.transparent, Colors.black.withOpacity(0.5)],
-            stops: const [0.7, 0.95],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class TitleAndSubtitle extends StatelessWidget {
-  const TitleAndSubtitle({
-    super.key,
-    required this.name,
-  });
-
-  final String name;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(name, style: CustomTextTheme.titleText),
-        ],
-      ),
-    );
-  }
-}
 
 class ParallaxBackground extends StatelessWidget {
   const ParallaxBackground({
@@ -141,12 +58,15 @@ class ParallaxFlowDelegate extends FlowDelegate {
     // Calculate the position of this list item within the viewport.
     final scrollableBox = scrollable.context.findRenderObject() as RenderBox;
     final listItemBox = listItemContext.findRenderObject() as RenderBox;
-    final listItemOffset = listItemBox.localToGlobal(listItemBox.size.centerLeft(Offset.zero), ancestor: scrollableBox);
+    final listItemOffset = listItemBox.localToGlobal(
+        listItemBox.size.centerLeft(Offset.zero),
+        ancestor: scrollableBox);
 
     // Determine the percent position of this list item within the
     // scrollable area.
     final viewportDimension = scrollable.position.viewportDimension;
-    final scrollFraction = (listItemOffset.dy / viewportDimension).clamp(0.0, 1.0);
+    final scrollFraction =
+        (listItemOffset.dy / viewportDimension).clamp(0.0, 1.0);
 
     // Calculate the vertical alignment of the background
     // based on the scroll percent.
@@ -154,14 +74,18 @@ class ParallaxFlowDelegate extends FlowDelegate {
 
     // Convert the background alignment into a pixel offset for
     // painting purposes.
-    final backgroundSize = (backgroundImageKey.currentContext!.findRenderObject() as RenderBox).size;
+    final backgroundSize =
+        (backgroundImageKey.currentContext!.findRenderObject() as RenderBox)
+            .size;
     final listItemSize = context.size;
-    final childRect = verticalAlignment.inscribe(backgroundSize, Offset.zero & listItemSize);
+    final childRect =
+        verticalAlignment.inscribe(backgroundSize, Offset.zero & listItemSize);
 
     // Paint the background.
     context.paintChild(
       0,
-      transform: Transform.translate(offset: Offset(0.0, childRect.top)).transform,
+      transform:
+          Transform.translate(offset: Offset(0.0, childRect.top)).transform,
     );
   }
 
@@ -185,14 +109,16 @@ class Parallax extends SingleChildRenderObjectWidget {
   }
 
   @override
-  void updateRenderObject(BuildContext context, covariant RenderParallax renderObject) {
+  void updateRenderObject(
+      BuildContext context, covariant RenderParallax renderObject) {
     renderObject.scrollable = Scrollable.of(context);
   }
 }
 
 class ParallaxParentData extends ContainerBoxParentData<RenderBox> {}
 
-class RenderParallax extends RenderBox with RenderObjectWithChildMixin<RenderBox>, RenderProxyBoxMixin {
+class RenderParallax extends RenderBox
+    with RenderObjectWithChildMixin<RenderBox>, RenderProxyBoxMixin {
   RenderParallax({
     required ScrollableState scrollable,
   }) : _scrollable = scrollable;
@@ -239,7 +165,8 @@ class RenderParallax extends RenderBox with RenderObjectWithChildMixin<RenderBox
     // Force the background to take up all available width
     // and then scale its height based on the image's aspect ratio.
     final background = child!;
-    final backgroundImageConstraints = BoxConstraints.tightFor(width: size.width);
+    final backgroundImageConstraints =
+        BoxConstraints.tightFor(width: size.width);
     background.layout(backgroundImageConstraints, parentUsesSize: true);
 
     // Set the background's local offset, which is zero.
@@ -253,11 +180,13 @@ class RenderParallax extends RenderBox with RenderObjectWithChildMixin<RenderBox
 
     // Calculate the global position of this list item.
     final scrollableBox = scrollable.context.findRenderObject() as RenderBox;
-    final backgroundOffset = localToGlobal(size.centerLeft(Offset.zero), ancestor: scrollableBox);
+    final backgroundOffset =
+        localToGlobal(size.centerLeft(Offset.zero), ancestor: scrollableBox);
 
     // Determine the percent position of this list item within the
     // scrollable area.
-    final scrollFraction = (backgroundOffset.dy / viewportDimension).clamp(0.0, 1.0);
+    final scrollFraction =
+        (backgroundOffset.dy / viewportDimension).clamp(0.0, 1.0);
 
     // Calculate the vertical alignment of the background
     // based on the scroll percent.
@@ -268,10 +197,14 @@ class RenderParallax extends RenderBox with RenderObjectWithChildMixin<RenderBox
     final background = child!;
     final backgroundSize = background.size;
     final listItemSize = size;
-    final childRect = verticalAlignment.inscribe(backgroundSize, Offset.zero & listItemSize);
+    final childRect =
+        verticalAlignment.inscribe(backgroundSize, Offset.zero & listItemSize);
 
     // Paint the background.
     context.paintChild(
-        background, (background.parentData as ParallaxParentData).offset + offset + Offset(0.0, childRect.top));
+        background,
+        (background.parentData as ParallaxParentData).offset +
+            offset +
+            Offset(0.0, childRect.top));
   }
 }

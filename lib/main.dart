@@ -6,6 +6,7 @@ import 'package:programming_hacks/modules/details/view.dart';
 import 'package:programming_hacks/modules/home/bloc/home_bloc.dart';
 import 'package:programming_hacks/modules/home/view.dart';
 import 'package:programming_hacks/repository/languages_repo.dart';
+import 'package:programming_hacks/repository/hacks_repo.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {

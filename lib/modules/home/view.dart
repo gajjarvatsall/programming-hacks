@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:programming_hacks/models/languages_model.dart';
 
 import 'package:programming_hacks/modules/home/bloc/home_bloc.dart';
-import 'package:programming_hacks/widgets/home_screen_list.dart';
+import 'package:programming_hacks/models/language_model.dart';
+import 'package:programming_hacks/widgets/parallax_effect.dart';
+import 'package:programming_hacks/widgets/language_list_item.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
