@@ -39,7 +39,7 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         theme: AppTheme.themeData,
         debugShowCheckedModeBanner: false,
-        initialRoute: '/signupScreen',
+        initialRoute: '/homeScreen',
         routes: {
           '/loginScreen': (context) => LoginScreen(),
           '/signupScreen': (context) => SignupScreen(),

@@ -22,21 +22,15 @@ class _LanguageListItemState extends State<LanguageListItem> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-      child: AspectRatio(
-        aspectRatio: 16 / 9,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(16),
-          child: Stack(
-            children: [
-              ParallaxBackground(
-                  backgroundImageKey: _backgroundImageKey,
-                  imageUrl: widget.imageUrl,
-                  context: context),
-              const Gradient(),
-              TitleAndSubtitle(name: widget.name),
-            ],
-          ),
+      padding: const EdgeInsets.all(10),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: Stack(
+          children: [
+            ParallaxBackground(backgroundImageKey: _backgroundImageKey, imageUrl: widget.imageUrl, context: context),
+            const Gradient(),
+            TitleAndSubtitle(name: widget.name),
+          ],
         ),
       ),
     );
