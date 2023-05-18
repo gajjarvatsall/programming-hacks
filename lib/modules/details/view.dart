@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:programming_hacks/app_theme/text_theme.dart';
 import 'package:programming_hacks/models/hacks_model.dart';
 import 'package:programming_hacks/modules/details/bloc/hacks_bloc.dart';
-import 'package:programming_hacks/repository/hacks_repo.dart';
 
 class DetailsScreen extends StatefulWidget {
   const DetailsScreen({Key? key}) : super(key: key);
@@ -14,10 +14,10 @@ class DetailsScreen extends StatefulWidget {
 
 class _DetailsScreenState extends State<DetailsScreen> {
   List<HacksModel> hacksList = [];
+  final CardSwiperController controller = CardSwiperController();
 
   @override
   void initState() {
-    // TODO: implement initState
     BlocProvider.of<HacksBloc>(context).add(GetHacksEvent());
     super.initState();
   }
@@ -45,38 +45,73 @@ class _DetailsScreenState extends State<DetailsScreen> {
             }
           },
           builder: (context, state) {
-            return state is GetHacksState && state.isLoading
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : Center(
-                    child: SizedBox(
-                      height: 400,
-                      width: 400,
-                      child: PageView.builder(
-                        itemCount: 5,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            margin: const EdgeInsets.all(5),
-                            padding: const EdgeInsets.only(right: 20, left: 20),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.orangeAccent.shade200,
-                            ),
-                            child: Center(
-                              child: Text(
-                                "${hacksList[index].hackDetails}",
-                                style: CustomTextTheme.titleText.copyWith(color: Colors.black),
-                              ),
-                            ),
-                          );
-                        },
+            if (state is GetHacksState && state.isLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (state is GetHacksState && state.isCompleted) {
+              hacksList = state.hacksModel ?? [];
+              return CardSwiper(
+                isLoop: true,
+                cardsCount: hacksList.length,
+                controller: controller,
+                onSwipe: _onSwipe,
+                // onUndo: _onUndo,
+                numberOfCardsDisplayed: 3,
+                cardBuilder: (context, index) {
+                  return Container(
+                    padding: const EdgeInsets.only(right: 20, left: 20),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.orangeAccent.shade200,
+                    ),
+                    child: Center(
+                      child: Text(
+                        "${hacksList[index].hackDetails}",
+                        style: CustomTextTheme.titleText.copyWith(color: Colors.black),
                       ),
                     ),
                   );
+                },
+              );
+            }
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           },
         ),
       ),
     );
+  }
+
+  bool _onSwipe(
+    int previousIndex,
+    int? currentIndex,
+    CardSwiperDirection direction,
+  ) {
+    debugPrint(
+      'The card $previousIndex was swiped to the ${direction.name}. Now the card $currentIndex is on top',
+    );
+    if (direction.name == 'right') {
+      controller.undo();
+      return true;
+    } else if (direction.name == 'left') {
+      controller.swipeRight();
+      return true;
+    }
+    return false;
+  }
+
+  bool _onUndo(
+    int? previousIndex,
+    int currentIndex,
+    CardSwiperDirection direction,
+  ) {
+    debugPrint(
+      'The card $currentIndex was undod from the ${direction.name}',
+    );
+    controller.undo();
+    return true;
   }
 }

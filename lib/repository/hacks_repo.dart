@@ -7,6 +7,7 @@ class HacksRepository {
     final response = await client.from('Hacks').select();
     if (response != null) {
       final data = response as List<dynamic>;
+      print("response: $response");
       return data.map((item) => HacksModel.fromJson(item)).toList();
     } else {
       throw response.error!.message;

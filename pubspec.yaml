@@ -38,7 +38,7 @@ dependencies:
   cached_network_image: ^3.2.3
   supabase_flutter: ^1.9.2
   flutter_bloc: ^8.1.2
-  json_annotation: ^4.8.1
+  flutter_card_swiper: ^5.1.0
 
 dev_dependencies:
   flutter_test:
