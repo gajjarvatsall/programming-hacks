@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:programming_hacks/animations/list_animation.dart';
+import 'package:programming_hacks/app_theme/constant.dart';
+import 'package:programming_hacks/app_theme/text_theme.dart';
 import 'package:programming_hacks/models/languages_model.dart';
 import 'package:programming_hacks/modules/auth/bloc/auth_bloc.dart';
 import 'package:programming_hacks/modules/details/bloc/hacks_bloc.dart';
@@ -25,173 +27,163 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
-    BlocProvider.of<HomeBloc>(context).add(GetLanguagesEvent());
+    context.read<HomeBloc>().add(GetLanguagesEvent());
     super.initState();
+  }
+
+  String trimmedName() {
+    String? name = Supabase.instance.client.auth.currentUser?.userMetadata?.values.elementAt(0);
+    String? result = name!.substring(0, name.indexOf(' '));
+    return result;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: BlocConsumer<HomeBloc, HomeState>(
-          listener: (context, state) {
-            if (state is LanguagesLoadedState) {
-              languagesList = state.languagesModel ?? [];
-            }
-          },
-          builder: (context, state) {
-            return state is LanguagesLoadingState
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : CustomScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    slivers: [
-                      /* SliverAppBar(
-                        backgroundColor: Colors.amber,
-                        actions: const [
-                          Padding(
-                            padding: EdgeInsets.all(16.0),
-                            child: Icon(
-                              Icons.notifications,
-                              color: Colors.black,
-                            ),
-                          )
-                        ],
-
-                        floating: true,
-                        flexibleSpace: FlexibleSpaceBar(
-                          title: Text(
-                            "Elon Musk",
-                            style: TextStyle(color: Colors.black, fontSize: 30),
-                          ),
-
-                          // background: Image.asset(
-                          //   'assets/images/appbar_img.jpg',
-                          //   fit: BoxFit.cover,
-                          // ),
-                          // stretchModes: const [
-                          //   StretchMode.blurBackground,
-                          //   StretchMode.zoomBackground,
-                          // ],
-                        ),
-                        // expandedHeight: 200,
-                        // stretch: true,
-                      ),*/
-                      SliverToBoxAdapter(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: SizedBox(
-                            height: 70,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text(
-                                      "Welcome to Programming Hacks,",
-                                      style: TextStyle(color: Colors.black, fontSize: 14),
-                                    ),
-                                    Text(
-                                        "${Supabase.instance.client.auth.currentUser?.userMetadata?.values.elementAt(0)}",
-                                        style: const TextStyle(color: Colors.black, fontSize: 26))
-                                  ],
-                                ),
-                                const SizedBox(
-                                  width: 40,
-                                ),
-                                GestureDetector(
-                                  onTap: () {},
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle, border: Border.all(width: 1)),
-                                    child: const Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.notifications,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                GestureDetector(
-                                  onTap: () {},
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle, border: Border.all(width: 1)),
-                                    child: const Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.login_outlined,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
+        child: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xfc00766b), Color(0xff171717)],
+              stops: [0, 1],
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+            ),
+          ),
+          child: BlocConsumer<HomeBloc, HomeState>(
+            listener: (context, state) {
+              if (state is LanguagesLoadedState) {
+                languagesList = state.languagesModel ?? [];
+              }
+            },
+            builder: (context, state) {
+              return state is LanguagesLoadingState
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
                       ),
-                      NotificationListener<UserScrollNotification>(
-                        onNotification: (UserScrollNotification notification) {
-                          if (notification.direction == ScrollDirection.forward ||
-                              notification.direction == ScrollDirection.reverse) {
-                            scrollDirectionNotifier.value = notification.direction;
-                          }
-                          return true;
-                        },
-                        child: SliverGrid(
-                          delegate: SliverChildBuilderDelegate(
-                            childCount: languagesList.length,
-                            addAutomaticKeepAlives: true,
-                            (context, index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  BlocProvider.of<HacksBloc>(context)
-                                      .add(GetHacksEvent(id: languagesList[index].id ?? 0));
-                                  Navigator.pushNamed(context, '/detailsScreen');
-                                },
-                                child: ValueListenableBuilder(
-                                  builder: (context, ScrollDirection scrollDirection, child) {
-                                    return ListItemWrapper(
-                                      scrollDirection: scrollDirection,
-                                      keepAlive: false,
-                                      child: child!,
-                                    );
+                    )
+                  : CustomScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      slivers: [
+                        SliverToBoxAdapter(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: SizedBox(
+                              height: xLSizedBoxHeight,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        "Welcome,",
+                                        style: CustomTextTheme.headingText,
+                                      ),
+                                      Text(
+                                        trimmedName(),
+                                        style: CustomTextTheme.headingNameText,
+                                      )
+                                    ],
+                                  ),
+                                  // const Flexible(child: SizedBox(width: extraLargeSizedBoxWidth)),
+                                  Row(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {},
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(width: 1, color: Colors.white),
+                                          ),
+                                          child: const Padding(
+                                            padding: EdgeInsets.all(padding),
+                                            child: Icon(
+                                              Icons.notifications,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: sSizedBoxWidth,
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          BlocProvider.of<AuthUserBloc>(context).add(UserLogoutEvent());
+                                          Navigator.pushNamedAndRemoveUntil(
+                                            context,
+                                            '/loginScreen',
+                                            (route) => false,
+                                          );
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(width: 1, color: Colors.white)),
+                                          child: const Padding(
+                                            padding: EdgeInsets.all(padding),
+                                            child: Icon(Icons.login_outlined, color: Colors.white),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        NotificationListener<UserScrollNotification>(
+                          onNotification: (UserScrollNotification notification) {
+                            if (notification.direction == ScrollDirection.forward ||
+                                notification.direction == ScrollDirection.reverse) {
+                              scrollDirectionNotifier.value = notification.direction;
+                            }
+                            return true;
+                          },
+                          child: SliverGrid(
+                            delegate: SliverChildBuilderDelegate(
+                              childCount: languagesList.length,
+                              addAutomaticKeepAlives: true,
+                              (context, index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    BlocProvider.of<HacksBloc>(context)
+                                        .add(GetHacksEvent(id: languagesList[index].id ?? 0));
+                                    Navigator.pushNamed(context, '/detailsScreen');
                                   },
-                                  valueListenable: scrollDirectionNotifier,
-                                  child: LanguageListItem(
-                                    imageUrl: languages[index].imageUrl,
-                                    name: languagesList[index].name ?? "",
+                                  child: ValueListenableBuilder(
+                                    builder: (context, ScrollDirection scrollDirection, child) {
+                                      return ListItemWrapper(
+                                        scrollDirection: scrollDirection,
+                                        keepAlive: false,
+                                        child: child!,
+                                      );
+                                    },
+                                    valueListenable: scrollDirectionNotifier,
+                                    child: LanguageListItem(
+                                      imageUrl: languages[index].imageUrl,
+                                      name: languagesList[index].name ?? "",
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
-                          ),
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 9 / 14,
+                                );
+                              },
+                            ),
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 9 / 14,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  );
-          },
+                      ],
+                    );
+            },
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          BlocProvider.of<AuthUserBloc>(context).add(UserLogoutEvent());
-          Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (route) => false);
-        },
-        child: const Icon(Icons.logout),
       ),
     );
   }

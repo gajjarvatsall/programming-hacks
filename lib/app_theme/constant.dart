@@ -1,0 +1,9 @@
+const double padding = 8;
+const double hPadding = 25;
+const double xLSizedBoxHeight = 90;
+const double lSizedBoxHeight = 50;
+const double mSizedBoxHeight = 25;
+const double sSizedBoxHeight = 10;
+const double xLSizedBoxWidth = 120;
+const double lSizedBoxWidth = 50;
+const double sSizedBoxWidth = 10;
