@@ -26,6 +26,7 @@ class CustomTextField extends StatelessWidget {
       keyboardType: textInputType,
       textInputAction: textInputAction,
       validator: validator,
+      cursorColor: Colors.black,
       // magnifierConfiguration: TextMagnifierConfiguration(),
       decoration: InputDecoration(
         border: InputBorder.none,
