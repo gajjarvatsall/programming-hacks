@@ -66,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: SingleChildScrollView(
                 child: ListView(
                   shrinkWrap: true,
-                  padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
+                  padding: const EdgeInsets.symmetric(horizontal: hPadding),
                   children: [
                     // const SizedBox(height: largeSizedBoxHeight),
 
@@ -83,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     //   fit: BoxFit.fill,
                     // ),
 
-                    const SizedBox(height: largeSizedBoxHeight),
+                    const SizedBox(height: lSizedBoxHeight),
 
                     // welcome back, you've been missed!
                     Center(
@@ -96,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ).animate().fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc).slideY(begin: 0.5, end: 0),
 
-                    const SizedBox(height: mediumSizedBoxHeight),
+                    const SizedBox(height: mSizedBoxHeight),
 
                     // username textfield
                     CustomTextField(
@@ -118,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         )
                         .slideY(begin: 0.5, end: 0),
 
-                    const SizedBox(height: smallSizedBoxHeight),
+                    const SizedBox(height: sSizedBoxHeight),
 
                     // password textfield
                     CustomTextField(
@@ -138,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         .fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc, delay: 600.ms)
                         .slideY(begin: 0.5, end: 0),
 
-                    const SizedBox(height: smallSizedBoxHeight),
+                    const SizedBox(height: sSizedBoxHeight),
 
                     // forgot password?
                     Row(
@@ -154,7 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
 
-                    const SizedBox(height: mediumSizedBoxHeight),
+                    const SizedBox(height: mSizedBoxHeight),
 
                     // login button
                     // if (state is UserLoginLoadingState)
@@ -186,7 +186,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           curve: Curves.easeOutQuad,
                         ),
 
-                    const SizedBox(height: largeSizedBoxHeight),
+                    const SizedBox(height: lSizedBoxHeight),
 
                     // not a member? register now
                     Row(
