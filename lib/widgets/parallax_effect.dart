@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -22,14 +24,26 @@ class ParallaxBackground extends StatelessWidget {
         backgroundImageKey: _backgroundImageKey,
       ),
       children: [
-        Image.asset(
-          imageUrl,
-          key: _backgroundImageKey,
-          fit: BoxFit.cover,
-          height: 500,
-          gaplessPlayback: true,
-          cacheHeight: 1000,
-          cacheWidth: 1000,
+        Stack(
+          // fit: StackFit.expand,
+          children: [
+            Image.asset(
+              imageUrl,
+              key: _backgroundImageKey,
+              fit: BoxFit.cover,
+              height: 500,
+              gaplessPlayback: true,
+              cacheHeight: 1000,
+              cacheWidth: 1000,
+            ),
+            SizedBox(
+              height: 10,
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaY: 2, sigmaX: 2),
+                child: Container(height: 1),
+              ),
+            ),
+          ],
         ),
       ],
     );
@@ -104,7 +118,7 @@ class Parallax extends SingleChildRenderObjectWidget {
 
   @override
   void updateRenderObject(BuildContext context, covariant RenderParallax renderObject) {
-    renderObject.scrollable = Scrollable.of(context);
+    // renderObject.scrollable = Scrollable.of(context);
   }
 }
 
@@ -119,17 +133,17 @@ class RenderParallax extends RenderBox with RenderObjectWithChildMixin<RenderBox
 
   ScrollableState get scrollable => _scrollable;
 
-  set scrollable(ScrollableState value) {
-    if (value != _scrollable) {
-      if (attached) {
-        _scrollable.position.removeListener(markNeedsLayout);
-      }
-      _scrollable = value;
-      if (attached) {
-        _scrollable.position.addListener(markNeedsLayout);
-      }
-    }
-  }
+  // set scrollable(ScrollableState value) {
+  //   if (value != _scrollable) {
+  //     if (attached) {
+  //       _scrollable.position.removeListener(markNeedsLayout);
+  //     }
+  //     _scrollable = value;
+  //     if (attached) {
+  //       _scrollable.position.addListener(markNeedsLayout);
+  //     }
+  //   }
+  // }
 
   @override
   void attach(covariant PipelineOwner owner) {
