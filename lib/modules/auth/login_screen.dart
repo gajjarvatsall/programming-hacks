@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:lottie/lottie.dart';
 import 'package:programming_hacks/app_theme/constant.dart';
 import 'package:programming_hacks/app_theme/text_theme.dart';
 import 'package:programming_hacks/modules/auth/bloc/auth_bloc.dart';
@@ -11,7 +10,6 @@ import 'package:programming_hacks/modules/auth/bloc/auth_state.dart';
 import 'package:programming_hacks/widgets/custom_button.dart';
 import 'package:programming_hacks/widgets/custom_textfield.dart';
 import 'package:programming_hacks/widgets/snackbar.dart';
-import 'package:programming_hacks/widgets/square_tile.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -74,7 +72,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     const Icon(
                       Icons.lock,
                       size: 100,
-                    ).animate().fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc).slideY(begin: 0.5, end: 0),
+                    )
+                        .animate()
+                        .fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc)
+                        .slideY(begin: 0.5, end: 0),
                     //
                     // Lottie.asset(
                     //   'assets/lottie/login.json',
@@ -94,7 +95,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           fontSize: 16,
                         ),
                       ),
-                    ).animate().fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc).slideY(begin: 0.5, end: 0),
+                    )
+                        .animate()
+                        .fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc)
+                        .slideY(begin: 0.5, end: 0),
 
                     const SizedBox(height: mSizedBoxHeight),
 

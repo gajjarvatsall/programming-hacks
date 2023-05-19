@@ -74,14 +74,21 @@ class _SignupScreenState extends State<SignupScreen> {
                     const Icon(
                       Icons.person,
                       size: 100,
-                    ).animate().fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc).slideY(begin: 0.5, end: 0),
+                    )
+                        .animate()
+                        .fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc)
+                        .slideY(begin: 0.5, end: 0),
 
                     const SizedBox(height: lSizedBoxHeight),
 
                     // welcome back, you've been missed!
                     Center(
-                      child: Text('Welcome to Programming Hacks', style: CustomTextTheme.welcomeText),
-                    ).animate().fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc).slideY(begin: 0.5, end: 0),
+                      child:
+                          Text('Welcome to Programming Hacks', style: CustomTextTheme.welcomeText),
+                    )
+                        .animate()
+                        .fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc)
+                        .slideY(begin: 0.5, end: 0),
 
                     const SizedBox(height: mSizedBoxHeight),
 
@@ -167,7 +174,9 @@ class _SignupScreenState extends State<SignupScreen> {
                         }
                       },
                       text: 'Sign Up',
-                      isLoading: (state is UserSignupLoadingState || state is UserSignupErrorState) ? true : false,
+                      isLoading: (state is UserSignupLoadingState || state is UserSignupErrorState)
+                          ? true
+                          : false,
                     )
                         .animate()
                         .scaleX(
