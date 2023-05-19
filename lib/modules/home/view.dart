@@ -40,16 +40,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xfc00766b), Color(0xff171717)],
-              stops: [0, 1],
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
-            ),
-          ),
+      body: Container(
+        color: Colors.blueGrey[300],
+        child: SafeArea(
           child: BlocConsumer<HomeBloc, HomeState>(
             listener: (context, state) {
               if (state is LanguagesLoadedState) {
@@ -90,32 +83,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                       )
                                     ],
                                   ),
-                                  // const Flexible(child: SizedBox(width: extraLargeSizedBoxWidth)),
                                   Row(
                                     children: [
-                                      GestureDetector(
-                                        onTap: () {},
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            border: Border.all(width: 1, color: Colors.white),
-                                          ),
-                                          child: const Padding(
-                                            padding: EdgeInsets.all(padding),
-                                            child: Icon(
-                                              Icons.notifications,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
                                       const SizedBox(
                                         width: sSizedBoxWidth,
                                       ),
                                       GestureDetector(
                                         onTap: () {
-                                          BlocProvider.of<AuthUserBloc>(context)
-                                              .add(UserLogoutEvent());
+                                          BlocProvider.of<AuthUserBloc>(context).add(UserLogoutEvent());
                                           Navigator.pushNamedAndRemoveUntil(
                                             context,
                                             '/loginScreen',
@@ -168,7 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     },
                                     valueListenable: scrollDirectionNotifier,
                                     child: LanguageListItem(
-                                      imageUrl: languages[index].imageUrl,
+                                      imageUrl: languagesList[index].bgImage ?? "",
                                       name: languagesList[index].name ?? "",
                                     ),
                                   ),
@@ -176,8 +151,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               },
                             ),
                             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: 9 / 14,
+                              crossAxisCount: 1,
+                              childAspectRatio: 18 / 9,
                             ),
                           ),
                         ),
@@ -190,37 +165,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-class Language {
-  const Language({
-    required this.name,
-    required this.imageUrl,
-  });
-
-  final String name;
-
-  final String imageUrl;
-}
-
-const languages = [
-  Language(
-    name: 'D A R T',
-    imageUrl: 'assets/images/img1.jpg',
-  ),
-  Language(
-    name: 'F L U T T E R',
-    imageUrl: 'assets/images/img2.jpg',
-  ),
-  Language(
-    name: 'J A V A',
-    imageUrl: 'assets/images/img3.jpg',
-  ),
-  Language(
-    name: 'J A V A S C R I P T',
-    imageUrl: 'assets/images/img4.jpg',
-  ),
-  Language(
-    name: 'K O T L I N',
-    imageUrl: 'assets/images/img5.jpg',
-  ),
-];

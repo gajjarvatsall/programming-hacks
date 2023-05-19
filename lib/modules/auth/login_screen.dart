@@ -73,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: 400,
                         height: 550,
                         borderRadius: 20,
-                        blur: 10,
+                        blur: 3,
                         alignment: Alignment.bottomCenter,
                         linearGradient: LinearGradient(
                           begin: Alignment.topLeft,

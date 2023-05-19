@@ -1,6 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:programming_hacks/app_theme/text_theme.dart';
-import 'package:programming_hacks/widgets/parallax_effect.dart';
 
 class LanguageListItem extends StatefulWidget {
   const LanguageListItem({
@@ -27,8 +27,20 @@ class _LanguageListItemState extends State<LanguageListItem> {
         borderRadius: BorderRadius.circular(16),
         child: Stack(
           children: [
-            ParallaxBackground(backgroundImageKey: _backgroundImageKey, imageUrl: widget.imageUrl, context: context),
-            const Gradient(),
+            SizedBox(
+              width: double.infinity,
+              child: CachedNetworkImage(
+                imageUrl: widget.imageUrl,
+                fit: BoxFit.cover,
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+              ),
+            ),
+            Container(
+              color: Colors.black.withOpacity(0.5),
+              width: double.infinity,
+            ),
+            // ParallaxBackground(backgroundImageKey: _backgroundImageKey, imageUrl: widget.imageUrl, context: context),
+            // const Gradient(),
             TitleAndSubtitle(name: widget.name),
           ],
         ),

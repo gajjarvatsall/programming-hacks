@@ -5,6 +5,7 @@ import 'package:glassmorphism/glassmorphism.dart';
 import 'package:programming_hacks/app_theme/text_theme.dart';
 import 'package:programming_hacks/models/hacks_model.dart';
 import 'package:programming_hacks/modules/details/bloc/hacks_bloc.dart';
+import 'package:programming_hacks/widgets/circular_pacticles.dart';
 
 class DetailsScreen extends StatefulWidget {
   const DetailsScreen({Key? key}) : super(key: key);
@@ -21,7 +22,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.blueGrey[300],
         actions: const [
           Padding(
             padding: EdgeInsets.only(right: 20.0),
@@ -32,78 +33,78 @@ class _DetailsScreenState extends State<DetailsScreen> {
           ),
         ],
       ),
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/appbar_img.jpg"),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: BlocConsumer<HacksBloc, HacksState>(
-          listener: (context, state) {},
-          builder: (context, state) {
-            if (state is HacksLoadingState) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            if (state is HacksLoadedState) {
-              hacksList = state.hacksModel ?? [];
-              return CardSwiper(
-                isLoop: true,
-                cardsCount: hacksList.length,
-                controller: controller,
-                // onSwipe: _onSwipe,
-                // // onUndo: _onUndo,
-                numberOfCardsDisplayed: 1,
-                cardBuilder: (context, index) {
-                  return Center(
-                    child: GlassmorphicContainer(
-                      width: 400,
-                      height: 500,
-                      borderRadius: 20,
-                      blur: 10,
-                      alignment: Alignment.bottomCenter,
-                      linearGradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          const Color(0xFFffffff).withOpacity(0.3),
-                          const Color(0xFFFFFFFF).withOpacity(0.10),
-                        ],
-                        stops: const [
-                          0.1,
-                          1,
-                        ],
-                      ),
-                      borderGradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          const Color(0xFFffffff).withOpacity(0.3),
-                          const Color((0xFFFFFFFF)).withOpacity(0.05),
-                        ],
-                      ),
-                      border: 0,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 20, right: 20),
-                        child: Center(
-                          child: Text(
-                            "${hacksList[index].hackDetails}",
-                            style: CustomTextTheme.titleText,
+      body: Stack(
+        children: [
+          const CustomCircularParticle(),
+          Container(
+            color: Colors.blueGrey[300],
+            child: BlocConsumer<HacksBloc, HacksState>(
+              listener: (context, state) {},
+              builder: (context, state) {
+                if (state is HacksLoadingState) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (state is HacksLoadedState) {
+                  hacksList = state.hacksModel ?? [];
+                  return CardSwiper(
+                    isLoop: true,
+                    cardsCount: hacksList.length,
+                    controller: controller,
+                    // onSwipe: _onSwipe,
+                    // // onUndo: _onUndo,
+                    numberOfCardsDisplayed: 1,
+                    cardBuilder: (context, index) {
+                      return Center(
+                        child: GlassmorphicContainer(
+                          width: 400,
+                          height: 500,
+                          borderRadius: 20,
+                          blur: 10,
+                          alignment: Alignment.bottomCenter,
+                          linearGradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              const Color(0xFFffffff).withOpacity(0.3),
+                              const Color(0xFFFFFFFF).withOpacity(0.10),
+                            ],
+                            stops: const [
+                              0.1,
+                              1,
+                            ],
+                          ),
+                          borderGradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              const Color(0xFFffffff).withOpacity(0.3),
+                              const Color((0xFFFFFFFF)).withOpacity(0.05),
+                            ],
+                          ),
+                          border: 0,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 20, right: 20),
+                            child: Center(
+                              child: Text(
+                                "${hacksList[index].hackDetails}",
+                                style: CustomTextTheme.captionText,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   );
-                },
-              );
-            }
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          },
-        ),
+                }
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+            ),
+          )
+        ],
       ),
     );
   }
