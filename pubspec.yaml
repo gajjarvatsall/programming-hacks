@@ -47,10 +47,20 @@ dependencies:
   flutter_animate: ^4.1.1+1
   lottie: ^2.3.2
   particles_flutter: ^0.1.4
+  flutter_launcher_icons: ^0.13.1
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo.png"
+  web:
+      generate: true
+      image_path: "assets/images/logo.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

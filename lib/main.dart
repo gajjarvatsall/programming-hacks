@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:programming_hacks/app_theme/app_theme.dart';
 import 'package:programming_hacks/modules/auth/bloc/auth_bloc.dart';
@@ -15,6 +16,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarIconBrightness: Brightness.dark, // dark text for status bar
+      statusBarColor: Colors.transparent));
   await Supabase.initialize(
     url: 'https://ymzdiwhuyzrkjmtuvymc.supabase.co',
     anonKey:
@@ -35,22 +39,27 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => HomeBloc(languagesRepository: LanguagesRepository())),
-        BlocProvider(create: (context) => HacksBloc(hacksRepository: HacksRepository())),
-        BlocProvider(create: (context) => AuthUserBloc(authRepo: AuthenticationRepository()))
-      ],
-      child: MaterialApp(
-        theme: AppTheme.themeData,
-        debugShowCheckedModeBanner: false,
-        initialRoute: '/loginScreen',
-        routes: {
-          '/loginScreen': (context) => const LoginScreen(),
-          '/signupScreen': (context) => const SignupScreen(),
-          '/homeScreen': (context) => const HomeScreen(),
-          '/detailsScreen': (context) => const DetailsScreen(),
-        },
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+      ),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => HomeBloc(languagesRepository: LanguagesRepository())),
+          BlocProvider(create: (context) => HacksBloc(hacksRepository: HacksRepository())),
+          BlocProvider(create: (context) => AuthUserBloc(authRepo: AuthenticationRepository()))
+        ],
+        child: MaterialApp(
+          theme: AppTheme.themeData,
+          debugShowCheckedModeBanner: false,
+          initialRoute: '/homeScreen',
+          routes: {
+            '/loginScreen': (context) => const LoginScreen(),
+            '/signupScreen': (context) => const SignupScreen(),
+            '/homeScreen': (context) => const HomeScreen(),
+            '/detailsScreen': (context) => const DetailsScreen(),
+          },
+        ),
       ),
     );
   }
