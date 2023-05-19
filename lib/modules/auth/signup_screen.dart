@@ -69,21 +69,28 @@ class _SignupScreenState extends State<SignupScreen> {
               child: SingleChildScrollView(
                 child: ListView(
                   shrinkWrap: true,
-                  padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
+                  padding: const EdgeInsets.symmetric(horizontal: hPadding),
                   children: [
                     const Icon(
                       Icons.person,
                       size: 100,
-                    ).animate().fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc).slideY(begin: 0.5, end: 0),
+                    )
+                        .animate()
+                        .fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc)
+                        .slideY(begin: 0.5, end: 0),
 
-                    const SizedBox(height: largeSizedBoxHeight),
+                    const SizedBox(height: lSizedBoxHeight),
 
                     // welcome back, you've been missed!
                     Center(
-                      child: Text('Welcome to Programming Hacks', style: CustomTextTheme.welcomeText),
-                    ).animate().fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc).slideY(begin: 0.5, end: 0),
+                      child:
+                          Text('Welcome to Programming Hacks', style: CustomTextTheme.welcomeText),
+                    )
+                        .animate()
+                        .fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc)
+                        .slideY(begin: 0.5, end: 0),
 
-                    const SizedBox(height: mediumSizedBoxHeight),
+                    const SizedBox(height: mSizedBoxHeight),
 
                     // username textfield
                     CustomTextField(
@@ -106,7 +113,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         )
                         .slideY(begin: 0.5, end: 0),
 
-                    const SizedBox(height: smallSizedBoxHeight),
+                    const SizedBox(height: sSizedBoxHeight),
 
                     // email textfield
                     CustomTextField(
@@ -127,7 +134,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           delay: 600.ms,
                         )
                         .slideY(begin: 0.5, end: 0),
-                    const SizedBox(height: smallSizedBoxHeight),
+                    const SizedBox(height: sSizedBoxHeight),
 
                     // password textfield
                     CustomTextField(
@@ -151,7 +158,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         )
                         .slideY(begin: 0.5, end: 0),
 
-                    const SizedBox(height: mediumSizedBoxHeight),
+                    const SizedBox(height: mSizedBoxHeight),
 
                     // sign up button
                     CustomButton(
@@ -167,7 +174,9 @@ class _SignupScreenState extends State<SignupScreen> {
                         }
                       },
                       text: 'Sign Up',
-                      isLoading: (state is UserSignupLoadingState || state is UserSignupErrorState) ? true : false,
+                      isLoading: (state is UserSignupLoadingState || state is UserSignupErrorState)
+                          ? true
+                          : false,
                     )
                         .animate()
                         .scaleX(
@@ -183,7 +192,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           curve: Curves.easeOutQuad,
                         ),
 
-                    const SizedBox(height: largeSizedBoxHeight),
+                    const SizedBox(height: lSizedBoxHeight),
 
                     // not a member? register now
                     Row(

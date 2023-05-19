@@ -37,22 +37,17 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-            create: (context) =>
-                HomeBloc(languagesRepository: LanguagesRepository())),
-        BlocProvider(
-            create: (context) => HacksBloc(hacksRepository: HacksRepository())),
-        BlocProvider(
-            create: (context) =>
-                AuthUserBloc(authRepo: AuthenticationRepository()))
+        BlocProvider(create: (context) => HomeBloc(languagesRepository: LanguagesRepository())),
+        BlocProvider(create: (context) => HacksBloc(hacksRepository: HacksRepository())),
+        BlocProvider(create: (context) => AuthUserBloc(authRepo: AuthenticationRepository()))
       ],
       child: MaterialApp(
         theme: AppTheme.themeData,
         debugShowCheckedModeBanner: false,
         initialRoute: '/loginScreen',
         routes: {
-          '/loginScreen': (context) => LoginScreen(),
-          '/signupScreen': (context) => SignupScreen(),
+          '/loginScreen': (context) => const LoginScreen(),
+          '/signupScreen': (context) => const SignupScreen(),
           '/homeScreen': (context) => const HomeScreen(),
           '/detailsScreen': (context) => const DetailsScreen(),
         },

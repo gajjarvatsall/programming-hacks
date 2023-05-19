@@ -7,7 +7,6 @@ class LanguagesRepository {
     final response = await client.from('Technology').select();
     if (response != null) {
       final data = response as List<dynamic>;
-      print("---------- $data");
       return data.map((item) => LanguagesModel.fromJson(item)).toList();
     } else {
       throw response.error!.message;
