@@ -28,12 +28,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     context.read<HomeBloc>().add(GetLanguagesEvent());
+
     super.initState();
   }
 
-  String trimmedName() {
-    String? name = Supabase.instance.client.auth.currentUser?.userMetadata?.values.elementAt(0);
-    String? result = name!.substring(0, name.indexOf(' '));
+  String trimmedName(String? name) {
+    String? result = name?.split(' ')[0] ?? "Hello there";
     return result;
   }
 
@@ -84,7 +84,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                         style: CustomTextTheme.headingText,
                                       ),
                                       Text(
-                                        trimmedName(),
+                                        trimmedName(
+                                            '${Supabase.instance.client.auth.currentUser?.userMetadata?.values.elementAt(0) ?? "Hello There"}'),
                                         style: CustomTextTheme.headingNameText,
                                       )
                                     ],
@@ -108,12 +109,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: sSizedBoxWidth,
                                       ),
                                       GestureDetector(
                                         onTap: () {
-                                          BlocProvider.of<AuthUserBloc>(context).add(UserLogoutEvent());
+                                          BlocProvider.of<AuthUserBloc>(context)
+                                              .add(UserLogoutEvent());
                                           Navigator.pushNamedAndRemoveUntil(
                                             context,
                                             '/loginScreen',

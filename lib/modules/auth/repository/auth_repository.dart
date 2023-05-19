@@ -1,12 +1,10 @@
 import 'package:programming_hacks/main.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthenticationRepository {
-  Future<bool> signUpWithEmailAndPassword(
-      String email, String password, String name) async {
+  Future<bool> signUpWithEmailAndPassword(String email, String password, String name) async {
     try {
-      final response = await client.auth
-          .signUp(email: email, password: password, data: {'name': name});
+      final response =
+          await client.auth.signUp(email: email, password: password, data: {'name': name});
       if (response.user == null) {
         return false;
       } else {

@@ -11,13 +11,13 @@ class LanguagesLoadingState extends HomeState {
 
 class LanguagesLoadedState extends HomeState {
   LanguagesLoadedState({this.languagesModel});
+
   final List<LanguagesModel>? languagesModel;
-  @override
+
   List<Object?> get props => [languagesModel];
 }
 
 class LanguagesErrorState extends HomeState {
-  @override
   List<Object?> get props => [];
 }
 
