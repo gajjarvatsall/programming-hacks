@@ -96,8 +96,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     validator: FormBuilderValidators.compose(
                       [
                         /// Makes this field required
-                        FormBuilderValidators.required(
-                            errorText: 'Username is required'),
+                        FormBuilderValidators.required(errorText: 'Username is required'),
                       ],
                     ),
                   ),
@@ -112,10 +111,8 @@ class _SignupScreenState extends State<SignupScreen> {
                     textInputType: TextInputType.emailAddress,
                     validator: FormBuilderValidators.compose([
                       /// Makes this field required
-                      FormBuilderValidators.required(
-                          errorText: 'Email is required'),
-                      FormBuilderValidators.email(
-                          errorText: 'Please Provide a Valid Email ID'),
+                      FormBuilderValidators.required(errorText: 'Email is required'),
+                      FormBuilderValidators.email(errorText: 'Please Provide a Valid Email ID'),
                     ]),
                   ),
                   const SizedBox(height: 10),
@@ -151,8 +148,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       }
                     },
                     text: 'Sign Up',
-                    isLoading: (state is UserSignupLoadingState ||
-                            state is UserSignupErrorState)
+                    isLoading: (state is UserSignupLoadingState || state is UserSignupErrorState)
                         ? true
                         : false,
                   ),

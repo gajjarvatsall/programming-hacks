@@ -46,8 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
               null,
               ContentType.success,
             );
-            Navigator.pushNamedAndRemoveUntil(
-                context, '/homeScreen', (route) => false);
+            Navigator.pushNamedAndRemoveUntil(context, '/homeScreen', (route) => false);
           }
           if (state is UserLoginErrorState) {
             showSnackBar(
@@ -101,10 +100,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     textInputType: TextInputType.emailAddress,
                     validator: FormBuilderValidators.compose([
                       /// Makes this field required
-                      FormBuilderValidators.required(
-                          errorText: 'Email is required'),
-                      FormBuilderValidators.email(
-                          errorText: 'Please Provide a Valid Email ID'),
+                      FormBuilderValidators.required(errorText: 'Email is required'),
+                      FormBuilderValidators.email(errorText: 'Please Provide a Valid Email ID'),
                     ]),
                   )
                       .animate()
@@ -132,10 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ]),
                   )
                       .animate()
-                      .fadeIn(
-                          duration: 1000.ms,
-                          curve: Curves.easeOutCirc,
-                          delay: 600.ms)
+                      .fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc, delay: 600.ms)
                       .slideY(begin: 0.5, end: 0),
 
                   const SizedBox(height: 10),
@@ -149,10 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: TextStyle(color: Colors.grey[600]),
                       )
                           .animate()
-                          .fadeIn(
-                              duration: 1000.ms,
-                              curve: Curves.easeOutCirc,
-                              delay: 700.ms)
+                          .fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc, delay: 700.ms)
                           .slideY(begin: 0.5, end: 0),
                     ],
                   ),

@@ -7,6 +7,7 @@ import 'package:programming_hacks/modules/auth/bloc/auth_bloc.dart';
 import 'package:programming_hacks/modules/details/bloc/hacks_bloc.dart';
 import 'package:programming_hacks/modules/home/bloc/home_bloc.dart';
 import 'package:programming_hacks/widgets/language_list_item.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -24,7 +25,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    context.read<HomeBloc>().add(GetLanguagesEvent());
+    // TODO: implement initState
+    BlocProvider.of<HomeBloc>(context).add(GetLanguagesEvent());
     super.initState();
   }
 
@@ -46,6 +48,37 @@ class _HomeScreenState extends State<HomeScreen> {
                 : CustomScrollView(
                     physics: const BouncingScrollPhysics(),
                     slivers: [
+                      /* SliverAppBar(
+                        backgroundColor: Colors.amber,
+                        actions: const [
+                          Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: Icon(
+                              Icons.notifications,
+                              color: Colors.black,
+                            ),
+                          )
+                        ],
+
+                        floating: true,
+                        flexibleSpace: FlexibleSpaceBar(
+                          title: Text(
+                            "Elon Musk",
+                            style: TextStyle(color: Colors.black, fontSize: 30),
+                          ),
+
+                          // background: Image.asset(
+                          //   'assets/images/appbar_img.jpg',
+                          //   fit: BoxFit.cover,
+                          // ),
+                          // stretchModes: const [
+                          //   StretchMode.blurBackground,
+                          //   StretchMode.zoomBackground,
+                          // ],
+                        ),
+                        // expandedHeight: 200,
+                        // stretch: true,
+                      ),*/
                       SliverToBoxAdapter(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -54,34 +87,27 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                const Column(
+                                Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Text(
+                                    const Text(
                                       "Welcome to Programming Hacks,",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 14,
-                                      ),
+                                      style: TextStyle(color: Colors.black, fontSize: 14),
                                     ),
                                     Text(
-                                      "Elon Musk",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 26,
-                                      ),
-                                    )
+                                        "${Supabase.instance.client.auth.currentUser?.userMetadata?.values.elementAt(0)}",
+                                        style: const TextStyle(color: Colors.black, fontSize: 26))
                                   ],
                                 ),
-                                const Flexible(child: SizedBox(width: 40)),
+                                const SizedBox(
+                                  width: 40,
+                                ),
                                 GestureDetector(
                                   onTap: () {},
                                   child: Container(
                                     decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(width: 1)),
+                                        shape: BoxShape.circle, border: Border.all(width: 1)),
                                     child: const Padding(
                                       padding: EdgeInsets.all(8.0),
                                       child: Icon(
@@ -91,13 +117,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(width: 10),
+                                const SizedBox(
+                                  width: 10,
+                                ),
                                 GestureDetector(
                                   onTap: () {},
                                   child: Container(
                                     decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(width: 1)),
+                                        shape: BoxShape.circle, border: Border.all(width: 1)),
                                     child: const Padding(
                                       padding: EdgeInsets.all(8.0),
                                       child: Icon(
@@ -114,12 +141,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       NotificationListener<UserScrollNotification>(
                         onNotification: (UserScrollNotification notification) {
-                          if (notification.direction ==
-                                  ScrollDirection.forward ||
-                              notification.direction ==
-                                  ScrollDirection.reverse) {
-                            scrollDirectionNotifier.value =
-                                notification.direction;
+                          if (notification.direction == ScrollDirection.forward ||
+                              notification.direction == ScrollDirection.reverse) {
+                            scrollDirectionNotifier.value = notification.direction;
                           }
                           return true;
                         },
@@ -130,15 +154,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             (context, index) {
                               return GestureDetector(
                                 onTap: () {
-                                  BlocProvider.of<HacksBloc>(context).add(
-                                      GetHacksEvent(
-                                          id: languagesList[index].id ?? 0));
-                                  Navigator.pushNamed(
-                                      context, '/detailsScreen');
+                                  BlocProvider.of<HacksBloc>(context)
+                                      .add(GetHacksEvent(id: languagesList[index].id ?? 0));
+                                  Navigator.pushNamed(context, '/detailsScreen');
                                 },
                                 child: ValueListenableBuilder(
-                                  builder: (context,
-                                      ScrollDirection scrollDirection, child) {
+                                  builder: (context, ScrollDirection scrollDirection, child) {
                                     return ListItemWrapper(
                                       scrollDirection: scrollDirection,
                                       keepAlive: false,
@@ -154,8 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               );
                             },
                           ),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             childAspectRatio: 9 / 14,
                           ),
@@ -169,11 +189,7 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           BlocProvider.of<AuthUserBloc>(context).add(UserLogoutEvent());
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            '/loginScreen',
-            (route) => false,
-          );
+          Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (route) => false);
         },
         child: const Icon(Icons.logout),
       ),
