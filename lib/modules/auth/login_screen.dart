@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:lottie/lottie.dart';
+import 'package:programming_hacks/app_theme/constant.dart';
+import 'package:programming_hacks/app_theme/text_theme.dart';
 import 'package:programming_hacks/modules/auth/bloc/auth_bloc.dart';
 import 'package:programming_hacks/modules/auth/bloc/auth_state.dart';
 import 'package:programming_hacks/widgets/custom_button.dart';
@@ -46,8 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
               null,
               ContentType.success,
             );
-            Navigator.pushNamedAndRemoveUntil(
-                context, '/homeScreen', (route) => false);
+            Navigator.pushNamedAndRemoveUntil(context, '/homeScreen', (route) => false);
           }
           if (state is UserLoginErrorState) {
             showSnackBar(
@@ -57,209 +59,155 @@ class _LoginScreenState extends State<LoginScreen> {
           }
         },
         builder: (context, state) {
-          return Center(
-            child: Form(
-              key: formKey,
-              autovalidateMode: AutovalidateMode.disabled,
-              child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                children: [
-                  const SizedBox(height: 50),
+          return Form(
+            key: formKey,
+            autovalidateMode: AutovalidateMode.disabled,
+            child: Center(
+              child: SingleChildScrollView(
+                child: ListView(
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
+                  children: [
+                    // const SizedBox(height: largeSizedBoxHeight),
 
-                  // logo
-                  const Icon(
-                    Icons.lock,
-                    size: 100,
-                  )
-                      .animate()
-                      .fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc)
-                      .slideY(begin: 0.5, end: 0),
+                    // logo
+                    const Icon(
+                      Icons.lock,
+                      size: 100,
+                    ).animate().fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc).slideY(begin: 0.5, end: 0),
+                    //
+                    // Lottie.asset(
+                    //   'assets/lottie/login.json',
+                    //   width: 100,
+                    //   height: 100,
+                    //   fit: BoxFit.fill,
+                    // ),
 
-                  const SizedBox(height: 50),
+                    const SizedBox(height: largeSizedBoxHeight),
 
-                  // welcome back, you've been missed!
-                  Center(
-                    child: Text(
-                      'Welcome back you\'ve been missed!',
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                        fontSize: 16,
+                    // welcome back, you've been missed!
+                    Center(
+                      child: Text(
+                        'Welcome back you\'ve been missed!',
+                        style: TextStyle(
+                          color: Colors.grey[700],
+                          fontSize: 16,
+                        ),
                       ),
-                    ),
-                  )
-                      .animate()
-                      .fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc)
-                      .slideY(begin: 0.5, end: 0),
+                    ).animate().fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc).slideY(begin: 0.5, end: 0),
 
-                  const SizedBox(height: 25),
+                    const SizedBox(height: mediumSizedBoxHeight),
 
-                  // username textfield
-                  CustomTextField(
-                    controller: emailController,
-                    hintText: 'Email',
-                    textInputAction: TextInputAction.next,
-                    textInputType: TextInputType.emailAddress,
-                    validator: FormBuilderValidators.compose([
-                      /// Makes this field required
-                      FormBuilderValidators.required(
-                          errorText: 'Email is required'),
-                      FormBuilderValidators.email(
-                          errorText: 'Please Provide a Valid Email ID'),
-                    ]),
-                  )
-                      .animate()
-                      .fadeIn(
-                        duration: 1000.ms,
-                        curve: Curves.easeOutCirc,
-                        delay: 500.ms,
-                      )
-                      .slideY(begin: 0.5, end: 0),
-
-                  const SizedBox(height: 10),
-
-                  // password textfield
-                  CustomTextField(
-                    controller: passwordController,
-                    hintText: 'Password',
-                    obscureText: true,
-                    textInputAction: TextInputAction.done,
-                    textInputType: TextInputType.visiblePassword,
-                    validator: FormBuilderValidators.compose([
-                      /// Makes this field required
-                      FormBuilderValidators.required(
-                        errorText: 'Password is required',
-                      ),
-                    ]),
-                  )
-                      .animate()
-                      .fadeIn(
+                    // username textfield
+                    CustomTextField(
+                      controller: emailController,
+                      hintText: 'Email',
+                      textInputAction: TextInputAction.next,
+                      textInputType: TextInputType.emailAddress,
+                      validator: FormBuilderValidators.compose([
+                        /// Makes this field required
+                        FormBuilderValidators.required(errorText: 'Email is required'),
+                        FormBuilderValidators.email(errorText: 'Please Provide a Valid Email ID'),
+                      ]),
+                    )
+                        .animate()
+                        .fadeIn(
                           duration: 1000.ms,
                           curve: Curves.easeOutCirc,
-                          delay: 600.ms)
-                      .slideY(begin: 0.5, end: 0),
+                          delay: 500.ms,
+                        )
+                        .slideY(begin: 0.5, end: 0),
 
-                  const SizedBox(height: 10),
+                    const SizedBox(height: smallSizedBoxHeight),
 
-                  // forgot password?
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        'Forgot Password?',
-                        style: TextStyle(color: Colors.grey[600]),
-                      )
-                          .animate()
-                          .fadeIn(
-                              duration: 1000.ms,
-                              curve: Curves.easeOutCirc,
-                              delay: 700.ms)
-                          .slideY(begin: 0.5, end: 0),
-                    ],
-                  ),
-
-                  const SizedBox(height: 25),
-
-                  // login button
-                  // if (state is UserLoginLoadingState)
-                  CustomButton(
-                    onTap: () {
-                      if (formKey.currentState!.validate()) {
-                        BlocProvider.of<AuthUserBloc>(context).add(
-                          UserLoginEvent(
-                            email: emailController.text,
-                            password: passwordController.text,
-                          ),
-                        );
-                      }
-                    },
-                    text: 'Login',
-                    isLoading: (state is UserLoginLoadingState) ? true : false,
-                  )
-                      .animate()
-                      .scaleX(
-                        begin: 0.5,
-                        end: 1,
-                        curve: Curves.elasticInOut,
-                        duration: 1000.ms,
-                      )
-                      .then(delay: 100.ms)
-                      .shimmer(
-                        duration: 1000.ms,
-                        angle: 45,
-                        curve: Curves.easeOutQuad,
-                        // stops: [0, 0.2, 1],
-                        // colors: [
-                        //   Colors.white38,
-                        //   Colors.white54,
-                        //   Colors.white60,
-                        // ],
-                      ),
-
-                  const SizedBox(height: 50),
-
-                  // or continue with
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Divider(
-                          thickness: 0.5,
-                          color: Colors.grey[400],
+                    // password textfield
+                    CustomTextField(
+                      controller: passwordController,
+                      hintText: 'Password',
+                      obscureText: true,
+                      textInputAction: TextInputAction.done,
+                      textInputType: TextInputType.visiblePassword,
+                      validator: FormBuilderValidators.compose([
+                        /// Makes this field required
+                        FormBuilderValidators.required(
+                          errorText: 'Password is required',
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Text(
-                          'Or continue with',
+                      ]),
+                    )
+                        .animate()
+                        .fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc, delay: 600.ms)
+                        .slideY(begin: 0.5, end: 0),
+
+                    const SizedBox(height: smallSizedBoxHeight),
+
+                    // forgot password?
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          'Forgot Password?',
+                          style: TextStyle(color: Colors.grey[600]),
+                        )
+                            .animate()
+                            .fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc, delay: 700.ms)
+                            .slideY(begin: 0.5, end: 0),
+                      ],
+                    ),
+
+                    const SizedBox(height: mediumSizedBoxHeight),
+
+                    // login button
+                    // if (state is UserLoginLoadingState)
+                    CustomButton(
+                      onTap: () {
+                        if (formKey.currentState!.validate()) {
+                          BlocProvider.of<AuthUserBloc>(context).add(
+                            UserLoginEvent(
+                              email: emailController.text,
+                              password: passwordController.text,
+                            ),
+                          );
+                        }
+                      },
+                      text: 'Login',
+                      isLoading: (state is UserLoginLoadingState) ? true : false,
+                    )
+                        .animate()
+                        .scaleX(
+                          begin: 0.5,
+                          end: 1,
+                          curve: Curves.elasticInOut,
+                          duration: 1000.ms,
+                        )
+                        .then(delay: 100.ms)
+                        .shimmer(
+                          duration: 1000.ms,
+                          angle: 45,
+                          curve: Curves.easeOutQuad,
+                        ),
+
+                    const SizedBox(height: largeSizedBoxHeight),
+
+                    // not a member? register now
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Not a member?',
                           style: TextStyle(color: Colors.grey[700]),
                         ),
-                      ),
-                      Expanded(
-                        child: Divider(
-                          thickness: 0.5,
-                          color: Colors.grey[400],
+                        const SizedBox(width: 4),
+                        GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () {
+                            Navigator.pushNamed(context, '/signupScreen');
+                          },
+                          child: Text('Register now', style: CustomTextTheme.textButtonText),
                         ),
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 50),
-
-                  // google + apple sign in buttons
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // google button
-                      SquareTile(imagePath: 'assets/images/google.png'),
-                    ],
-                  ),
-
-                  const SizedBox(height: 50),
-
-                  // not a member? register now
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Not a member?',
-                        style: TextStyle(color: Colors.grey[700]),
-                      ),
-                      const SizedBox(width: 4),
-                      GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: () {
-                          Navigator.pushNamed(context, '/signupScreen');
-                        },
-                        child: const Text(
-                          'Register now',
-                          style: TextStyle(
-                            color: Colors.blue,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
-                ],
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
           );

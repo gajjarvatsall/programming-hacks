@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:programming_hacks/animations/list_animation.dart';
+import 'package:programming_hacks/app_theme/constant.dart';
+import 'package:programming_hacks/app_theme/text_theme.dart';
 import 'package:programming_hacks/models/languages_model.dart';
 import 'package:programming_hacks/modules/auth/bloc/auth_bloc.dart';
 import 'package:programming_hacks/modules/details/bloc/hacks_bloc.dart';
 import 'package:programming_hacks/modules/home/bloc/home_bloc.dart';
 import 'package:programming_hacks/widgets/language_list_item.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -50,40 +53,32 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
                           child: SizedBox(
-                            height: 70,
+                            height: extraLargeSizedBoxHeight,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                const Column(
+                                Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
                                       "Welcome to Programming Hacks,",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 14,
-                                      ),
+                                      style: CustomTextTheme.subtitleText,
                                     ),
                                     Text(
-                                      "Elon Musk",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 26,
-                                      ),
+                                      "${Supabase.instance.client.auth.currentUser?.userMetadata?.values.elementAt(0)}",
+                                      style: CustomTextTheme.headingNameText,
                                     )
                                   ],
                                 ),
-                                const Flexible(child: SizedBox(width: 40)),
+                                const Flexible(child: SizedBox(width: largeSizedBoxWidth)),
                                 GestureDetector(
                                   onTap: () {},
                                   child: Container(
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(width: 1)),
+                                    decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(width: 1)),
                                     child: const Padding(
-                                      padding: EdgeInsets.all(8.0),
+                                      padding: EdgeInsets.all(padding),
                                       child: Icon(
                                         Icons.notifications,
                                         color: Colors.black,
@@ -91,15 +86,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(width: 10),
+                                const SizedBox(width: smallSizedBoxWidth),
                                 GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    BlocProvider.of<AuthUserBloc>(context).add(UserLogoutEvent());
+                                    Navigator.pushNamedAndRemoveUntil(
+                                      context,
+                                      '/loginScreen',
+                                      (route) => false,
+                                    );
+                                  },
                                   child: Container(
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(width: 1)),
+                                    decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(width: 1)),
                                     child: const Padding(
-                                      padding: EdgeInsets.all(8.0),
+                                      padding: EdgeInsets.all(padding),
                                       child: Icon(
                                         Icons.login_outlined,
                                         color: Colors.black,
@@ -114,12 +114,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       NotificationListener<UserScrollNotification>(
                         onNotification: (UserScrollNotification notification) {
-                          if (notification.direction ==
-                                  ScrollDirection.forward ||
-                              notification.direction ==
-                                  ScrollDirection.reverse) {
-                            scrollDirectionNotifier.value =
-                                notification.direction;
+                          if (notification.direction == ScrollDirection.forward ||
+                              notification.direction == ScrollDirection.reverse) {
+                            scrollDirectionNotifier.value = notification.direction;
                           }
                           return true;
                         },
@@ -130,15 +127,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             (context, index) {
                               return GestureDetector(
                                 onTap: () {
-                                  BlocProvider.of<HacksBloc>(context).add(
-                                      GetHacksEvent(
-                                          id: languagesList[index].id ?? 0));
-                                  Navigator.pushNamed(
-                                      context, '/detailsScreen');
+                                  BlocProvider.of<HacksBloc>(context)
+                                      .add(GetHacksEvent(id: languagesList[index].id ?? 0));
+                                  Navigator.pushNamed(context, '/detailsScreen');
                                 },
                                 child: ValueListenableBuilder(
-                                  builder: (context,
-                                      ScrollDirection scrollDirection, child) {
+                                  builder: (context, ScrollDirection scrollDirection, child) {
                                     return ListItemWrapper(
                                       scrollDirection: scrollDirection,
                                       keepAlive: false,
@@ -154,8 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               );
                             },
                           ),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             childAspectRatio: 9 / 14,
                           ),
@@ -165,17 +158,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
           },
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          BlocProvider.of<AuthUserBloc>(context).add(UserLogoutEvent());
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            '/loginScreen',
-            (route) => false,
-          );
-        },
-        child: const Icon(Icons.logout),
       ),
     );
   }
