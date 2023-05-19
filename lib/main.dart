@@ -37,6 +37,13 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  late Future<Session?> session;
+
+  void initState() {
+    super.initState();
+    session = SupabaseAuth.instance.initialSession;
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -52,7 +59,25 @@ class _MyAppState extends State<MyApp> {
         child: MaterialApp(
           theme: AppTheme.themeData,
           debugShowCheckedModeBanner: false,
-          initialRoute: '/homeScreen',
+          home: FutureBuilder(
+            future: session,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                print(" Snapshot have Data : ${snapshot.hasData}");
+                return const HomeScreen();
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text('${snapshot.error}'),
+                );
+              }
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                print(" Snapshot in waiting state : ${snapshot.hasData}");
+                return const Center(child: CircularProgressIndicator());
+              }
+              print(" Snapshot data is Null : ${snapshot.hasData}");
+              return const LoginScreen();
+            },
+          ),
           routes: {
             '/loginScreen': (context) => const LoginScreen(),
             '/signupScreen': (context) => const SignupScreen(),

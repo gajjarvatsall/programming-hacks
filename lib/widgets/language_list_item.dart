@@ -17,8 +17,6 @@ class LanguageListItem extends StatefulWidget {
 }
 
 class _LanguageListItemState extends State<LanguageListItem> {
-  final GlobalKey _backgroundImageKey = GlobalKey();
-
   @override
   Widget build(BuildContext context) {
     return Padding(
