@@ -4,8 +4,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:glassmorphism/glassmorphism.dart';
-import 'package:lottie/lottie.dart';
-import 'package:particles_flutter/particles_flutter.dart';
 import 'package:programming_hacks/app_theme/constant.dart';
 import 'package:programming_hacks/app_theme/text_theme.dart';
 import 'package:programming_hacks/modules/auth/bloc/auth_bloc.dart';
@@ -14,7 +12,6 @@ import 'package:programming_hacks/widgets/circular_pacticles.dart';
 import 'package:programming_hacks/widgets/custom_button.dart';
 import 'package:programming_hacks/widgets/custom_textfield.dart';
 import 'package:programming_hacks/widgets/snackbar.dart';
-import 'package:programming_hacks/widgets/square_tile.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -109,7 +106,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             const Icon(
                               Icons.lock,
                               size: 100,
-                            ).animate().fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc).slideY(begin: 0.5, end: 0),
+                            )
+                                .animate()
+                                .fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc)
+                                .slideY(begin: 0.5, end: 0),
                             //
                             // Lottie.asset(
                             //   'assets/lottie/login.json',
@@ -129,7 +129,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                   fontSize: 16,
                                 ),
                               ),
-                            ).animate().fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc).slideY(begin: 0.5, end: 0),
+                            )
+                                .animate()
+                                .fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc)
+                                .slideY(begin: 0.5, end: 0),
 
                             const SizedBox(height: mSizedBoxHeight),
 
@@ -142,7 +145,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               validator: FormBuilderValidators.compose([
                                 /// Makes this field required
                                 FormBuilderValidators.required(errorText: 'Email is required'),
-                                FormBuilderValidators.email(errorText: 'Please Provide a Valid Email ID'),
+                                FormBuilderValidators.email(
+                                    errorText: 'Please Provide a Valid Email ID'),
                               ]),
                             )
                                 .animate()
@@ -184,7 +188,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   style: TextStyle(color: Colors.grey[600]),
                                 )
                                     .animate()
-                                    .fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc, delay: 700.ms)
+                                    .fadeIn(
+                                        duration: 1000.ms, curve: Curves.easeOutCirc, delay: 700.ms)
                                     .slideY(begin: 0.5, end: 0),
                               ],
                             ),
@@ -237,7 +242,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   onTap: () {
                                     Navigator.pushNamed(context, '/signupScreen');
                                   },
-                                  child: Text('Register now', style: CustomTextTheme.textButtonText),
+                                  child:
+                                      Text('Register now', style: CustomTextTheme.textButtonText),
                                 ),
                               ],
                             ),
