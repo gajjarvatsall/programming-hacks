@@ -67,186 +67,220 @@ class _SignupScreenState extends State<SignupScreen> {
         builder: (context, state) {
           return Form(
             key: _formKey,
-            child: Stack(children: [
-              const CustomCircularParticle(),
-              Center(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: hPadding),
-                    child: GlassmorphicContainer(
-                      width: 400,
-                      height: 600,
-                      borderRadius: 20,
-                      blur: 10,
-                      alignment: Alignment.bottomCenter,
-                      linearGradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          const Color(0xFFffffff).withOpacity(0.3),
-                          const Color(0xFFFFFFFF).withOpacity(0.10),
-                        ],
-                        stops: const [
-                          0.1,
-                          1,
-                        ],
-                      ),
-                      borderGradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          const Color(0xFFffffff).withOpacity(0.3),
-                          const Color((0xFFFFFFFF)).withOpacity(0.05),
-                        ],
-                      ),
-                      border: 0,
-                      child: ListView(
-                        shrinkWrap: true,
-                        padding: const EdgeInsets.symmetric(horizontal: hPadding),
-                        children: [
-                          const Icon(
-                            Icons.person,
-                            size: 100,
-                          ).animate().fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc).slideY(begin: 0.5, end: 0),
+            child: Stack(
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  child: CustomCircularParticle(),
+                ),
+                Center(
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: hPadding),
+                      child: GlassmorphicContainer(
+                        width: 400,
+                        height: 600,
+                        borderRadius: 20,
+                        blur: 10,
+                        alignment: Alignment.bottomCenter,
+                        linearGradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            const Color(0xFFffffff).withOpacity(0.3),
+                            const Color(0xFFFFFFFF).withOpacity(0.10),
+                          ],
+                          stops: const [
+                            0.1,
+                            1,
+                          ],
+                        ),
+                        borderGradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            const Color(0xFFffffff).withOpacity(0.3),
+                            const Color((0xFFFFFFFF)).withOpacity(0.05),
+                          ],
+                        ),
+                        border: 0,
+                        child: ListView(
+                          shrinkWrap: true,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: hPadding,
+                            vertical: sSizedBoxHeight,
+                          ),
+                          children: [
+                            const Icon(
+                              Icons.person,
+                              size: 100,
+                            )
+                                .animate()
+                                .fadeIn(
+                                    duration: 1000.ms,
+                                    curve: Curves.easeOutCirc)
+                                .slideY(begin: 0.5, end: 0),
 
-                          const SizedBox(height: lSizedBoxHeight),
+                            const SizedBox(height: lSizedBoxHeight),
 
-                          // welcome back, you've been missed!
-                          Center(
-                            child: Text('Welcome to Programming Hacks', style: CustomTextTheme.welcomeText),
-                          ).animate().fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc).slideY(begin: 0.5, end: 0),
+                            // welcome back, you've been missed!
+                            Center(
+                              child: Text('Welcome to Programming Hacks',
+                                  style: CustomTextTheme.welcomeText),
+                            )
+                                .animate()
+                                .fadeIn(
+                                    duration: 1000.ms,
+                                    curve: Curves.easeOutCirc)
+                                .slideY(begin: 0.5, end: 0),
 
-                          const SizedBox(height: mSizedBoxHeight),
+                            const SizedBox(height: mSizedBoxHeight),
 
-                          // username textfield
-                          CustomTextField(
-                            controller: usernameController,
-                            hintText: 'Username',
-                            textInputAction: TextInputAction.next,
-                            textInputType: TextInputType.text,
-                            validator: FormBuilderValidators.compose(
-                              [
+                            // username textfield
+                            CustomTextField(
+                              controller: usernameController,
+                              hintText: 'Username',
+                              textInputAction: TextInputAction.next,
+                              textInputType: TextInputType.text,
+                              validator: FormBuilderValidators.compose(
+                                [
+                                  /// Makes this field required
+                                  FormBuilderValidators.required(
+                                      errorText: 'Username is required'),
+                                ],
+                              ),
+                            )
+                                .animate()
+                                .fadeIn(
+                                  duration: 1000.ms,
+                                  curve: Curves.easeOutCirc,
+                                  delay: 500.ms,
+                                )
+                                .slideY(begin: 0.5, end: 0),
+
+                            const SizedBox(height: sSizedBoxHeight),
+
+                            // email textfield
+                            CustomTextField(
+                              controller: emailController,
+                              hintText: 'Email',
+                              textInputAction: TextInputAction.next,
+                              textInputType: TextInputType.emailAddress,
+                              validator: FormBuilderValidators.compose([
                                 /// Makes this field required
-                                FormBuilderValidators.required(errorText: 'Username is required'),
+                                FormBuilderValidators.required(
+                                    errorText: 'Email is required'),
+                                FormBuilderValidators.email(
+                                    errorText:
+                                        'Please Provide a Valid Email ID'),
+                              ]),
+                            )
+                                .animate()
+                                .fadeIn(
+                                  duration: 1000.ms,
+                                  curve: Curves.easeOutCirc,
+                                  delay: 600.ms,
+                                )
+                                .slideY(begin: 0.5, end: 0),
+                            const SizedBox(height: sSizedBoxHeight),
+
+                            // password textfield
+                            CustomTextField(
+                              controller: passwordController,
+                              hintText: 'Password',
+                              obscureText: true,
+                              textInputAction: TextInputAction.done,
+                              textInputType: TextInputType.visiblePassword,
+                              validator: FormBuilderValidators.compose([
+                                /// Makes this field required
+                                FormBuilderValidators.required(
+                                  errorText: 'Password is required',
+                                ),
+                              ]),
+                            )
+                                .animate()
+                                .fadeIn(
+                                  duration: 1000.ms,
+                                  curve: Curves.easeOutCirc,
+                                  delay: 700.ms,
+                                )
+                                .slideY(begin: 0.5, end: 0),
+
+                            const SizedBox(height: mSizedBoxHeight),
+
+                            // sign up button
+                            CustomButton(
+                              onTap: () {
+                                if (_formKey.currentState!.validate()) {
+                                  context.read<AuthUserBloc>().add(
+                                        UserSignUpEvent(
+                                          name: usernameController.text,
+                                          email: emailController.text,
+                                          password: passwordController.text,
+                                        ),
+                                      );
+                                }
+                              },
+                              text: 'Sign Up',
+                              isLoading: (state is UserSignupLoadingState ||
+                                      state is UserSignupErrorState)
+                                  ? true
+                                  : false,
+                            )
+                                .animate()
+                                .scaleX(
+                                  begin: 0.5,
+                                  end: 1,
+                                  curve: Curves.elasticInOut,
+                                  duration: 1000.ms,
+                                )
+                                .then(delay: 100.ms)
+                                .shimmer(
+                                  duration: 1000.ms,
+                                  angle: 45,
+                                  curve: Curves.easeOutQuad,
+                                )
+                                .then(delay: 150.ms)
+                                .shimmer(
+                                  duration: 1000.ms,
+                                  angle: 45,
+                                  curve: Curves.easeOutQuad,
+                                ),
+
+                            const SizedBox(height: lSizedBoxHeight),
+
+                            // not a member? register now
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Already a member?',
+                                  style: TextStyle(color: Colors.grey[700]),
+                                ),
+                                const SizedBox(width: 4),
+                                GestureDetector(
+                                  behavior: HitTestBehavior.opaque,
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                        context, '/loginScreen');
+                                  },
+                                  child: Text('Login now',
+                                      style: CustomTextTheme.textButtonText),
+                                ),
                               ],
                             ),
-                          )
-                              .animate()
-                              .fadeIn(
-                                duration: 1000.ms,
-                                curve: Curves.easeOutCirc,
-                                delay: 500.ms,
-                              )
-                              .slideY(begin: 0.5, end: 0),
-
-                          const SizedBox(height: sSizedBoxHeight),
-
-                          // email textfield
-                          CustomTextField(
-                            controller: emailController,
-                            hintText: 'Email',
-                            textInputAction: TextInputAction.next,
-                            textInputType: TextInputType.emailAddress,
-                            validator: FormBuilderValidators.compose([
-                              /// Makes this field required
-                              FormBuilderValidators.required(errorText: 'Email is required'),
-                              FormBuilderValidators.email(errorText: 'Please Provide a Valid Email ID'),
-                            ]),
-                          )
-                              .animate()
-                              .fadeIn(
-                                duration: 1000.ms,
-                                curve: Curves.easeOutCirc,
-                                delay: 600.ms,
-                              )
-                              .slideY(begin: 0.5, end: 0),
-                          const SizedBox(height: sSizedBoxHeight),
-
-                          // password textfield
-                          CustomTextField(
-                            controller: passwordController,
-                            hintText: 'Password',
-                            obscureText: true,
-                            textInputAction: TextInputAction.done,
-                            textInputType: TextInputType.visiblePassword,
-                            validator: FormBuilderValidators.compose([
-                              /// Makes this field required
-                              FormBuilderValidators.required(
-                                errorText: 'Password is required',
-                              ),
-                            ]),
-                          )
-                              .animate()
-                              .fadeIn(
-                                duration: 1000.ms,
-                                curve: Curves.easeOutCirc,
-                                delay: 700.ms,
-                              )
-                              .slideY(begin: 0.5, end: 0),
-
-                          const SizedBox(height: mSizedBoxHeight),
-
-                          // sign up button
-                          CustomButton(
-                            onTap: () {
-                              if (_formKey.currentState!.validate()) {
-                                context.read<AuthUserBloc>().add(
-                                      UserSignUpEvent(
-                                        name: usernameController.text,
-                                        email: emailController.text,
-                                        password: passwordController.text,
-                                      ),
-                                    );
-                              }
-                            },
-                            text: 'Sign Up',
-                            isLoading:
-                                (state is UserSignupLoadingState || state is UserSignupErrorState) ? true : false,
-                          )
-                              .animate()
-                              .scaleX(
-                                begin: 0.5,
-                                end: 1,
-                                curve: Curves.elasticInOut,
-                                duration: 1000.ms,
-                              )
-                              .then(delay: 100.ms)
-                              .shimmer(
-                                duration: 1000.ms,
-                                angle: 45,
-                                curve: Curves.easeOutQuad,
-                              ),
-
-                          const SizedBox(height: lSizedBoxHeight),
-
-                          // not a member? register now
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Already a member?',
-                                style: TextStyle(color: Colors.grey[700]),
-                              ),
-                              const SizedBox(width: 4),
-                              GestureDetector(
-                                behavior: HitTestBehavior.opaque,
-                                onTap: () {
-                                  Navigator.pushNamed(context, '/loginScreen');
-                                },
-                                child: Text('Login now', style: CustomTextTheme.textButtonText),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: sSizedBoxHeight,
-                          )
-                        ],
+                            const SizedBox(
+                              height: sSizedBoxHeight,
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ]),
+              ],
+            ),
           );
         },
       ),

@@ -34,6 +34,8 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
         emit(UserLoginErrorState(errorMsg: e.message.toString()));
       } on AuthException catch (e) {
         emit(UserLoginErrorState(errorMsg: e.message.toString()));
+      } catch (e) {
+        emit(UserLoginErrorState(errorMsg: e.toString()));
       }
     });
     on<UserLogoutEvent>((event, emit) async {

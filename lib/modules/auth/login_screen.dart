@@ -49,7 +49,8 @@ class _LoginScreenState extends State<LoginScreen> {
               null,
               ContentType.success,
             );
-            Navigator.pushNamedAndRemoveUntil(context, '/homeScreen', (route) => false);
+            Navigator.pushNamedAndRemoveUntil(
+                context, '/homeScreen', (route) => false);
           }
           if (state is UserLoginErrorState) {
             showSnackBar(
@@ -64,7 +65,11 @@ class _LoginScreenState extends State<LoginScreen> {
             autovalidateMode: AutovalidateMode.disabled,
             child: Stack(
               children: [
-                const CustomCircularParticle(),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  child: CustomCircularParticle(),
+                ),
                 Center(
                   child: SingleChildScrollView(
                     child: Padding(
@@ -98,7 +103,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         border: 0,
                         child: ListView(
                           shrinkWrap: true,
-                          padding: const EdgeInsets.symmetric(horizontal: hPadding),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: hPadding,
+                            vertical: sSizedBoxHeight,
+                          ),
                           children: [
                             // const SizedBox(height: largeSizedBoxHeight),
 
@@ -108,7 +116,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               size: 100,
                             )
                                 .animate()
-                                .fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc)
+                                .fadeIn(
+                                    duration: 1000.ms,
+                                    curve: Curves.easeOutCirc)
                                 .slideY(begin: 0.5, end: 0),
                             //
                             // Lottie.asset(
@@ -118,20 +128,23 @@ class _LoginScreenState extends State<LoginScreen> {
                             //   fit: BoxFit.fill,
                             // ),
 
-                            const SizedBox(height: lSizedBoxHeight),
+                            const SizedBox(height: mSizedBoxHeight),
 
                             // welcome back, you've been missed!
                             Center(
                               child: Text(
-                                'Welcome back you\'ve been missed!',
+                                'Login',
                                 style: TextStyle(
                                   color: Colors.grey[700],
-                                  fontSize: 16,
+                                  fontSize: 26,
+                                  fontWeight: FontWeight.w800,
                                 ),
                               ),
                             )
                                 .animate()
-                                .fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc)
+                                .fadeIn(
+                                    duration: 1000.ms,
+                                    curve: Curves.easeOutCirc)
                                 .slideY(begin: 0.5, end: 0),
 
                             const SizedBox(height: mSizedBoxHeight),
@@ -144,9 +157,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               textInputType: TextInputType.emailAddress,
                               validator: FormBuilderValidators.compose([
                                 /// Makes this field required
-                                FormBuilderValidators.required(errorText: 'Email is required'),
+                                FormBuilderValidators.required(
+                                    errorText: 'Email is required'),
                                 FormBuilderValidators.email(
-                                    errorText: 'Please Provide a Valid Email ID'),
+                                    errorText:
+                                        'Please Provide a Valid Email ID'),
                               ]),
                             )
                                 .animate()
@@ -174,7 +189,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               ]),
                             )
                                 .animate()
-                                .fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc, delay: 600.ms)
+                                .fadeIn(
+                                    duration: 1000.ms,
+                                    curve: Curves.easeOutCirc,
+                                    delay: 600.ms)
                                 .slideY(begin: 0.5, end: 0),
 
                             const SizedBox(height: sSizedBoxHeight),
@@ -189,15 +207,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                 )
                                     .animate()
                                     .fadeIn(
-                                        duration: 1000.ms, curve: Curves.easeOutCirc, delay: 700.ms)
+                                        duration: 1000.ms,
+                                        curve: Curves.easeOutCirc,
+                                        delay: 700.ms)
                                     .slideY(begin: 0.5, end: 0),
                               ],
                             ),
 
                             const SizedBox(height: mSizedBoxHeight),
 
-                            // login button
-                            // if (state is UserLoginLoadingState)
                             CustomButton(
                               onTap: () {
                                 if (formKey.currentState!.validate()) {
@@ -210,7 +228,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 }
                               },
                               text: 'Login',
-                              isLoading: (state is UserLoginLoadingState) ? true : false,
+                              isLoading: (state is UserLoginLoadingState)
+                                  ? true
+                                  : false,
                             )
                                 .animate()
                                 .scaleX(
@@ -220,6 +240,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                   duration: 1000.ms,
                                 )
                                 .then(delay: 100.ms)
+                                .shimmer(
+                                  duration: 1000.ms,
+                                  angle: 45,
+                                  curve: Curves.easeOutQuad,
+                                )
+                                .then(delay: 150.ms)
                                 .shimmer(
                                   duration: 1000.ms,
                                   angle: 45,
@@ -240,10 +266,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                 GestureDetector(
                                   behavior: HitTestBehavior.opaque,
                                   onTap: () {
-                                    Navigator.pushNamed(context, '/signupScreen');
+                                    Navigator.pushNamed(
+                                        context, '/signupScreen');
                                   },
-                                  child:
-                                      Text('Register now', style: CustomTextTheme.textButtonText),
+                                  child: Text('Register now',
+                                      style: CustomTextTheme.textButtonText),
                                 ),
                               ],
                             ),

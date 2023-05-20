@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:programming_hacks/app_theme/app_theme.dart';
 import 'package:programming_hacks/modules/auth/bloc/auth_bloc.dart';
 import 'package:programming_hacks/modules/auth/login_screen.dart';
@@ -52,9 +53,15 @@ class _MyAppState extends State<MyApp> {
       ),
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context) => HomeBloc(languagesRepository: LanguagesRepository())),
-          BlocProvider(create: (context) => HacksBloc(hacksRepository: HacksRepository())),
-          BlocProvider(create: (context) => AuthUserBloc(authRepo: AuthenticationRepository()))
+          BlocProvider(
+              create: (context) =>
+                  HomeBloc(languagesRepository: LanguagesRepository())),
+          BlocProvider(
+              create: (context) =>
+                  HacksBloc(hacksRepository: HacksRepository())),
+          BlocProvider(
+              create: (context) =>
+                  AuthUserBloc(authRepo: AuthenticationRepository()))
         ],
         child: MaterialApp(
           theme: AppTheme.themeData,
@@ -66,15 +73,24 @@ class _MyAppState extends State<MyApp> {
                 print(" Snapshot have Data : ${snapshot.hasData}");
                 return const HomeScreen();
               } else if (snapshot.hasError) {
-                return Center(
-                  child: Text('${snapshot.error}'),
+                return Scaffold(
+                  body: Center(
+                    child: Text('${snapshot.error}'),
+                  ),
                 );
               }
               if (snapshot.connectionState == ConnectionState.waiting) {
                 print(" Snapshot in waiting state : ${snapshot.hasData}");
-                return const Center(child: CircularProgressIndicator());
+                return Center(
+                  child: Lottie.asset(
+                    'assets/lottie/loading.json',
+                    height: 100,
+                    width: 100,
+                  ),
+                );
               }
               print(" Snapshot data is Null : ${snapshot.hasData}");
+              // return const HomeScreen();
               return const LoginScreen();
             },
           ),

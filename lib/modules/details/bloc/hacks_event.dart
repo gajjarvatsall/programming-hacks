@@ -4,7 +4,13 @@ part of 'hacks_bloc.dart';
 abstract class HacksEvent {}
 
 class GetHacksEvent extends HacksEvent {
-  final int id;
+  final int? id;
 
-  GetHacksEvent({required this.id});
+  GetHacksEvent({this.id});
+}
+
+class ShareHacksEvent extends HacksEvent {
+  final ScreenshotController controller;
+
+  ShareHacksEvent({required this.controller});
 }
