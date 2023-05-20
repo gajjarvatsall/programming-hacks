@@ -57,13 +57,16 @@ class TitleAndSubtitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(name.toUpperCase(), style: CustomTextTheme.titleText),
-        ],
+    return Padding(
+      padding: const EdgeInsets.only(right: 20.0),
+      child: Align(
+        alignment: Alignment.centerRight,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(name.toUpperCase(), style: CustomTextTheme.titleText),
+          ],
+        ),
       ),
     );
   }

@@ -25,6 +25,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blueGrey[300],
       appBar: AppBar(
         backgroundColor: Colors.blueGrey[300],
         leading: BackButton(color: Colors.white),
@@ -49,7 +50,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
         children: [
           const CustomCircularParticle(),
           Container(
-            color: Colors.blueGrey[300],
             child: BlocConsumer<HacksBloc, HacksState>(
               listener: (context, state) {},
               builder: (context, state) {
@@ -101,8 +101,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               ),
                               border: 0,
                               child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 20, right: 20),
+                                padding: const EdgeInsets.only(left: 20, right: 20),
                                 child: Center(
                                     child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -118,13 +117,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                     ),
                                     Text(
                                       "OOPS!",
-                                      style: CustomTextTheme.headingNameText
-                                          .copyWith(color: Colors.black),
+                                      style: CustomTextTheme.headingNameText.copyWith(color: Colors.black),
                                     ),
                                     Text(
                                       "Data Not Found",
-                                      style: CustomTextTheme.headingNameText
-                                          .copyWith(color: Colors.black),
+                                      style: CustomTextTheme.headingNameText.copyWith(color: Colors.black),
                                     ),
                                   ],
                                 )),
@@ -147,8 +144,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             child: RepaintBoundary(
                               child: GradientContainer(
                                 child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 20, right: 20),
+                                  padding: const EdgeInsets.only(left: 20, right: 20),
                                   child: Center(
                                     child: Text(
                                       "${state.hacksModel?[index].hackDetails}",
@@ -176,7 +172,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 );
               },
             ),
-          )
+          ),
         ],
       ),
     );
