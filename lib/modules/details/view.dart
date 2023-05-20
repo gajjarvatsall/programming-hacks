@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:glassmorphism/glassmorphism.dart';
+import 'package:programming_hacks/app_theme/constant.dart';
 import 'package:programming_hacks/app_theme/text_theme.dart';
 import 'package:programming_hacks/models/hacks_model.dart';
 import 'package:programming_hacks/modules/details/bloc/hacks_bloc.dart';
@@ -48,55 +49,124 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 }
                 if (state is HacksLoadedState) {
                   hacksList = state.hacksModel ?? [];
-                  return CardSwiper(
-                    isLoop: true,
-                    cardsCount: hacksList.length,
-                    controller: controller,
-                    // onSwipe: _onSwipe,
-                    // // onUndo: _onUndo,
-                    numberOfCardsDisplayed: 1,
-                    cardBuilder: (context, index) {
-                      return Center(
-                        child: GlassmorphicContainer(
-                          width: 400,
-                          height: 500,
-                          borderRadius: 20,
-                          blur: 10,
-                          alignment: Alignment.bottomCenter,
-                          linearGradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                              const Color(0xFFffffff).withOpacity(0.3),
-                              const Color(0xFFFFFFFF).withOpacity(0.10),
-                            ],
-                            stops: const [
-                              0.1,
-                              1,
-                            ],
-                          ),
-                          borderGradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                              const Color(0xFFffffff).withOpacity(0.3),
-                              const Color((0xFFFFFFFF)).withOpacity(0.05),
-                            ],
-                          ),
-                          border: 0,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 20, right: 20),
-                            child: Center(
-                              child: Text(
-                                "${hacksList[index].hackDetails}",
-                                style: CustomTextTheme.captionText,
+                  return hacksList.isEmpty
+                      ? CardSwiper(
+                          isLoop: true,
+                          cardsCount: 1,
+                          controller: controller,
+                          // onSwipe: _onSwipe,
+                          // // onUndo: _onUndo,
+                          numberOfCardsDisplayed: 1,
+                          cardBuilder: (context, index) {
+                            return Center(
+                              child: GlassmorphicContainer(
+                                width: 400,
+                                height: 500,
+                                borderRadius: 20,
+                                blur: 10,
+                                alignment: Alignment.bottomCenter,
+                                linearGradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    const Color(0xFFffffff).withOpacity(0.3),
+                                    const Color(0xFFFFFFFF).withOpacity(0.10),
+                                  ],
+                                  stops: const [
+                                    0.1,
+                                    1,
+                                  ],
+                                ),
+                                borderGradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    const Color(0xFFffffff).withOpacity(0.3),
+                                    const Color((0xFFFFFFFF)).withOpacity(0.05),
+                                  ],
+                                ),
+                                border: 0,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 20, right: 20),
+                                  child: Center(
+                                      child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        "assets/images/no-connection.png",
+                                        width: 100,
+                                        height: 100,
+                                      ),
+                                      SizedBox(
+                                        height: sSizedBoxHeight,
+                                      ),
+                                      Text(
+                                        "OOPS!",
+                                        style: CustomTextTheme.headingNameText
+                                            .copyWith(color: Colors.black),
+                                      ),
+                                      Text(
+                                        "Data Not Found",
+                                        style: CustomTextTheme.headingNameText
+                                            .copyWith(color: Colors.black),
+                                      ),
+                                    ],
+                                  )),
+                                ),
                               ),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  );
+                            );
+                          },
+                        )
+                      : CardSwiper(
+                          isLoop: true,
+                          cardsCount: hacksList.length,
+                          controller: controller,
+                          // onSwipe: _onSwipe,
+                          // // onUndo: _onUndo,
+                          numberOfCardsDisplayed: 1,
+                          cardBuilder: (context, index) {
+                            return Center(
+                              child: GlassmorphicContainer(
+                                width: 400,
+                                height: 500,
+                                borderRadius: 20,
+                                blur: 10,
+                                alignment: Alignment.bottomCenter,
+                                linearGradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    const Color(0xFFffffff).withOpacity(0.3),
+                                    const Color(0xFFFFFFFF).withOpacity(0.10),
+                                  ],
+                                  stops: const [
+                                    0.1,
+                                    1,
+                                  ],
+                                ),
+                                borderGradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    const Color(0xFFffffff).withOpacity(0.3),
+                                    const Color((0xFFFFFFFF)).withOpacity(0.05),
+                                  ],
+                                ),
+                                border: 0,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 20, right: 20),
+                                  child: Center(
+                                    child: Text(
+                                      "${hacksList[index].hackDetails}",
+                                      style: CustomTextTheme.captionText,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
                 }
                 return const Center(
                   child: CircularProgressIndicator(),
