@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:glassmorphism/glassmorphism.dart';
@@ -132,7 +133,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           ),
                         );
                       },
-                    );
+                    ).animate().fadeIn(duration: 500.ms);
                   } else {
                     return CardSwiper(
                       isLoop: true,
@@ -160,7 +161,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           ),
                         );
                       },
-                    );
+                    ).animate().fadeIn(duration: 100.ms).scale(
+                          duration: 250.ms,
+                          curve: Curves.easeOutExpo,
+                        );
                   }
                 }
                 return Center(
