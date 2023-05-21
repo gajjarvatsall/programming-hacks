@@ -74,13 +74,13 @@ Welcome to our project! We are a dedicated team of four members working together
  **Pratik Butani** 
  - Github : [pratikbutani](https://github.com/pratikbutani)
  - Twitter : [pratik13butani](https://twitter.com/pratik13butani)
- - Role: 
+ - Role: Team Lead
  
 
  **Cavin Macwan** 
  - Github : [cavin6080](https://github.com/cavin6080)
  - Twitter : [cavin_1910](https://twitter.com/cavin_1910)
- - Role: 
+ - Role: Flutter Developer 
 
  **Nikunj Panchal** 
  - Github : [nikunjpanchall](https://github.com/nikunjpanchall)
