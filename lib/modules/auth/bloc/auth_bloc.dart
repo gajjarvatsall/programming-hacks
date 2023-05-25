@@ -1,8 +1,8 @@
+import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:programming_hacks/modules/auth/bloc/auth_state.dart';
 import 'package:programming_hacks/modules/auth/repository/auth_repository.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'auth_event.dart';
 
@@ -21,7 +21,7 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
         if (response == true) {
           emit(UserSignupLoadedState());
         }
-      } on AuthException catch (e) {
+      } on AppwriteException catch (e) {
         emit(UserSignupErrorState(errorMsg: e.message.toString()));
       }
     });
@@ -29,28 +29,19 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
       try {
         emit(UserLoginLoadingState());
         await authRepo.login(event.email, event.password);
-        emit(UserLoginLoadedState());
-      } on SupabaseRealtimeError catch (e) {
+        emit(UserSignupLoadedState());
+      } on AppwriteException catch (e) {
         emit(UserLoginErrorState(errorMsg: e.message.toString()));
-      } on AuthException catch (e) {
-        emit(UserLoginErrorState(errorMsg: e.message.toString()));
-      } catch (e) {
-        emit(UserLoginErrorState(errorMsg: e.toString()));
       }
     });
-    on<UserLogoutEvent>((event, emit) async {
-      try {
-        emit(UserLogoutLoadingState());
-        await authRepo.logout();
-        emit(UserLogoutLoadedState());
-      } on AuthException catch (e) {
-        emit(UserLogoutErrorState(errorMsg: e.message.toString()));
-      }
-      // on SupabaseRealtimeError catch (e) {
-      //   emit(UserSignupErrorState(errorMsg: e.message.toString()));
-      // } on AuthException catch (e) {
-      //   emit(UserSignupErrorState(errorMsg: e.message.toString()));
-      // }
-    });
+    // on<UserLogoutEvent>((event, emit) async {
+    //   try {
+    //     emit(UserLogoutLoadingState());
+    //     await authRepo.logout();
+    //     emit(UserLogoutLoadedState());
+    //   } catch (e) {
+    //     emit(UserLoginErrorState(errorMsg: e.toString()));
+    //   }
+    // });
   }
 }

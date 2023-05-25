@@ -180,22 +180,19 @@ class _LoginScreenState extends State<LoginScreen> {
 
                             const SizedBox(height: sSizedBoxHeight),
 
-                            // // forgot password?
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.end,
-                            //   children: [
-                            //     Text(
-                            //       'Forgot Password?',
-                            //       style: TextStyle(color: Colors.grey[600]),
-                            //     )
-                            //         .animate()
-                            //         .fadeIn(
-                            //             duration: 1000.ms,
-                            //             curve: Curves.easeOutCirc,
-                            //             delay: 700.ms)
-                            //         .slideY(begin: 0.5, end: 0),
-                            //   ],
-                            // ),
+                            // forgot password?
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  'Forgot Password?',
+                                  style: TextStyle(color: Colors.grey[600]),
+                                )
+                                    .animate()
+                                    .fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc, delay: 700.ms)
+                                    .slideY(begin: 0.5, end: 0),
+                              ],
+                            ),
 
                             const SizedBox(height: mSizedBoxHeight),
 
