@@ -34,14 +34,23 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
         emit(UserLoginErrorState(errorMsg: e.message.toString()));
       }
     });
-    // on<UserLogoutEvent>((event, emit) async {
-    //   try {
-    //     emit(UserLogoutLoadingState());
-    //     await authRepo.logout();
-    //     emit(UserLogoutLoadedState());
-    //   } catch (e) {
-    //     emit(UserLoginErrorState(errorMsg: e.toString()));
-    //   }
-    // });
+    on<OAuth2SessionEvent>((event, emit) async {
+      try {
+        emit(OAuth2SessionLoadingState());
+        await authRepo.oAuth2Session(event.provider);
+        emit(OAuth2SessionLoadedState());
+      } on AppwriteException catch (e) {
+        emit(OAuth2SessionErrorState(errorMsg: e.message.toString()));
+      }
+    });
+    on<UserLogoutEvent>((event, emit) async {
+      try {
+        emit(UserLogoutLoadingState());
+        await authRepo.logout();
+        emit(UserLogoutLoadedState());
+      } catch (e) {
+        emit(UserLoginErrorState(errorMsg: e.toString()));
+      }
+    });
   }
 }

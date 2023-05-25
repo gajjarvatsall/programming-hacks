@@ -9,7 +9,6 @@ import 'package:programming_hacks/modules/auth/bloc/auth_bloc.dart';
 import 'package:programming_hacks/modules/details/bloc/hacks_bloc.dart';
 import 'package:programming_hacks/modules/home/bloc/home_bloc.dart';
 import 'package:programming_hacks/widgets/language_list_item.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,25 +21,20 @@ class _HomeScreenState extends State<HomeScreen> {
   final ValueNotifier<ScrollDirection> scrollDirectionNotifier =
       ValueNotifier<ScrollDirection>(ScrollDirection.forward);
 
-  @override
-  void initState() {
-    context.read<HomeBloc>().add(GetLanguagesEvent());
-    super.initState();
-  }
-
-  String getTrimmedName() {
-    String? name = Supabase
-        .instance.client.auth.currentUser?.userMetadata?.values
-        .elementAt(0);
-    String? result = name?.split(' ')[0] ?? "Hello there";
-    return result;
-  }
+  // @override
+  // void initState() {
+  //   context.read<HomeBloc>().add(GetLanguagesEvent());
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueGrey[300],
-      body: SafeArea(
+        backgroundColor: Colors.blueGrey[300],
+        body: Center(
+          child: Text("HELLO"),
+        )
+        /*SafeArea(
         child: BlocConsumer<HomeBloc, HomeState>(
           listener: (context, state) {},
           builder: (context, state) {
@@ -179,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           },
         ),
-      ),
-    );
+      ),*/
+        );
   }
 }
