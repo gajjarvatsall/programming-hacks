@@ -10,8 +10,7 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final LanguagesRepository languagesRepository;
 
-  HomeBloc({required this.languagesRepository})
-      : super(LanguagesLoadingState()) {
+  HomeBloc({required this.languagesRepository}) : super(LanguagesLoadingState()) {
     on<GetLanguagesEvent>((event, emit) async {
       try {
         final response = await languagesRepository.getLanguages();

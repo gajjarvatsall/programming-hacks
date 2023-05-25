@@ -5,7 +5,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_downloader_web/image_downloader_web.dart';
-import 'package:meta/meta.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:programming_hacks/models/hacks_model.dart';
 import 'package:programming_hacks/repository/hacks_repo.dart';
@@ -36,8 +35,8 @@ class HacksBloc extends Bloc<HacksEvent, HacksState> {
 
     Future<FutureOr<void>> takeScreenshotandShare(
         ShareHacksEvent event, Emitter<HacksState> emit) async {
-      final pngBytes = await event.controller
-          .capture(delay: Duration(milliseconds: 10), pixelRatio: 2.0);
+      final pngBytes =
+          await event.controller.capture(delay: Duration(milliseconds: 10), pixelRatio: 2.0);
       if (kIsWeb && pngBytes != null) {
         await WebImageDownloader.downloadImageFromUInt8List(
           uInt8List: pngBytes,

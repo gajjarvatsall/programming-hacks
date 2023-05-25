@@ -53,15 +53,9 @@ class _MyAppState extends State<MyApp> {
       ),
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(
-              create: (context) =>
-                  HomeBloc(languagesRepository: LanguagesRepository())),
-          BlocProvider(
-              create: (context) =>
-                  HacksBloc(hacksRepository: HacksRepository())),
-          BlocProvider(
-              create: (context) =>
-                  AuthUserBloc(authRepo: AuthenticationRepository()))
+          BlocProvider(create: (context) => HomeBloc(languagesRepository: LanguagesRepository())),
+          BlocProvider(create: (context) => HacksBloc(hacksRepository: HacksRepository())),
+          BlocProvider(create: (context) => AuthUserBloc(authRepo: AuthenticationRepository()))
         ],
         child: MaterialApp(
           theme: AppTheme.themeData,

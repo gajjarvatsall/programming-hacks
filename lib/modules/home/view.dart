@@ -29,9 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   String getTrimmedName() {
-    String? name = Supabase
-        .instance.client.auth.currentUser?.userMetadata?.values
-        .elementAt(0);
+    String? name = Supabase.instance.client.auth.currentUser?.userMetadata?.values.elementAt(0);
     String? result = name?.split(' ')[0] ?? "Hello there";
     return result;
   }
@@ -100,12 +98,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                       child: Container(
                                         decoration: BoxDecoration(
                                             shape: BoxShape.circle,
-                                            border: Border.all(
-                                                width: 1, color: Colors.white)),
+                                            border: Border.all(width: 1, color: Colors.white)),
                                         child: const Padding(
                                           padding: EdgeInsets.all(padding),
-                                          child: Icon(Icons.login_outlined,
-                                              color: Colors.white),
+                                          child: Icon(Icons.login_outlined, color: Colors.white),
                                         ),
                                       ),
                                     )
@@ -118,12 +114,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       NotificationListener<UserScrollNotification>(
                         onNotification: (UserScrollNotification notification) {
-                          if (notification.direction ==
-                                  ScrollDirection.forward ||
-                              notification.direction ==
-                                  ScrollDirection.reverse) {
-                            scrollDirectionNotifier.value =
-                                notification.direction;
+                          if (notification.direction == ScrollDirection.forward ||
+                              notification.direction == ScrollDirection.reverse) {
+                            scrollDirectionNotifier.value = notification.direction;
                           }
                           return true;
                         },
@@ -135,15 +128,12 @@ class _HomeScreenState extends State<HomeScreen> {
                               return GestureDetector(
                                 onTap: () {
                                   BlocProvider.of<HacksBloc>(context).add(
-                                    GetHacksEvent(
-                                        id: state.languagesModel?[index].id),
+                                    GetHacksEvent(id: state.languagesModel?[index].id),
                                   );
-                                  Navigator.pushNamed(
-                                      context, '/detailsScreen');
+                                  Navigator.pushNamed(context, '/detailsScreen');
                                 },
                                 child: ValueListenableBuilder(
-                                  builder: (context,
-                                      ScrollDirection scrollDirection, child) {
+                                  builder: (context, ScrollDirection scrollDirection, child) {
                                     return ListItemWrapper(
                                       scrollDirection: scrollDirection,
                                       keepAlive: false,
@@ -152,18 +142,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   },
                                   valueListenable: scrollDirectionNotifier,
                                   child: LanguageListItem(
-                                    imageUrl:
-                                        state.languagesModel?[index].bgImage ??
-                                            "",
-                                    name:
-                                        state.languagesModel?[index].name ?? "",
+                                    imageUrl: state.languagesModel?[index].bgImage ?? "",
+                                    name: state.languagesModel?[index].name ?? "",
                                   ),
                                 ),
                               );
                             },
                           ),
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: constraints.maxWidth > 550 ? 2 : 1,
                             childAspectRatio: 18 / 9,
                           ),
