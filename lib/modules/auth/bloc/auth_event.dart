@@ -22,4 +22,9 @@ class UserLoginEvent extends AuthUserEvent {
   List<Object?> get pros => throw UnimplementedError();
 }
 
+class OAuth2SessionEvent extends AuthUserEvent {
+  final String provider;
+  OAuth2SessionEvent({required this.provider});
+}
+
 class UserLogoutEvent extends AuthUserEvent {}

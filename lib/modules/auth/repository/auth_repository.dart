@@ -47,4 +47,17 @@ class AuthenticationRepository {
 // Future<void> logout() async {
 //   client.auth.signOut();
 // }
+  Future<void> oAuth2Session(String provider) {
+    Client client = Client();
+    Account account = Account(client);
+    client.setEndpoint('https://cloud.appwrite.io/v1').setProject('646b25f423d8d38d3471').setSelfSigned(status: true);
+    return account.createOAuth2Session(provider: provider);
+  }
+
+  Future<void> logout() {
+    Client client = Client();
+    Account account = Account(client);
+    client.setEndpoint('https://cloud.appwrite.io/v1').setProject('646b25f423d8d38d3471').setSelfSigned(status: true);
+    return account.deleteSession(sessionId: 'current');
+  }
 }

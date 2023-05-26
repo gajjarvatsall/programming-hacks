@@ -49,6 +49,26 @@ class UserLoginErrorState extends AuthUserState {
   List<Object?> get props => [errorMsg];
 }
 
+// OAuth2Session state
+class OAuth2SessionLoadingState extends AuthUserState {
+  @override
+  List<Object?> get props => [];
+}
+
+class OAuth2SessionLoadedState extends AuthUserState {
+  @override
+  List<Object?> get props => [];
+}
+
+class OAuth2SessionErrorState extends AuthUserState {
+  final String errorMsg;
+
+  OAuth2SessionErrorState({required this.errorMsg});
+
+  @override
+  List<Object?> get props => [errorMsg];
+}
+
 // Logout State
 class UserLogoutLoadingState extends AuthUserState {
   @override

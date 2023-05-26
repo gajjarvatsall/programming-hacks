@@ -49,7 +49,6 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             }
             if (state is LanguagesLoadedState) {
-              print(" Name ::: ${state.languagesModel?[1].bgImage}");
               return LayoutBuilder(
                 builder: (context, constraints) {
                   return CustomScrollView(
@@ -73,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       style: CustomTextTheme.headingText,
                                     ),
                                     Text(
-                                      "Hello",
+                                      getTrimmedName(),
                                       style: CustomTextTheme.headingNameText,
                                     )
                                   ],
