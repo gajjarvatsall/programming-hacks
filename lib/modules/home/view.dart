@@ -9,7 +9,6 @@ import 'package:programming_hacks/modules/auth/bloc/auth_bloc.dart';
 import 'package:programming_hacks/modules/details/bloc/hacks_bloc.dart';
 import 'package:programming_hacks/modules/home/bloc/home_bloc.dart';
 import 'package:programming_hacks/widgets/language_list_item.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -24,14 +23,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    context.read<HomeBloc>().add(GetLanguagesEvent());
+    BlocProvider.of<HomeBloc>(context).add(GetLanguagesEvent());
     super.initState();
   }
 
   String getTrimmedName() {
-    String? name = Supabase.instance.client.auth.currentUser?.userMetadata?.values.elementAt(0);
-    String? result = name?.split(' ')[0] ?? "Hello there";
-    return result;
+    return "";
   }
 
   @override
@@ -52,6 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             }
             if (state is LanguagesLoadedState) {
+              print(" Name ::: ${state.languagesModel?[1].bgImage}");
               return LayoutBuilder(
                 builder: (context, constraints) {
                   return CustomScrollView(
@@ -75,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       style: CustomTextTheme.headingText,
                                     ),
                                     Text(
-                                      getTrimmedName(),
+                                      "Hello",
                                       style: CustomTextTheme.headingNameText,
                                     )
                                   ],
@@ -128,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               return GestureDetector(
                                 onTap: () {
                                   BlocProvider.of<HacksBloc>(context).add(
-                                    GetHacksEvent(id: state.languagesModel?[index].id),
+                                    GetHacksEvent(id: state.languagesModel?[index].id ?? ""),
                                   );
                                   Navigator.pushNamed(context, '/detailsScreen');
                                 },

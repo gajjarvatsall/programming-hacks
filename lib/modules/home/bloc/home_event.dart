@@ -1,6 +1,6 @@
-// part of 'home_bloc.dart';
-//
-// @immutable
-// abstract class HomeEvent {}
-//
-// class GetLanguagesEvent extends HomeEvent {}
+part of 'home_bloc.dart';
+
+@immutable
+abstract class HomeEvent {}
+
+class GetLanguagesEvent extends HomeEvent {}

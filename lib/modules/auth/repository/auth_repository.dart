@@ -1,11 +1,13 @@
 import 'package:appwrite/appwrite.dart';
-import 'package:programming_hacks/main.dart';
 
 class AuthenticationRepository {
   Future<bool> signUpWithEmailAndPassword(String email, String password, String name) async {
     Client client = Client();
     Account account = Account(client);
-    client.setEndpoint('https://cloud.appwrite.io/v1').setProject('646b25f423d8d38d3471').setSelfSigned(status: true);
+    client
+        .setEndpoint('https://cloud.appwrite.io/v1')
+        .setProject('646b25f423d8d38d3471')
+        .setSelfSigned(status: true);
     try {
       final response = account.create(
         userId: ID.unique(),
@@ -29,7 +31,10 @@ class AuthenticationRepository {
     try {
       Client client = Client();
       Account account = Account(client);
-      client.setEndpoint('https://cloud.appwrite.io/v1').setProject('646b25f423d8d38d3471').setSelfSigned(status: true);
+      client
+          .setEndpoint('https://cloud.appwrite.io/v1')
+          .setProject('646b25f423d8d38d3471')
+          .setSelfSigned(status: true);
       await account.createEmailSession(
         email: email,
         password: password,
@@ -39,7 +44,7 @@ class AuthenticationRepository {
     }
   }
 
-  // Future<void> logout() async {
-  //   client.auth.signOut();
-  // }
+// Future<void> logout() async {
+//   client.auth.signOut();
+// }
 }

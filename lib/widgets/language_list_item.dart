@@ -30,15 +30,13 @@ class _LanguageListItemState extends State<LanguageListItem> {
               child: CachedNetworkImage(
                 imageUrl: widget.imageUrl,
                 fit: BoxFit.cover,
-                errorWidget: (context, url, error) => const Icon(Icons.error),
+                errorWidget: (context, url, error) => Center(child: const Icon(Icons.error)),
               ),
             ),
             Container(
               color: Colors.black.withOpacity(0.5),
               width: double.infinity,
             ),
-            // ParallaxBackground(backgroundImageKey: _backgroundImageKey, imageUrl: widget.imageUrl, context: context),
-            // const Gradient(),
             TitleAndSubtitle(name: widget.name),
           ],
         ),
