@@ -19,7 +19,7 @@ Programming Hacks Application is a mobile application built with Flutter and Sup
 
 
 
-## Tech Stack
+## Tech Stack 
 
 - **Flutter** : We want to build application for the multiple platform such as Android, IOS, Web, Desktop. The apps built with Flutter have smooth animations and fast rendering, providing a seamless and responsive user experience. The development speed increase because Flutter Provide veriety of the Widgets and Also provide real time changes in UI. 
 
