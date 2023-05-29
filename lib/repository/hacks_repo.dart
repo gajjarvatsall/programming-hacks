@@ -15,17 +15,19 @@ class HacksRepository {
       final response = await databases.listDocuments(
         collectionId: '646f01b4bb666a8518c1',
         databaseId: '646f0164d40a9ea03541',
+        queries: [
+          Query.equal('tech_id', id),
+        ],
       );
 
       hackList = response.documents.map((e) {
         return HacksModel.fromJson(e.data);
       }).toList();
 
-      final queryList = hackList.where((element) => element.techId == id).toList();
-
-      return queryList;
+      return hackList;
     } catch (e) {
-      throw Exception(e.toString());
+      print(e);
+      throw AppwriteException(e.toString());
     }
   }
 }
