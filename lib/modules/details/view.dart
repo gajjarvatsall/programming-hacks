@@ -2,12 +2,13 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:glassmorphism/glassmorphism.dart';
 import 'package:lottie/lottie.dart';
 import 'package:programming_hacks/app_theme/text_theme.dart';
 import 'package:programming_hacks/modules/details/bloc/hacks_bloc.dart';
+import 'package:programming_hacks/widgets/glassmorphic_container.dart';
 import 'package:programming_hacks/widgets/rounded_blur_container.dart';
 import 'package:screenshot/screenshot.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 class DetailsScreen extends StatefulWidget {
   const DetailsScreen({Key? key}) : super(key: key);
@@ -19,6 +20,7 @@ class DetailsScreen extends StatefulWidget {
 class _DetailsScreenState extends State<DetailsScreen> {
   PageController controller = PageController(viewportFraction: 0.9, keepPage: true);
   ScreenshotController screenshotController = ScreenshotController();
+  final shareButton = GlobalKey();
 
   @override
   void initState() {
@@ -38,131 +40,114 @@ class _DetailsScreenState extends State<DetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Stack(
-        children: [
-          RoundedBlurContainer(
-            right: 30,
-            top: 50,
-            color: Colors.greenAccent.withOpacity(0.4),
-          ),
-          RoundedBlurContainer(
-            left: -100,
-            bottom: 300,
-            color: Colors.pinkAccent.withOpacity(0.4),
-          ),
-          RoundedBlurContainer(
-            right: -100,
-            bottom: -50,
-            color: Colors.greenAccent.withOpacity(0.4),
-          ),
-          BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 70, sigmaY: 70),
-            child: Center(
-              child: Container(
-                height: 500,
-                width: 500,
-                child: BlocConsumer<HacksBloc, HacksState>(
-                  listener: (context, state) {},
-                  builder: (context, state) {
-                    if (state is HacksLoadingState) {
-                      return Center(
-                        child: Lottie.asset(
-                          'assets/lottie/loading.json',
-                          height: 100,
-                          width: 100,
-                        ),
-                      );
-                    }
-                    if (state is HacksLoadedState) {
-                      return PageView.builder(
-                        controller: controller,
-                        itemCount: state.hacksModel?.length,
-                        itemBuilder: (context, index) {
-                          return Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: GlassmorphicContainer(
-                                width: 400,
-                                height: 600,
-                                borderRadius: 20,
-                                blur: 5,
-                                alignment: Alignment.bottomCenter,
-                                linearGradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    const Color(0xFFffffff).withOpacity(0.1),
-                                    const Color(0xFFFFFFFF).withOpacity(0.1),
-                                  ],
-                                  stops: const [
-                                    0.1,
-                                    1,
-                                  ],
-                                ),
-                                borderGradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    const Color(0xFFffffff).withOpacity(0.1),
-                                    const Color((0xFFFFFFFF)).withOpacity(0.01),
-                                  ],
-                                ),
-                                border: 3,
-                                child: Center(
+      body: ShowCaseWidget(
+        builder: Builder(
+          builder: (BuildContext context) {
+            return Stack(
+              children: [
+                RoundedBlurContainer(
+                  right: 30,
+                  top: 50,
+                  color: Colors.greenAccent.withOpacity(0.4),
+                ),
+                RoundedBlurContainer(
+                  left: -100,
+                  bottom: 300,
+                  color: Colors.pinkAccent.withOpacity(0.4),
+                ),
+                RoundedBlurContainer(
+                  right: -100,
+                  bottom: -50,
+                  color: Colors.greenAccent.withOpacity(0.4),
+                ),
+                BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 70, sigmaY: 70),
+                  child: Center(
+                    child: Container(
+                      height: 500,
+                      width: 500,
+                      child: BlocConsumer<HacksBloc, HacksState>(
+                        listener: (context, state) {},
+                        builder: (context, state) {
+                          if (state is HacksLoadingState) {
+                            return Center(
+                              child: Lottie.asset(
+                                'assets/lottie/loading.json',
+                                height: 100,
+                                width: 100,
+                              ),
+                            );
+                          }
+                          if (state is HacksLoadedState) {
+                            return PageView.builder(
+                              controller: controller,
+                              itemCount: state.hacksModel?.length,
+                              itemBuilder: (context, index) {
+                                return Center(
                                   child: Padding(
-                                    padding: const EdgeInsets.all(20.0),
-                                    child: Text(
-                                      '${state.hacksModel?[index].hackDetails}',
-                                      style: CustomTextTheme.headingNameText,
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: GlassMorphismContainer(
+                                      width: 400,
+                                      height: 550,
+                                      blur: 5,
+                                      child: Center(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(20.0),
+                                          child: Text(
+                                            '${state.hacksModel?[index].hackDetails}',
+                                            style: CustomTextTheme.headingNameText,
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-                            ),
+                                );
+                              },
+                            );
+                          }
+                          return Text(
+                            "Data Not Found",
+                            style: TextStyle(color: Colors.white),
                           );
                         },
-                      );
-                    }
-                    return Text(
-                      "Data Not Found",
-                      style: TextStyle(color: Colors.white),
-                    );
-                  },
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: SafeArea(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.arrow_back),
-                    color: Colors.white,
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      context.read<HacksBloc>().add(
-                            ShareHacksEvent(
-                              controller: screenshotController,
-                            ),
-                          );
-                    },
-                    icon: Icon(
-                      Icons.share,
-                      color: Colors.white,
+                      ),
                     ),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: SafeArea(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.arrow_back),
+                          color: Colors.white,
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            context.read<HacksBloc>().add(
+                                  ShareHacksEvent(
+                                    controller: screenshotController,
+                                  ),
+                                );
+                          },
+                          icon: Icon(
+                            Icons.share,
+                            color: Colors.white,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

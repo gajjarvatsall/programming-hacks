@@ -41,11 +41,11 @@ class CustomTextField extends StatelessWidget {
           borderSide: BorderSide(color: Colors.red.shade500),
         ),
         // errorText: 'Enter email',
-        errorStyle: TextStyle(color: Colors.red.shade500),
+        errorStyle: TextStyle(color: Colors.red.shade300),
         filled: true,
         hintText: hintText,
         hintStyle: TextStyle(
-          color: Colors.grey[500],
+          color: Colors.grey[600],
         ),
       ),
     );

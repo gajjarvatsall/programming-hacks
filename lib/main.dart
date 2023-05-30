@@ -11,13 +11,14 @@ import 'package:programming_hacks/modules/details/bloc/hacks_bloc.dart';
 import 'package:programming_hacks/modules/details/view.dart';
 import 'package:programming_hacks/modules/home/bloc/home_bloc.dart';
 import 'package:programming_hacks/modules/home/view.dart';
+import 'package:programming_hacks/modules/onboarding_screen.dart';
 import 'package:programming_hacks/repository/hacks_repo.dart';
 import 'package:programming_hacks/repository/languages_repo.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarIconBrightness: Brightness.dark, // dark text for status bar
+      statusBarIconBrightness: Brightness.light, // dark text for status bar
       statusBarColor: Colors.transparent));
   Client client = Client();
   client
@@ -53,12 +54,13 @@ class _MyAppState extends State<MyApp> {
         child: MaterialApp(
           theme: AppTheme.themeData,
           debugShowCheckedModeBanner: false,
-          home: HomeScreen(),
+          initialRoute: '/onBoardingScreen',
           routes: {
             '/loginScreen': (context) => const LoginScreen(),
             '/signupScreen': (context) => const SignupScreen(),
             '/homeScreen': (context) => const HomeScreen(),
             '/detailsScreen': (context) => const DetailsScreen(),
+            '/onBoardingScreen': (context) => OnBoardingScreen(),
           },
         ),
       ),
