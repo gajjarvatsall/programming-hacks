@@ -3,6 +3,7 @@ import 'package:glassmorphism/glassmorphism.dart';
 
 class SquareTile extends StatelessWidget {
   final String imagePath;
+
   const SquareTile({
     super.key,
     required this.imagePath,
@@ -14,14 +15,14 @@ class SquareTile extends StatelessWidget {
       width: 100,
       height: 100,
       borderRadius: 20,
-      blur: 3,
+      blur: 0,
       alignment: Alignment.bottomCenter,
       linearGradient: LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: [
-          const Color(0xFFffffff).withOpacity(0.3),
-          const Color(0xFFFFFFFF).withOpacity(0.10),
+          const Color(0xFFffffff).withOpacity(0.2),
+          const Color(0xFFFFFFFF).withOpacity(0.2),
         ],
         stops: const [
           0.1,

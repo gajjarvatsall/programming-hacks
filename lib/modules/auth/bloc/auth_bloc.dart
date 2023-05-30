@@ -49,7 +49,7 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
         await authRepo.logout();
         emit(UserLogoutLoadedState());
       } catch (e) {
-        emit(UserLoginErrorState(errorMsg: e.toString()));
+        emit(UserLogoutErrorState(errorMsg: e.toString()));
       }
     });
   }
