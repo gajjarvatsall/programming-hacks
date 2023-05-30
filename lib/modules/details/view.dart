@@ -122,7 +122,8 @@ class _DetailsScreenState extends State<DetailsScreen> with TickerProviderStateM
                                         GestureDetector(
                                           onTap: () {
                                             print(state.hacksModel?[index].userId?[0]);
-                                            // BlocProvider.of<HacksBloc>(context).add(AddUserIdEvent(userId: , documentId: documentId))
+                                            BlocProvider.of<HacksBloc>(context).add(AddUserIdEvent(
+                                                userId: "", documentId: "${state.hacksModel?[index].id}"));
                                             if (isBookmarked == false) {
                                               isBookmarked = true;
                                               lottieController.forward();
@@ -146,9 +147,11 @@ class _DetailsScreenState extends State<DetailsScreen> with TickerProviderStateM
                         },
                       );
                     }
-                    return Text(
-                      "Data Not Found",
-                      style: TextStyle(color: Colors.white),
+                    return Center(
+                      child: Text(
+                        "Data Not Found",
+                        style: TextStyle(color: Colors.white),
+                      ),
                     );
                   },
                 ),

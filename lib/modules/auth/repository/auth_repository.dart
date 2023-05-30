@@ -1,38 +1,44 @@
 import 'package:appwrite/appwrite.dart';
+import 'package:appwrite/models.dart';
 
 class AuthenticationRepository {
-  Future<bool> signUpWithEmailAndPassword(String email, String password, String name) async {
+  Future<User> signUpWithEmailAndPassword(String email, String password, String name) async {
     Client client = Client();
     Account account = Account(client);
+    Databases databases = Databases(client);
+
     client.setEndpoint('https://cloud.appwrite.io/v1').setProject('646b25f423d8d38d3471').setSelfSigned(status: true);
     try {
-      final response = account.create(
-        userId: ID.unique(),
+      String userId = ID.unique();
+      User currentUser = await account.create(
+        userId: userId,
         email: email,
         password: password,
         name: name,
       );
-      if (response == null) {
-        print("false ---- ${response}");
-        return false;
-      } else {
-        print("True ---- ${response}");
-        return true;
-      }
+
+      await databases.createDocument(
+        databaseId: "646f0164d40a9ea03541",
+        collectionId: "647621e02588ea524453",
+        documentId: userId,
+        data: {'user_name': currentUser.name, 'user_email': currentUser.email, 'user_id': currentUser.$id},
+      );
+      return currentUser;
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<void> login(String email, String password) async {
+  Future<Session> login(String email, String password) async {
     try {
       Client client = Client();
       Account account = Account(client);
       client.setEndpoint('https://cloud.appwrite.io/v1').setProject('646b25f423d8d38d3471').setSelfSigned(status: true);
-      await account.createEmailSession(
+      final response = await account.createEmailSession(
         email: email,
         password: password,
       );
+      return response;
     } catch (e) {
       rethrow;
     }
