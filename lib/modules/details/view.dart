@@ -16,14 +16,15 @@ class DetailsScreen extends StatefulWidget {
   State<DetailsScreen> createState() => _DetailsScreenState();
 }
 
-class _DetailsScreenState extends State<DetailsScreen> {
+class _DetailsScreenState extends State<DetailsScreen> with TickerProviderStateMixin {
+  late AnimationController lottieController;
   PageController controller = PageController(viewportFraction: 0.9, keepPage: true);
   ScreenshotController screenshotController = ScreenshotController();
+  bool isBookmarked = false;
 
   @override
   void initState() {
-    // TODO: implement initState
-    controller;
+    lottieController = AnimationController(vsync: this, duration: Duration(seconds: 2));
     super.initState();
   }
 
@@ -111,9 +112,31 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 child: Center(
                                   child: Padding(
                                     padding: const EdgeInsets.all(20.0),
-                                    child: Text(
-                                      '${state.hacksModel?[index].hackDetails}',
-                                      style: CustomTextTheme.headingNameText,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          '${state.hacksModel?[index].hackDetails}',
+                                          style: CustomTextTheme.headingNameText,
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            print(state.hacksModel?[index].userId?[0]);
+                                            // BlocProvider.of<HacksBloc>(context).add(AddUserIdEvent(userId: , documentId: documentId))
+                                            if (isBookmarked == false) {
+                                              isBookmarked = true;
+                                              lottieController.forward();
+                                            } else {
+                                              isBookmarked = false;
+                                              lottieController.reverse();
+                                            }
+                                          },
+                                          child: Align(
+                                              alignment: Alignment.bottomRight,
+                                              child: Lottie.asset('assets/images/bookmarked.json',
+                                                  height: 45, controller: lottieController)),
+                                        )
+                                      ],
                                     ),
                                   ),
                                 ),

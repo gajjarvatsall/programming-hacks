@@ -6,10 +6,7 @@ class HacksRepository {
     try {
       Client client = Client();
       Databases databases = Databases(client);
-      client
-          .setEndpoint('https://cloud.appwrite.io/v1')
-          .setProject('646b25f423d8d38d3471')
-          .setSelfSigned(status: true);
+      client.setEndpoint('https://cloud.appwrite.io/v1').setProject('646b25f423d8d38d3471').setSelfSigned(status: true);
 
       List<HacksModel>? hackList = [];
       final response = await databases.listDocuments(
@@ -29,5 +26,19 @@ class HacksRepository {
       print(e);
       throw AppwriteException(e.toString());
     }
+  }
+
+  Future<void> addUserId(String userId, String documentId) async {
+    try {
+      Client client = Client();
+      Databases databases = Databases(client);
+      client.setEndpoint('https://cloud.appwrite.io/v1').setProject('646b25f423d8d38d3471').setSelfSigned(status: true);
+      await databases.updateDocument(
+        databaseId: '646f0164d40a9ea03541',
+        collectionId: '646f01b4bb666a8518c1',
+        documentId: documentId,
+        data: {'userId': userId},
+      );
+    } catch (e) {}
   }
 }

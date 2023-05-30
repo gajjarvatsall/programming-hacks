@@ -14,3 +14,9 @@ class ShareHacksEvent extends HacksEvent {
 
   ShareHacksEvent({required this.controller});
 }
+
+class AddUserIdEvent extends HacksEvent {
+  final String userId;
+  final String documentId;
+  AddUserIdEvent({required this.userId, required this.documentId});
+}

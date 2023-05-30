@@ -20,10 +20,7 @@ void main() {
       statusBarIconBrightness: Brightness.dark, // dark text for status bar
       statusBarColor: Colors.transparent));
   Client client = Client();
-  client
-      .setEndpoint('https://cloud.appwrite.io/v1')
-      .setProject('646b25f423d8d38d3471')
-      .setSelfSigned(status: true);
+  client.setEndpoint('https://cloud.appwrite.io/v1').setProject('646b25f423d8d38d3471').setSelfSigned(status: true);
   runApp(const MyApp());
 }
 
@@ -43,17 +40,14 @@ class _MyAppState extends State<MyApp> {
       ),
       child: MultiBlocProvider(
         providers: [
-          BlocProvider<HomeBloc>(
-              create: (context) => HomeBloc(languagesRepository: LanguagesRepository())),
-          BlocProvider<HacksBloc>(
-              create: (context) => HacksBloc(hacksRepository: HacksRepository())),
-          BlocProvider<AuthUserBloc>(
-              create: (context) => AuthUserBloc(authRepo: AuthenticationRepository()))
+          BlocProvider<HomeBloc>(create: (context) => HomeBloc(languagesRepository: LanguagesRepository())),
+          BlocProvider<HacksBloc>(create: (context) => HacksBloc(hacksRepository: HacksRepository())),
+          BlocProvider<AuthUserBloc>(create: (context) => AuthUserBloc(authRepo: AuthenticationRepository()))
         ],
         child: MaterialApp(
           theme: AppTheme.themeData,
           debugShowCheckedModeBanner: false,
-          home: HomeScreen(),
+          initialRoute: '/homeScreen',
           routes: {
             '/loginScreen': (context) => const LoginScreen(),
             '/signupScreen': (context) => const SignupScreen(),

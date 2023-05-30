@@ -19,3 +19,18 @@ class HacksErrorState extends HacksState {
   @override
   List<Object?> get props => [];
 }
+
+class AddUserIdLoadingState extends HacksState {
+  @override
+  List<Object?> get props => [];
+}
+
+class AddUserIdLoadedState extends HacksState {
+  @override
+  List<Object?> get props => [];
+}
+
+class AddUserIdErrorState extends HacksState {
+  @override
+  List<Object?> get props => [];
+}

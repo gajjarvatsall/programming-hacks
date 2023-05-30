@@ -29,7 +29,7 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
       try {
         emit(UserLoginLoadingState());
         await authRepo.login(event.email, event.password);
-        emit(UserSignupLoadedState());
+        emit(UserLoginLoadedState());
       } on AppwriteException catch (e) {
         emit(UserLoginErrorState(errorMsg: e.message.toString()));
       }

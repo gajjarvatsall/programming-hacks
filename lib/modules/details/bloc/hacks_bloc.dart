@@ -12,6 +12,7 @@ import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 
 part 'hacks_event.dart';
+
 part 'hacks_state.dart';
 
 class HacksBloc extends Bloc<HacksEvent, HacksState> {
@@ -32,10 +33,8 @@ class HacksBloc extends Bloc<HacksEvent, HacksState> {
       }
     });
 
-    Future<FutureOr<void>> takeScreenshotAndShare(
-        ShareHacksEvent event, Emitter<HacksState> emit) async {
-      final pngBytes =
-          await event.controller.capture(delay: Duration(milliseconds: 10), pixelRatio: 2.0);
+    Future<FutureOr<void>> takeScreenshotAndShare(ShareHacksEvent event, Emitter<HacksState> emit) async {
+      final pngBytes = await event.controller.capture(delay: Duration(milliseconds: 10), pixelRatio: 2.0);
       if (kIsWeb && pngBytes != null) {
         await WebImageDownloader.downloadImageFromUInt8List(
           uInt8List: pngBytes,
@@ -56,5 +55,15 @@ class HacksBloc extends Bloc<HacksEvent, HacksState> {
     }
 
     on<ShareHacksEvent>(takeScreenshotAndShare);
+
+    on<AddUserIdEvent>((event, emit) async {
+      try {
+        emit(AddUserIdLoadingState());
+        await hacksRepository.addUserId(event.userId, event.documentId);
+        emit(AddUserIdLoadedState());
+      } catch (e) {
+        emit(AddUserIdErrorState());
+      }
+    });
   }
 }
