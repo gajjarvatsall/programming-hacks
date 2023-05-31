@@ -10,10 +10,10 @@ class GlassMorphismContainer extends StatelessWidget {
     this.child,
   });
 
-  double width;
-  double height;
-  double blur;
-  Widget? child;
+  final double width;
+  final double height;
+  final double blur;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {

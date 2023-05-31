@@ -10,11 +10,11 @@ class RoundedBlurContainer extends StatelessWidget {
     super.key,
   });
 
-  double? left;
-  double? right;
-  double? top;
-  double? bottom;
-  Color color;
+  final double? left;
+  final double? right;
+  final double? top;
+  final double? bottom;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {

@@ -55,8 +55,15 @@ dependencies:
   appwrite: ^9.0.0
   showcaseview: ^2.0.3
   smooth_page_indicator: ^1.1.0
-  shared_preferences: ^2.1.1
   get_storage: ^2.1.1
+  shared_preferences: ^2.1.1
+  flutter_native_splash: ^2.3.0
+
+flutter_native_splash:
+  android: true
+  ios: true
+  web: false
+  image: 'assets/images/logo.png'
 
 
 dev_dependencies:
