@@ -26,10 +26,7 @@ Future<void> main() async {
   Client client = Client();
   client.setEndpoint('https://cloud.appwrite.io/v1').setProject('646b25f423d8d38d3471').setSelfSigned(status: true);
   await GetStorage.init();
-  client
-      .setEndpoint('https://cloud.appwrite.io/v1')
-      .setProject('646b25f423d8d38d3471')
-      .setSelfSigned(status: true);
+  client.setEndpoint('https://cloud.appwrite.io/v1').setProject('646b25f423d8d38d3471').setSelfSigned(status: true);
   SharedPreferences prefs = await SharedPreferences.getInstance();
   isFirstTime = await prefs.getBool("isFirstTime");
   await prefs.setBool("isFirstTime", true);
