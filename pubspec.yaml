@@ -55,6 +55,8 @@ dependencies:
   appwrite: ^9.0.0
   showcaseview: ^2.0.3
   smooth_page_indicator: ^1.1.0
+  shared_preferences: ^2.1.1
+  get_storage: ^2.1.1
 
 
 dev_dependencies:

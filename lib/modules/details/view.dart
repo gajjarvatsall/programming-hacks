@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:lottie/lottie.dart';
 import 'package:programming_hacks/app_theme/text_theme.dart';
+import 'package:programming_hacks/modules/auth/repository/auth_repository.dart';
 import 'package:programming_hacks/modules/details/bloc/hacks_bloc.dart';
 import 'package:programming_hacks/widgets/rounded_blur_container.dart';
 import 'package:screenshot/screenshot.dart';
@@ -21,6 +22,7 @@ class _DetailsScreenState extends State<DetailsScreen> with TickerProviderStateM
   PageController controller = PageController(viewportFraction: 0.9, keepPage: true);
   ScreenshotController screenshotController = ScreenshotController();
   bool isBookmarked = false;
+  String currentUserId = AuthenticationRepository.getStroage.read('userId');
 
   @override
   void initState() {
@@ -123,12 +125,12 @@ class _DetailsScreenState extends State<DetailsScreen> with TickerProviderStateM
                                           onTap: () {
                                             print(state.hacksModel?[index].userId?[0]);
                                             BlocProvider.of<HacksBloc>(context).add(AddUserIdEvent(
-                                                userId: "", documentId: "${state.hacksModel?[index].id}"));
-                                            if (isBookmarked == false) {
-                                              isBookmarked = true;
+                                                userId: currentUserId, documentId: "${state.hacksModel?[index].id}"));
+                                            if (currentUserId == state.hacksModel?[index].id) {
+                                              // isBookmarked = true;
                                               lottieController.forward();
                                             } else {
-                                              isBookmarked = false;
+                                              // isBookmarked = false;
                                               lottieController.reverse();
                                             }
                                           },
