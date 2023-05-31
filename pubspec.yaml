@@ -55,6 +55,14 @@ dependencies:
   appwrite: ^9.0.0
   showcaseview: ^2.0.3
   smooth_page_indicator: ^1.1.0
+  shared_preferences: ^2.1.1
+  flutter_native_splash: ^2.3.0
+
+flutter_native_splash:
+  android: true
+  ios: true
+  web: false
+  image: 'assets/images/logo.png'
 
 
 dev_dependencies:
@@ -68,6 +76,8 @@ flutter_icons:
   web:
     generate: true
     image_path: "assets/images/logo.png"
+
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

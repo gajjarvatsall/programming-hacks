@@ -94,10 +94,53 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 SizedBox(
                   height: mSizedBoxHeight,
                 ),
-                SmoothPageIndicator(
-                    controller: controller,
-                    count: onBoardingScreenData.length,
-                    effect: ExpandingDotsEffect()),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.pinkAccent,
+                      ),
+                      onPressed: () {
+                        controller.animateToPage(
+                          2,
+                          duration: Duration(milliseconds: 1000),
+                          curve: Curves.ease,
+                        );
+                      },
+                      child: Text(
+                        "Skip",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    SmoothPageIndicator(
+                      controller: controller,
+                      count: onBoardingScreenData.length,
+                      effect: ExpandingDotsEffect(
+                        activeDotColor: Colors.greenAccent,
+                        dotWidth: 8,
+                        dotHeight: 8,
+                      ),
+                      onDotClicked: (index) {
+                        controller.animateToPage(index,
+                            duration: Duration(milliseconds: 1000), curve: Curves.ease);
+                      },
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        controller.nextPage(
+                          duration: Duration(milliseconds: 1000),
+                          curve: Curves.ease,
+                        );
+                        if (controller.page == onBoardingScreenData.length - 1) {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, '/homeScreen', (route) => false);
+                        }
+                      },
+                      child: Text("Next"),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
@@ -115,9 +158,9 @@ class OnBoardingContainer extends StatelessWidget {
     super.key,
   });
 
-  String? title;
-  String? lottieUrl;
-  String? data;
+  final String? title;
+  final String? lottieUrl;
+  final String? data;
 
   @override
   Widget build(BuildContext context) {
