@@ -15,8 +15,16 @@ class ShareHacksEvent extends HacksEvent {
   ShareHacksEvent({required this.controller});
 }
 
-class AddUserIdEvent extends HacksEvent {
-  final String userId;
+class SaveHacksEvent extends HacksEvent {
+  final String hackId;
+
+  SaveHacksEvent({required this.hackId});
+}
+
+class GetSavedHacksEvent extends HacksEvent {}
+
+class UnSavedHackEvent extends HacksEvent {
   final String documentId;
-  AddUserIdEvent({required this.userId, required this.documentId});
+
+  UnSavedHackEvent({required this.documentId});
 }
