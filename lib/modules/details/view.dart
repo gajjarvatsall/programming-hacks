@@ -72,8 +72,7 @@ class _DetailsScreenState extends State<DetailsScreen> with TickerProviderStateM
                     width: 500,
                     child: BlocConsumer<HacksBloc, HacksState>(
                       buildWhen: (previousState, currentState) {
-                        return currentState is HacksLoadedState ||
-                            currentState is HacksLoadingState;
+                        return currentState is HacksLoadedState || currentState is HacksLoadingState;
                       },
                       listener: (context, state) {
                         if (state is HacksLoadedState) {
@@ -152,8 +151,8 @@ class _DetailsScreenState extends State<DetailsScreen> with TickerProviderStateM
                                                       ? CircularProgressIndicator()
                                                       : IconButton(
                                                           onPressed: () {
-                                                            BlocProvider.of<HacksBloc>(context).add(
-                                                                UnSavedHackEvent(documentId: ''));
+                                                            BlocProvider.of<HacksBloc>(context)
+                                                                .add(UnSavedHackEvent(documentId: ''));
                                                           },
                                                           icon: Icon(
                                                             Icons.bookmark,
@@ -170,10 +169,8 @@ class _DetailsScreenState extends State<DetailsScreen> with TickerProviderStateM
                                                             size: 40,
                                                           ),
                                                           onPressed: () {
-                                                            BlocProvider.of<HacksBloc>(context).add(
-                                                                SaveHacksEvent(
-                                                                    hackId:
-                                                                        hacksList[index].id ?? ""));
+                                                            BlocProvider.of<HacksBloc>(context)
+                                                                .add(SaveHacksEvent(hackId: hacksList[index].id ?? ""));
                                                           },
                                                         ),
                                             ),
