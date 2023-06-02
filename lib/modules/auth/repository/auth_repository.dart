@@ -4,7 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthenticationRepository {
-  Future<User> signUpWithEmailAndPassword(String email, String password, String name) async {
+  Future<User> signUpWithEmailAndPassword(String name, String email, String password) async {
     Client client = Client();
     Account account = Account(client);
     Databases databases = Databases(client);
