@@ -22,8 +22,6 @@ class _DetailsScreenState extends State<DetailsScreen> with TickerProviderStateM
   PageController controller = PageController(viewportFraction: 0.9, keepPage: true);
   ScreenshotController screenshotController = ScreenshotController();
   bool isBookmarked = false;
-  String currentUserId = AuthenticationRepository.getStroage.read('userId');
-
   @override
   void initState() {
     lottieController = AnimationController(vsync: this, duration: Duration(seconds: 2));
@@ -122,18 +120,7 @@ class _DetailsScreenState extends State<DetailsScreen> with TickerProviderStateM
                                           style: CustomTextTheme.headingNameText,
                                         ),
                                         GestureDetector(
-                                          onTap: () {
-                                            print(state.hacksModel?[index].userId?[0]);
-                                            BlocProvider.of<HacksBloc>(context).add(AddUserIdEvent(
-                                                userId: currentUserId, documentId: "${state.hacksModel?[index].id}"));
-                                            if (currentUserId == state.hacksModel?[index].id) {
-                                              // isBookmarked = true;
-                                              lottieController.forward();
-                                            } else {
-                                              // isBookmarked = false;
-                                              lottieController.reverse();
-                                            }
-                                          },
+                                          onTap: () {},
                                           child: Align(
                                               alignment: Alignment.bottomRight,
                                               child: Lottie.asset('assets/images/bookmarked.json',
