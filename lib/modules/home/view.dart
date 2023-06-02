@@ -143,7 +143,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                       BlocProvider.of<HacksBloc>(context).add(
                                         GetHacksEvent(id: state.languagesModel?[index].id ?? ""),
                                       );
-                                      Navigator.pushNamed(context, '/detailsScreen');
+                                      Navigator.pushNamed(
+                                        context,
+                                        '/detailsScreen',
+                                      );
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.all(10.0),

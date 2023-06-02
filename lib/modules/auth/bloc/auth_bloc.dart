@@ -14,11 +14,11 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
       try {
         emit(UserSignupLoadingState());
         final response = await authRepo.signUpWithEmailAndPassword(
+          event.name,
           event.email,
           event.password,
-          event.name ?? "",
         );
-        if (response == true) {
+        if (response.status) {
           emit(UserSignupLoadedState());
         }
       } on AppwriteException catch (e) {

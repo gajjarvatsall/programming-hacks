@@ -10,7 +10,9 @@ class HacksLoadingState extends HacksState {
 
 class HacksLoadedState extends HacksState {
   HacksLoadedState({this.hacksModel});
+
   final List<HacksModel>? hacksModel;
+
   @override
   List<Object?> get props => [hacksModel];
 }
@@ -20,17 +22,51 @@ class HacksErrorState extends HacksState {
   List<Object?> get props => [];
 }
 
-class AddUserIdLoadingState extends HacksState {
+class SaveHacksLoadedState extends HacksState {
   @override
   List<Object?> get props => [];
 }
 
-class AddUserIdLoadedState extends HacksState {
+class SaveHackLoadingState extends HacksState {
   @override
   List<Object?> get props => [];
 }
 
-class AddUserIdErrorState extends HacksState {
+class SaveHacksErrorState extends HacksState {
+  @override
+  List<Object?> get props => [];
+}
+
+class GetSavedHackLoadingState extends HacksState {
+  @override
+  List<Object?> get props => [];
+}
+
+class GetSavedHackLoadedState extends HacksState {
+  GetSavedHackLoadedState({required this.savedData});
+
+  final Set<String> savedData;
+
+  @override
+  List<Object?> get props => [savedData];
+}
+
+class GetSavedHackErrorState extends HacksState {
+  @override
+  List<Object?> get props => [];
+}
+
+class UnSavedHackLoadingState extends HacksState {
+  @override
+  List<Object?> get props => [];
+}
+
+class UnSavedHackLoadedState extends HacksState {
+  @override
+  List<Object?> get props => [];
+}
+
+class UnSavedHackErrorState extends HacksState {
   @override
   List<Object?> get props => [];
 }
