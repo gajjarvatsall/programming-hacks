@@ -1,6 +1,5 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthenticationRepository {
@@ -34,8 +33,13 @@ class AuthenticationRepository {
   Future<Session> login(String email, String password) async {
     try {
       Client client = Client();
-      Account account = Account(client);
       client.setEndpoint('https://cloud.appwrite.io/v1').setProject('646b25f423d8d38d3471').setSelfSigned(status: true);
+      Account account = Account(client);
+      var currentUser = await account.get();
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString("currentUser", "${currentUser.name}");
+      print(currentUser.name);
+      // print("${prefs.getString("currentUser")}");
       final response = await account.createEmailSession(
         email: email,
         password: password,
@@ -54,7 +58,6 @@ class AuthenticationRepository {
     client.setEndpoint('https://cloud.appwrite.io/v1').setProject('646b25f423d8d38d3471').setSelfSigned(status: true);
     dynamic userAccount = await account.createOAuth2Session(provider: provider);
     var currentUser = await account.get();
-
     DocumentList doc =
         await databases.listDocuments(databaseId: "646f0164d40a9ea03541", collectionId: "647621e02588ea524453");
     doc.documents.forEach((element) {
@@ -62,8 +65,8 @@ class AuthenticationRepository {
     });
 
     if (userIdList.contains("${currentUser.$id}")) {
-      print(currentUser.$id);
-      print("${currentUser.email} already exists");
+      // print(currentUser.$id);
+      // print("${currentUser.email} already exists");
     } else {
       await databases.createDocument(
         databaseId: "646f0164d40a9ea03541",
@@ -71,7 +74,6 @@ class AuthenticationRepository {
         documentId: ID.unique(),
         data: {'user_name': currentUser.name, 'user_email': currentUser.email, 'user_id': currentUser.$id},
       );
-      print("${currentUser.email} added");
     }
 
     // print("${response}");
@@ -83,7 +85,6 @@ class AuthenticationRepository {
     Client client = Client();
     Account account = Account(client);
     client.setEndpoint('https://cloud.appwrite.io/v1').setProject('646b25f423d8d38d3471').setSelfSigned(status: true);
-
     return account.deleteSession(sessionId: 'current');
   }
 }
