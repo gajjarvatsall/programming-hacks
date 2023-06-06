@@ -7,11 +7,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:programming_hacks/app_theme/constant.dart';
 import 'package:programming_hacks/app_theme/text_theme.dart';
+import 'package:programming_hacks/models/users_model.dart';
 import 'package:programming_hacks/modules/auth/bloc/auth_bloc.dart';
+import 'package:programming_hacks/modules/auth/bloc/auth_state.dart';
 import 'package:programming_hacks/modules/details/bloc/hacks_bloc.dart';
 import 'package:programming_hacks/modules/home/bloc/home_bloc.dart';
 import 'package:programming_hacks/widgets/glassmorphic_container.dart';
 import 'package:programming_hacks/widgets/rounded_blur_container.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -23,19 +26,28 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final ValueNotifier<ScrollDirection> scrollDirectionNotifier =
       ValueNotifier<ScrollDirection>(ScrollDirection.forward);
+  String? currentUser;
+  List<UsersModel> user = [];
 
   @override
   void initState() {
     BlocProvider.of<HomeBloc>(context).add(GetLanguagesEvent());
+    BlocProvider.of<AuthUserBloc>(context).add(GetUserEvent());
+    // users = UsersRepository().getUsers();
     super.initState();
   }
 
-  String getTrimmedName() {
-    return "";
+  Future<String?> getCurrentUserName() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // currentUser =
+    print("getCurrentUserName(): ${prefs.getString("currentUser")}");
+    return prefs.getString("currentUser");
+    // return currentUser;
   }
 
   @override
   Widget build(BuildContext context) {
+    // print("getCurrentUserName(): ${getCurrentUserName()}");
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -94,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             style: CustomTextTheme.headingText,
                                           ),
                                           Text(
-                                            getTrimmedName(),
+                                            "",
                                             style: CustomTextTheme.headingNameText,
                                           )
                                         ],
@@ -106,8 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              BlocProvider.of<AuthUserBloc>(context)
-                                                  .add(UserLogoutEvent());
+                                              BlocProvider.of<AuthUserBloc>(context).add(UserLogoutEvent());
                                               Navigator.pushNamedAndRemoveUntil(
                                                 context,
                                                 '/loginScreen',
@@ -117,12 +128,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                             child: Container(
                                               decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
-                                                  border:
-                                                      Border.all(width: 1, color: Colors.white)),
+                                                  border: Border.all(width: 1, color: Colors.white)),
                                               child: const Padding(
                                                 padding: EdgeInsets.all(padding),
-                                                child:
-                                                    Icon(Icons.login_outlined, color: Colors.white),
+                                                child: Icon(Icons.login_outlined, color: Colors.white),
                                               ),
                                             ),
                                           )

@@ -28,3 +28,5 @@ class OAuth2SessionEvent extends AuthUserEvent {
 }
 
 class UserLogoutEvent extends AuthUserEvent {}
+
+class GetUserEvent extends AuthUserEvent {}

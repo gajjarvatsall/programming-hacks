@@ -28,14 +28,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     {
       'title': 'Save\nYour Favorites',
       'lottieUrl': 'assets/lottie/welcome.json',
-      'data':
-          'Found a hack you love? Save it to your Favorites for quick access whenever you need it.',
+      'data': 'Found a hack you love? Save it to your Favorites for quick access whenever you need it.',
     },
     {
       'title': 'Stay Updated\nwith the Latest Trends',
       'lottieUrl': 'assets/lottie/welcome.json',
-      'data':
-          'Stay informed about the newest technologies, software updates, and security vulnerabilities.',
+      'data': 'Stay informed about the newest technologies, software updates, and security vulnerabilities.',
     }
   ];
 
@@ -122,8 +120,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                         dotHeight: 8,
                       ),
                       onDotClicked: (index) {
-                        controller.animateToPage(index,
-                            duration: Duration(milliseconds: 1000), curve: Curves.ease);
+                        controller.animateToPage(index, duration: Duration(milliseconds: 1000), curve: Curves.ease);
                       },
                     ),
                     ElevatedButton(
@@ -133,8 +130,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                           curve: Curves.ease,
                         );
                         if (controller.page == onBoardingScreenData.length - 1) {
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, '/homeScreen', (route) => false);
+                          Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (route) => false);
                         }
                       },
                       child: Text("Next"),
