@@ -17,8 +17,9 @@ class ShareHacksEvent extends HacksEvent {
 
 class SaveHacksEvent extends HacksEvent {
   final String hackId;
+  final String techId;
 
-  SaveHacksEvent({required this.hackId});
+  SaveHacksEvent({required this.hackId, required this.techId});
 }
 
 class GetSavedHacksEvent extends HacksEvent {}

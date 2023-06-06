@@ -45,7 +45,7 @@ class GetSavedHackLoadingState extends HacksState {
 class GetSavedHackLoadedState extends HacksState {
   GetSavedHackLoadedState({required this.savedData});
 
-  final Set<String> savedData;
+  final List<SavedHacksModel> savedData;
 
   @override
   List<Object?> get props => [savedData];

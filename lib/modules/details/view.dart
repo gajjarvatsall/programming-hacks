@@ -6,6 +6,7 @@ import 'package:glassmorphism/glassmorphism.dart';
 import 'package:lottie/lottie.dart';
 import 'package:programming_hacks/app_theme/text_theme.dart';
 import 'package:programming_hacks/models/hacks_model.dart';
+import 'package:programming_hacks/models/saved_hacks_model.dart';
 import 'package:programming_hacks/modules/details/bloc/hacks_bloc.dart';
 import 'package:programming_hacks/widgets/rounded_blur_container.dart';
 import 'package:screenshot/screenshot.dart';
@@ -22,11 +23,11 @@ class _DetailsScreenState extends State<DetailsScreen> with TickerProviderStateM
   PageController controller = PageController(viewportFraction: 0.9, keepPage: true);
   ScreenshotController screenshotController = ScreenshotController();
   List<HacksModel> hacksList = [];
-  Set<String> savedHackIds = {};
+  List<SavedHacksModel> savedHacks = [];
 
   @override
   void initState() {
-    BlocProvider.of<HacksBloc>(context).add(GetSavedHacksEvent());
+    getData();
     lottieController = AnimationController(vsync: this, duration: Duration(seconds: 2));
     super.initState();
   }
@@ -79,13 +80,13 @@ class _DetailsScreenState extends State<DetailsScreen> with TickerProviderStateM
                         if (state is HacksLoadedState) {
                           hacksList = state.hacksModel ?? [];
                         } else if (state is GetSavedHackLoadedState) {
-                          savedHackIds = state.savedData;
+                          savedHacks = state.savedData;
                           setStateBuilder(() {});
                         } else if (state is SaveHacksLoadedState) {
                           getData();
                           setStateBuilder(() {});
-                        }
-                        if (state is SaveHackLoadingState) {
+                        } else if (state is UnSavedHackLoadedState) {
+                          getData();
                           setStateBuilder(() {});
                         }
                       },
@@ -104,7 +105,13 @@ class _DetailsScreenState extends State<DetailsScreen> with TickerProviderStateM
                             controller: controller,
                             itemCount: hacksList.length,
                             itemBuilder: (context, index) {
-                              final isHackSaved = savedHackIds.contains(hacksList[index].id);
+                              List<bool>? isHackSaved =
+                                  List.generate(hacksList.length, (index) => false);
+                              savedHacks.forEach((element) {
+                                bool isSaved = savedHacks
+                                    .any((element) => element.hackId == hacksList[index].id);
+                                isHackSaved[index] = isSaved;
+                              });
                               return Center(
                                 child: Padding(
                                   padding: const EdgeInsets.all(10.0),
@@ -147,13 +154,15 @@ class _DetailsScreenState extends State<DetailsScreen> with TickerProviderStateM
                                             ),
                                             Align(
                                               alignment: Alignment.bottomRight,
-                                              child: isHackSaved
+                                              child: isHackSaved[index] == true
                                                   ? state is SaveHackLoadingState
                                                       ? CircularProgressIndicator()
                                                       : IconButton(
                                                           onPressed: () {
                                                             BlocProvider.of<HacksBloc>(context).add(
-                                                                UnSavedHackEvent(documentId: ''));
+                                                                UnSavedHackEvent(
+                                                                    documentId:
+                                                                        savedHacks[index].id));
                                                           },
                                                           icon: Icon(
                                                             Icons.bookmark,
@@ -173,7 +182,10 @@ class _DetailsScreenState extends State<DetailsScreen> with TickerProviderStateM
                                                             BlocProvider.of<HacksBloc>(context).add(
                                                                 SaveHacksEvent(
                                                                     hackId:
-                                                                        hacksList[index].id ?? ""));
+                                                                        hacksList[index].id ?? "",
+                                                                    techId:
+                                                                        hacksList[index].techId ??
+                                                                            ""));
                                                           },
                                                         ),
                                             ),

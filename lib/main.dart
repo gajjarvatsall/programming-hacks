@@ -60,7 +60,7 @@ class _MyAppState extends State<MyApp> {
         child: MaterialApp(
           theme: AppTheme.themeData,
           debugShowCheckedModeBanner: false,
-          initialRoute: isFirstTime == true ? '/onBoardingScreen' : '/homeScreen',
+          initialRoute: isFirstTime == false ? '/onBoardingScreen' : '/homeScreen',
           routes: {
             '/loginScreen': (context) => const LoginScreen(),
             '/signupScreen': (context) => const SignupScreen(),
