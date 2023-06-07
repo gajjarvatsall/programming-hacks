@@ -55,6 +55,22 @@ class _LoginScreenState extends State<LoginScreen> {
             );
             Navigator.pushNamedAndRemoveUntil(context, '/homeScreen', (route) => false);
           }
+          if (state is OAuth2SessionLoadedState) {
+            showSnackBar(
+              context,
+              'Successfully logged in',
+              null,
+              ContentType.success,
+            );
+            Navigator.pushNamedAndRemoveUntil(context, '/homeScreen', (route) => false);
+          }
+
+          if (state is OAuth2SessionErrorState) {
+            showSnackBar(
+              context,
+              state.errorMsg,
+            );
+          }
           if (state is UserLoginErrorState) {
             showSnackBar(
               context,
@@ -265,7 +281,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       try {
                                         BlocProvider.of<AuthUserBloc>(context)
                                             .add(OAuth2SessionEvent(provider: 'google'));
-                                        Navigator.pushNamedAndRemoveUntil(context, '/homeScreen', (route) => false);
+                                        // Navigator.pushNamedAndRemoveUntil(context, '/homeScreen', (route) => false);
                                         showSnackBar(
                                           context,
                                           'Successfully logged in',

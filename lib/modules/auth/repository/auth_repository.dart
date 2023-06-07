@@ -1,6 +1,5 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthenticationRepository {
   Future<User> signUpWithEmailAndPassword(String name, String email, String password) async {
@@ -35,11 +34,6 @@ class AuthenticationRepository {
       Client client = Client();
       client.setEndpoint('https://cloud.appwrite.io/v1').setProject('646b25f423d8d38d3471').setSelfSigned(status: true);
       Account account = Account(client);
-      var currentUser = await account.get();
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString("currentUser", "${currentUser.name}");
-      print(currentUser.name);
-      // print("${prefs.getString("currentUser")}");
       final response = await account.createEmailSession(
         email: email,
         password: password,
@@ -50,7 +44,7 @@ class AuthenticationRepository {
     }
   }
 
-  Future<void> oAuth2Session(String provider) async {
+  Future<User> oAuth2Session(String provider) async {
     Client client = Client();
     List<String> userIdList = [];
     Account account = Account(client);
@@ -78,7 +72,7 @@ class AuthenticationRepository {
 
     // print("${response}");
 
-    return userAccount;
+    return currentUser;
   }
 
   Future<void> logout() async {
