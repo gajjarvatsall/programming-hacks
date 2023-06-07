@@ -10,6 +10,7 @@ import 'package:programming_hacks/app_theme/text_theme.dart';
 import 'package:programming_hacks/modules/auth/bloc/auth_bloc.dart';
 import 'package:programming_hacks/modules/details/bloc/hacks_bloc.dart';
 import 'package:programming_hacks/modules/home/bloc/home_bloc.dart';
+import 'package:programming_hacks/widgets/custom_button.dart';
 import 'package:programming_hacks/widgets/glassmorphic_container.dart';
 import 'package:programming_hacks/widgets/rounded_blur_container.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   String dropdownValue = 'Option 1';
+
   Future<String?> getCurrentUserName() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     currentUser = prefs.getString("currentUser");

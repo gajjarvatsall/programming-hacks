@@ -10,11 +10,11 @@ import 'package:programming_hacks/modules/auth/signup_screen.dart';
 import 'package:programming_hacks/modules/details/bloc/hacks_bloc.dart';
 import 'package:programming_hacks/modules/details/view.dart';
 import 'package:programming_hacks/modules/home/bloc/home_bloc.dart';
+import 'package:programming_hacks/modules/home/save_screen.dart';
 import 'package:programming_hacks/modules/home/view.dart';
 import 'package:programming_hacks/modules/onboarding_screen.dart';
 import 'package:programming_hacks/repository/hacks_repo.dart';
 import 'package:programming_hacks/repository/languages_repo.dart';
-import 'package:programming_hacks/repository/user_repo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 bool? isFirstTime;
@@ -26,7 +26,10 @@ Future<void> main() async {
       statusBarIconBrightness: Brightness.light, // dark text for status bar
       statusBarColor: Colors.transparent));
   Client client = Client();
-  client.setEndpoint('https://cloud.appwrite.io/v1').setProject('646b25f423d8d38d3471').setSelfSigned(status: true);
+  client
+      .setEndpoint('https://cloud.appwrite.io/v1')
+      .setProject('646b25f423d8d38d3471')
+      .setSelfSigned(status: true);
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   status = await prefs.getBool('isLoggedIn') ?? false;
@@ -48,7 +51,10 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     Client client = Client();
-    client.setEndpoint('https://cloud.appwrite.io/v1').setProject('646b25f423d8d38d3471').setSelfSigned(status: true);
+    client
+        .setEndpoint('https://cloud.appwrite.io/v1')
+        .setProject('646b25f423d8d38d3471')
+        .setSelfSigned(status: true);
   }
 
   @override
@@ -59,9 +65,12 @@ class _MyAppState extends State<MyApp> {
       ),
       child: MultiBlocProvider(
         providers: [
-          BlocProvider<HomeBloc>(create: (context) => HomeBloc(languagesRepository: LanguagesRepository())),
-          BlocProvider<HacksBloc>(create: (context) => HacksBloc(hacksRepository: HacksRepository())),
-          BlocProvider<AuthUserBloc>(create: (context) => AuthUserBloc(authRepo: AuthenticationRepository()))
+          BlocProvider<HomeBloc>(
+              create: (context) => HomeBloc(languagesRepository: LanguagesRepository())),
+          BlocProvider<HacksBloc>(
+              create: (context) => HacksBloc(hacksRepository: HacksRepository())),
+          BlocProvider<AuthUserBloc>(
+              create: (context) => AuthUserBloc(authRepo: AuthenticationRepository()))
         ],
         child: MaterialApp(
           theme: AppTheme.themeData,
