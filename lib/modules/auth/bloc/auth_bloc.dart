@@ -23,7 +23,6 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
         );
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString("currentUser", event.name);
-        print("Signup user : - ${prefs.getString("currentUser")}");
         prefs.setBool("isLoggedIn", true);
 
         emit(UserSignupLoadedState());
@@ -49,13 +48,8 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
         User user = await authRepo.oAuth2Session(event.provider);
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString("currentUser", user.name);
-        print("google user : - ${prefs.getString("currentUser")}");
         prefs.setBool("isLoggedIn", true);
-        print("user status before emit ${user.status}");
-        if (user.status == true) {
-          emit(OAuth2SessionLoadedState());
-        }
-        print("user status after emit ${user.status}");
+        emit(OAuth2SessionLoadedState());
       } on AppwriteException catch (e) {
         emit(OAuth2SessionErrorState(errorMsg: e.message.toString()));
       }

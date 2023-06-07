@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:image_downloader_web/image_downloader_web.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:programming_hacks/models/hacks_model.dart';
+import 'package:programming_hacks/models/saved_hacks_model.dart';
 import 'package:programming_hacks/repository/hacks_repo.dart';
 import 'package:programming_hacks/repository/save_hack_repo.dart';
 import 'package:screenshot/screenshot.dart';
@@ -22,10 +23,6 @@ class HacksBloc extends Bloc<HacksEvent, HacksState> {
   HacksBloc({required this.hacksRepository}) : super(HacksLoadingState()) {
     on<GetHacksEvent>((event, emit) async {
       try {
-        if (event.id == null) {
-          emit(HacksLoadedState(hacksModel: []));
-          return;
-        }
         emit(HacksLoadingState());
         final response = await hacksRepository.getHacks(event.id);
         emit(HacksLoadedState(hacksModel: response));
@@ -62,7 +59,8 @@ class HacksBloc extends Bloc<HacksEvent, HacksState> {
     on<SaveHacksEvent>((event, emit) async {
       try {
         emit(SaveHackLoadingState());
-        await saveHacksRepository.saveHack(event.hackId);
+        emit(SaveHacksLoadedState());
+        await saveHacksRepository.saveHack(event.hackId, event.techId, event.hack_details);
         emit(SaveHacksLoadedState());
       } catch (e) {
         emit(SaveHacksLoadedState());
@@ -85,6 +83,7 @@ class HacksBloc extends Bloc<HacksEvent, HacksState> {
         await saveHacksRepository.unSavedHacks(event.documentId);
         emit(UnSavedHackLoadedState());
       } catch (e) {
+        print(e.toString());
         emit(UnSavedHackErrorState());
       }
     });

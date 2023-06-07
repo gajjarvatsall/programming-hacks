@@ -10,6 +10,7 @@ import 'package:programming_hacks/app_theme/text_theme.dart';
 import 'package:programming_hacks/modules/auth/bloc/auth_bloc.dart';
 import 'package:programming_hacks/modules/details/bloc/hacks_bloc.dart';
 import 'package:programming_hacks/modules/home/bloc/home_bloc.dart';
+import 'package:programming_hacks/widgets/custom_button.dart';
 import 'package:programming_hacks/widgets/glassmorphic_container.dart';
 import 'package:programming_hacks/widgets/rounded_blur_container.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,16 +25,17 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final ValueNotifier<ScrollDirection> scrollDirectionNotifier =
       ValueNotifier<ScrollDirection>(ScrollDirection.forward);
+  TextEditingController hacksController = TextEditingController();
   String? currentUser;
 
   @override
   void initState() {
     BlocProvider.of<HomeBloc>(context).add(GetLanguagesEvent());
-    BlocProvider.of<AuthUserBloc>(context).add(GetUserEvent());
-    // users = UsersRepository().getUsers();
     getCurrentUserName();
     super.initState();
   }
+
+  String dropdownValue = 'Option 1';
 
   Future<String?> getCurrentUserName() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -112,25 +114,37 @@ class _HomeScreenState extends State<HomeScreen> {
                                           const SizedBox(
                                             width: sSizedBoxWidth,
                                           ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              BlocProvider.of<AuthUserBloc>(context).add(UserLogoutEvent());
+                                          IconButton(
+                                            onPressed: () {
+                                              BlocProvider.of<HacksBloc>(context)
+                                                  .add(GetSavedHacksEvent());
+                                              Navigator.pushNamed(
+                                                context,
+                                                '/saveScreen',
+                                              );
+                                            },
+                                            icon: Icon(
+                                              Icons.bookmark_border,
+                                              size: 30,
+                                            ),
+                                            color: Colors.white,
+                                          ),
+                                          IconButton(
+                                            onPressed: () {
+                                              BlocProvider.of<AuthUserBloc>(context)
+                                                  .add(UserLogoutEvent());
                                               Navigator.pushNamedAndRemoveUntil(
                                                 context,
                                                 '/loginScreen',
                                                 (route) => false,
                                               );
                                             },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  border: Border.all(width: 1, color: Colors.white)),
-                                              child: const Padding(
-                                                padding: EdgeInsets.all(padding),
-                                                child: Icon(Icons.login_outlined, color: Colors.white),
-                                              ),
+                                            icon: Icon(
+                                              Icons.logout,
+                                              size: 30,
                                             ),
-                                          )
+                                            color: Colors.white,
+                                          ),
                                         ],
                                       ),
                                     ],
@@ -201,6 +215,86 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showModalBottomSheet(
+            isScrollControlled: true,
+            context: context,
+            builder: (_) {
+              return Padding(
+                padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: BlocConsumer<HomeBloc, HomeState>(
+                  listener: (context, state) {
+                    // TODO: implement listener
+                  },
+                  builder: (context, state) {
+                    return Container(
+                      padding: EdgeInsets.all(20),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Text(
+                            "ADD HACKS",
+                            style: CustomTextTheme.titleText.copyWith(color: Colors.black),
+                          ),
+                          SizedBox(
+                            height: mSizedBoxHeight,
+                          ),
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            width: 400,
+                            height: 60,
+                            decoration:
+                                BoxDecoration(border: Border.all(color: Colors.grey, width: 1)),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton(
+                                value: dropdownValue,
+                                items: <DropdownMenuItem>[
+                                  DropdownMenuItem(
+                                    value: 'Option 1',
+                                    child: Text('Flutter'),
+                                  ),
+                                  DropdownMenuItem(
+                                    value: 'Option 2',
+                                    child: Text('Option 2'),
+                                  ),
+                                  DropdownMenuItem(
+                                    value: 'Option 3',
+                                    child: Text('Option 3'),
+                                  ),
+                                ],
+                                onChanged: (value) {},
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: mSizedBoxHeight,
+                          ),
+                          TextFormField(
+                            controller: hacksController,
+                            decoration: InputDecoration(
+                              hintText: 'Enter text here',
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                          SizedBox(
+                            height: mSizedBoxHeight,
+                          ),
+                          CustomButton(
+                            onTap: () {},
+                            text: 'Submit',
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              );
+            },
+          );
+        },
+        child: Icon(Icons.add),
       ),
     );
   }

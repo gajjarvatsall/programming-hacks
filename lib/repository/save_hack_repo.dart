@@ -1,8 +1,9 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
+import 'package:programming_hacks/models/saved_hacks_model.dart';
 
 class SaveHacksRepository {
-  Future<void> saveHack(String hackId) async {
+  Future<void> saveHack(String hackId, String techId, String hack_details) async {
     Client client = Client();
     Databases databases = Databases(client);
     Account account = Account(client);
@@ -16,14 +17,19 @@ class SaveHacksRepository {
         collectionId: '647862f5b6979f264cda',
         databaseId: '646f0164d40a9ea03541',
         documentId: ID.unique(),
-        data: {'hack_id': hackId, 'user_id': user.$id},
+        data: {
+          'hack_id': hackId,
+          'user_id': user.$id,
+          'tech_id': techId,
+          'hack_details': hack_details
+        },
       );
     } catch (e) {
       print(e.toString());
     }
   }
 
-  Future<Set<String>> fetchSavedHacks() async {
+  Future<List<SavedHacksModel>> fetchSavedHacks() async {
     try {
       Client client = Client();
       Databases databases = Databases(client);
@@ -42,13 +48,11 @@ class SaveHacksRepository {
         ],
       );
 
-      Set<String> savedHackIds = response.documents.map<String>((e) {
-        return e.data['hack_id'];
-      }).toSet();
+      List<SavedHacksModel> savedHack = response.documents.map((e) {
+        return SavedHacksModel.fromJson(e.data);
+      }).toList();
 
-      print("SavedData  :  {${savedHackIds}");
-
-      return savedHackIds;
+      return savedHack;
     } catch (e) {
       print('Error fetching saved hacks: ${e.toString()}');
       rethrow;
