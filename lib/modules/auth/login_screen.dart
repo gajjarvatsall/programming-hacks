@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:appwrite_auth_kit/appwrite_auth_kit.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -53,6 +54,22 @@ class _LoginScreenState extends State<LoginScreen> {
               ContentType.success,
             );
             Navigator.pushNamedAndRemoveUntil(context, '/homeScreen', (route) => false);
+          }
+          if (state is OAuth2SessionLoadedState) {
+            showSnackBar(
+              context,
+              'Successfully logged in',
+              null,
+              ContentType.success,
+            );
+            Navigator.pushNamedAndRemoveUntil(context, '/homeScreen', (route) => false);
+          }
+
+          if (state is OAuth2SessionErrorState) {
+            showSnackBar(
+              context,
+              state.errorMsg,
+            );
           }
           if (state is UserLoginErrorState) {
             showSnackBar(
@@ -142,10 +159,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     validator: FormBuilderValidators.compose(
                                       [
                                         /// Makes this field required
-                                        FormBuilderValidators.required(
-                                            errorText: 'Email is required'),
-                                        FormBuilderValidators.email(
-                                            errorText: 'Please Provide a Valid Email ID'),
+                                        FormBuilderValidators.required(errorText: 'Email is required'),
+                                        FormBuilderValidators.email(errorText: 'Please Provide a Valid Email ID'),
                                       ],
                                     ),
                                   )
@@ -174,10 +189,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ]),
                                   )
                                       .animate()
-                                      .fadeIn(
-                                          duration: 1000.ms,
-                                          curve: Curves.easeOutCirc,
-                                          delay: 600.ms)
+                                      .fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc, delay: 600.ms)
                                       .slideY(begin: 0.5, end: 0),
 
                                   const SizedBox(height: sSizedBoxHeight),
@@ -233,8 +245,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         onTap: () {
                                           Navigator.pushNamed(context, '/signupScreen');
                                         },
-                                        child: Text('Register now',
-                                            style: CustomTextTheme.textButtonText),
+                                        child: Text('Register now', style: CustomTextTheme.textButtonText),
                                       ),
                                     ],
                                   ),
@@ -266,21 +277,30 @@ class _LoginScreenState extends State<LoginScreen> {
                           children: [
                             // google button
                             GestureDetector(
-                                onTap: () {
-                                  BlocProvider.of<AuthUserBloc>(context)
-                                      .add(OAuth2SessionEvent(provider: 'google'));
-                                },
-                                child: SquareTile(imagePath: 'assets/images/google.png')),
-
-                            SizedBox(width: 25),
-
-                            // apple button
-                            GestureDetector(
-                                onTap: () {
-                                  BlocProvider.of<AuthUserBloc>(context)
-                                      .add(OAuth2SessionEvent(provider: 'apple'));
-                                },
-                                child: SquareTile(imagePath: 'assets/images/apple.png'))
+                                    onTap: () {
+                                      try {
+                                        BlocProvider.of<AuthUserBloc>(context)
+                                            .add(OAuth2SessionEvent(provider: 'google'));
+                                        // Navigator.pushNamedAndRemoveUntil(context, '/homeScreen', (route) => false);
+                                        showSnackBar(
+                                          context,
+                                          'Successfully logged in',
+                                          null,
+                                          ContentType.success,
+                                        );
+                                      } on AppwriteException catch (e) {
+                                        showSnackBar(
+                                          context,
+                                          '${e.message}',
+                                          null,
+                                          ContentType.success,
+                                        );
+                                      }
+                                    },
+                                    child: SquareTile(imagePath: 'assets/images/google.png'))
+                                .animate()
+                                .fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc)
+                                .slideY(begin: 0.5, end: 0),
                           ],
                         ),
                       ],

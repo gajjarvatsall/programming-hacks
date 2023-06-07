@@ -10,14 +10,15 @@ import 'package:programming_hacks/modules/auth/signup_screen.dart';
 import 'package:programming_hacks/modules/details/bloc/hacks_bloc.dart';
 import 'package:programming_hacks/modules/details/view.dart';
 import 'package:programming_hacks/modules/home/bloc/home_bloc.dart';
-import 'package:programming_hacks/modules/home/save_screen.dart';
 import 'package:programming_hacks/modules/home/view.dart';
 import 'package:programming_hacks/modules/onboarding_screen.dart';
 import 'package:programming_hacks/repository/hacks_repo.dart';
 import 'package:programming_hacks/repository/languages_repo.dart';
+import 'package:programming_hacks/repository/user_repo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 bool? isFirstTime;
+bool? status;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,11 +26,10 @@ Future<void> main() async {
       statusBarIconBrightness: Brightness.light, // dark text for status bar
       statusBarColor: Colors.transparent));
   Client client = Client();
-  client
-      .setEndpoint('https://cloud.appwrite.io/v1')
-      .setProject('646b25f423d8d38d3471')
-      .setSelfSigned(status: true);
+  client.setEndpoint('https://cloud.appwrite.io/v1').setProject('646b25f423d8d38d3471').setSelfSigned(status: true);
+
   SharedPreferences prefs = await SharedPreferences.getInstance();
+  status = await prefs.getBool('isLoggedIn') ?? false;
   isFirstTime = await prefs.getBool("isFirstTime");
   await prefs.setBool("isFirstTime", true);
   runApp(const MyApp());
@@ -43,6 +43,14 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  late Client client;
+
+  @override
+  void initState() {
+    Client client = Client();
+    client.setEndpoint('https://cloud.appwrite.io/v1').setProject('646b25f423d8d38d3471').setSelfSigned(status: true);
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -51,17 +59,18 @@ class _MyAppState extends State<MyApp> {
       ),
       child: MultiBlocProvider(
         providers: [
-          BlocProvider<HomeBloc>(
-              create: (context) => HomeBloc(languagesRepository: LanguagesRepository())),
-          BlocProvider<HacksBloc>(
-              create: (context) => HacksBloc(hacksRepository: HacksRepository())),
-          BlocProvider<AuthUserBloc>(
-              create: (context) => AuthUserBloc(authRepo: AuthenticationRepository()))
+          BlocProvider<HomeBloc>(create: (context) => HomeBloc(languagesRepository: LanguagesRepository())),
+          BlocProvider<HacksBloc>(create: (context) => HacksBloc(hacksRepository: HacksRepository())),
+          BlocProvider<AuthUserBloc>(create: (context) => AuthUserBloc(authRepo: AuthenticationRepository()))
         ],
         child: MaterialApp(
           theme: AppTheme.themeData,
           debugShowCheckedModeBanner: false,
-          initialRoute: isFirstTime == false ? '/onBoardingScreen' : '/homeScreen',
+          initialRoute: isFirstTime == true
+              ? status == true
+                  ? '/homeScreen'
+                  : '/loginScreen'
+              : '/onBoardingScreen',
           routes: {
             '/loginScreen': (context) => const LoginScreen(),
             '/signupScreen': (context) => const SignupScreen(),

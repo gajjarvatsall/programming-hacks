@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:programming_hacks/models/users_model.dart';
 
 @immutable
 abstract class AuthUserState extends Equatable {}
@@ -16,6 +17,9 @@ class UserSignupLoadingState extends AuthUserState {
 }
 
 class UserSignupLoadedState extends AuthUserState {
+  // final String? userName;
+
+  // UserSignupLoadedState({this.userName});
   @override
   List<Object?> get props => [];
 }
@@ -84,6 +88,29 @@ class UserLogoutErrorState extends AuthUserState {
   final String errorMsg;
 
   UserLogoutErrorState({required this.errorMsg});
+
+  @override
+  List<Object?> get props => [errorMsg];
+}
+
+class GetUserLoadingState extends AuthUserState {
+  @override
+  List<Object?> get props => [];
+}
+
+class GetUserLoadedState extends AuthUserState {
+  final List<UsersModel>? userData;
+
+  GetUserLoadedState({this.userData});
+
+  @override
+  List<Object?> get props => [userData];
+}
+
+class GetUserErrorState extends AuthUserState {
+  final String errorMsg;
+
+  GetUserErrorState({required this.errorMsg});
 
   @override
   List<Object?> get props => [errorMsg];

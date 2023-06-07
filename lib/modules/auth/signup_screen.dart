@@ -117,8 +117,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               // welcome back, you've been missed!
                               Center(
                                 child: Text('Welcome to Programming Hacks',
-                                    style:
-                                        CustomTextTheme.welcomeText.copyWith(color: Colors.white)),
+                                    style: CustomTextTheme.welcomeText.copyWith(color: Colors.white)),
                               )
                                   .animate()
                                   .fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc)
@@ -135,8 +134,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                 validator: FormBuilderValidators.compose(
                                   [
                                     /// Makes this field required
-                                    FormBuilderValidators.required(
-                                        errorText: 'Username is required'),
+                                    FormBuilderValidators.required(errorText: 'Username is required'),
                                   ],
                                 ),
                               )
@@ -159,8 +157,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                 validator: FormBuilderValidators.compose([
                                   /// Makes this field required
                                   FormBuilderValidators.required(errorText: 'Email is required'),
-                                  FormBuilderValidators.email(
-                                      errorText: 'Please Provide a Valid Email ID'),
+                                  FormBuilderValidators.email(errorText: 'Please Provide a Valid Email ID'),
                                 ]),
                               )
                                   .animate()
@@ -210,10 +207,8 @@ class _SignupScreenState extends State<SignupScreen> {
                                   }
                                 },
                                 text: 'Sign Up',
-                                isLoading: (state is UserSignupLoadingState ||
-                                        state is UserSignupErrorState)
-                                    ? true
-                                    : false,
+                                isLoading:
+                                    (state is UserSignupLoadingState || state is UserSignupErrorState) ? true : false,
                               )
                                   .animate()
                                   .scaleX(
