@@ -17,6 +17,9 @@ class UserSignupLoadingState extends AuthUserState {
 }
 
 class UserSignupLoadedState extends AuthUserState {
+  // final String? userName;
+
+  // UserSignupLoadedState({this.userName});
   @override
   List<Object?> get props => [];
 }

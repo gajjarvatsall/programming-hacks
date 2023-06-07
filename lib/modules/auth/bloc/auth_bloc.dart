@@ -1,4 +1,5 @@
 import 'package:appwrite/appwrite.dart';
+import 'package:appwrite/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:programming_hacks/modules/auth/bloc/auth_state.dart';
@@ -21,11 +22,12 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
           event.password,
         );
         SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString("currentUser", event.name);
+        print("Signup user : - ${prefs.getString("currentUser")}");
         prefs.setBool("isLoggedIn", true);
-        prefs.setString("currentUser", "${event.name}");
-        if (response.status) {
-          emit(UserSignupLoadedState());
-        }
+
+        emit(UserSignupLoadedState());
+        if (response.status) {}
       } on AppwriteException catch (e) {
         emit(UserSignupErrorState(errorMsg: e.message.toString()));
       }
@@ -44,10 +46,16 @@ class AuthUserBloc extends Bloc<AuthUserEvent, AuthUserState> {
     on<OAuth2SessionEvent>((event, emit) async {
       try {
         emit(OAuth2SessionLoadingState());
-        await authRepo.oAuth2Session(event.provider);
+        User user = await authRepo.oAuth2Session(event.provider);
         SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString("currentUser", user.name);
+        print("google user : - ${prefs.getString("currentUser")}");
         prefs.setBool("isLoggedIn", true);
-        emit(OAuth2SessionLoadedState());
+        print("user status before emit ${user.status}");
+        if (user.status == true) {
+          emit(OAuth2SessionLoadedState());
+        }
+        print("user status after emit ${user.status}");
       } on AppwriteException catch (e) {
         emit(OAuth2SessionErrorState(errorMsg: e.message.toString()));
       }

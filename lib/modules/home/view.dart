@@ -7,9 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:programming_hacks/app_theme/constant.dart';
 import 'package:programming_hacks/app_theme/text_theme.dart';
-import 'package:programming_hacks/models/users_model.dart';
 import 'package:programming_hacks/modules/auth/bloc/auth_bloc.dart';
-import 'package:programming_hacks/modules/auth/bloc/auth_state.dart';
 import 'package:programming_hacks/modules/details/bloc/hacks_bloc.dart';
 import 'package:programming_hacks/modules/home/bloc/home_bloc.dart';
 import 'package:programming_hacks/widgets/glassmorphic_container.dart';
@@ -27,27 +25,25 @@ class _HomeScreenState extends State<HomeScreen> {
   final ValueNotifier<ScrollDirection> scrollDirectionNotifier =
       ValueNotifier<ScrollDirection>(ScrollDirection.forward);
   String? currentUser;
-  List<UsersModel> user = [];
 
   @override
   void initState() {
     BlocProvider.of<HomeBloc>(context).add(GetLanguagesEvent());
     BlocProvider.of<AuthUserBloc>(context).add(GetUserEvent());
     // users = UsersRepository().getUsers();
+    getCurrentUserName();
     super.initState();
   }
 
   Future<String?> getCurrentUserName() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    // currentUser =
+    currentUser = prefs.getString("currentUser");
     print("getCurrentUserName(): ${prefs.getString("currentUser")}");
-    return prefs.getString("currentUser");
-    // return currentUser;
+    return currentUser;
   }
 
   @override
   Widget build(BuildContext context) {
-    // print("getCurrentUserName(): ${getCurrentUserName()}");
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -106,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             style: CustomTextTheme.headingText,
                                           ),
                                           Text(
-                                            "",
+                                            "${currentUser}",
                                             style: CustomTextTheme.headingNameText,
                                           )
                                         ],
