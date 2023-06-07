@@ -68,145 +68,135 @@ class _DetailsScreenState extends State<DetailsScreen> with TickerProviderStateM
             child: Center(
               child: StatefulBuilder(
                 builder: (BuildContext context, void Function(void Function()) setStateBuilder) {
-                  return Container(
-                    height: 500,
-                    width: 500,
-                    child: BlocConsumer<HacksBloc, HacksState>(
-                      buildWhen: (previousState, currentState) {
-                        return currentState is HacksLoadedState ||
-                            currentState is HacksLoadingState;
-                      },
-                      listener: (context, state) {
-                        if (state is HacksLoadedState) {
-                          hacksList = state.hacksModel ?? [];
-                        } else if (state is GetSavedHackLoadedState) {
-                          savedHacks = state.savedData;
-                          setStateBuilder(() {});
-                        } else if (state is SaveHacksLoadedState) {
-                          getData();
-                          setStateBuilder(() {});
-                        } else if (state is UnSavedHackLoadedState) {
-                          getData();
-                          setStateBuilder(() {});
-                        }
-                      },
-                      builder: (context, state) {
-                        if (state is HacksLoadingState) {
-                          return Center(
-                            child: Lottie.asset(
-                              'assets/lottie/loading.json',
-                              height: 100,
-                              width: 100,
-                            ),
-                          );
-                        }
-                        if (state is HacksLoadedState) {
-                          return PageView.builder(
-                            controller: controller,
-                            itemCount: hacksList.length,
-                            itemBuilder: (context, index) {
-                              List<bool>? isHackSaved =
-                                  List.generate(hacksList.length, (index) => false);
-                              savedHacks.forEach((element) {
-                                bool isSaved = savedHacks
-                                    .any((element) => element.hackId == hacksList[index].id);
-                                isHackSaved[index] = isSaved;
-                              });
-                              return Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: GlassmorphicContainer(
-                                    width: 400,
-                                    height: 600,
-                                    borderRadius: 20,
-                                    blur: 5,
-                                    alignment: Alignment.bottomCenter,
-                                    linearGradient: LinearGradient(
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight,
-                                      colors: [
-                                        const Color(0xFFffffff).withOpacity(0.1),
-                                        const Color(0xFFFFFFFF).withOpacity(0.1),
-                                      ],
-                                      stops: const [
-                                        0.1,
-                                        1,
-                                      ],
-                                    ),
-                                    borderGradient: LinearGradient(
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight,
-                                      colors: [
-                                        const Color(0xFFffffff).withOpacity(0.1),
-                                        const Color((0xFFFFFFFF)).withOpacity(0.01),
-                                      ],
-                                    ),
-                                    border: 3,
-                                    child: Center(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(20.0),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              '${state.hacksModel?[index].hackDetails}',
-                                              style: CustomTextTheme.headingNameText,
-                                            ),
-                                            Align(
-                                              alignment: Alignment.bottomRight,
-                                              child: isHackSaved[index] == true
-                                                  ? state is SaveHackLoadingState
-                                                      ? CircularProgressIndicator()
-                                                      : IconButton(
-                                                          onPressed: () {
-                                                            BlocProvider.of<HacksBloc>(context).add(
-                                                                UnSavedHackEvent(
-                                                                    documentId:
-                                                                        savedHacks[index].id));
-                                                          },
-                                                          icon: Icon(
-                                                            Icons.bookmark,
-                                                            color: Colors.white,
-                                                            size: 40,
-                                                          ),
-                                                        )
-                                                  : state is SaveHackLoadingState
-                                                      ? CircularProgressIndicator()
-                                                      : IconButton(
-                                                          icon: Icon(
-                                                            Icons.bookmark_border,
-                                                            color: Colors.white,
-                                                            size: 40,
-                                                          ),
-                                                          onPressed: () {
-                                                            BlocProvider.of<HacksBloc>(context).add(
-                                                                SaveHacksEvent(
-                                                                    hackId:
-                                                                        hacksList[index].id ?? "",
-                                                                    techId:
-                                                                        hacksList[index].techId ??
-                                                                            ""));
-                                                          },
-                                                        ),
-                                            ),
-                                          ],
-                                        ),
+                  return BlocConsumer<HacksBloc, HacksState>(
+                    buildWhen: (previousState, currentState) {
+                      return currentState is HacksLoadedState || currentState is HacksLoadingState;
+                    },
+                    listener: (context, state) {
+                      if (state is HacksLoadedState) {
+                        hacksList = state.hacksModel ?? [];
+                      } else if (state is GetSavedHackLoadedState) {
+                        savedHacks = state.savedData;
+                        setStateBuilder(() {});
+                      } else if (state is SaveHacksLoadedState) {
+                        getData();
+                        setStateBuilder(() {});
+                      } else if (state is UnSavedHackLoadedState) {
+                        getData();
+                        setStateBuilder(() {});
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is HacksLoadingState) {
+                        return Center(
+                          child: Lottie.asset(
+                            'assets/lottie/loading.json',
+                            height: 100,
+                            width: 100,
+                          ),
+                        );
+                      }
+                      if (state is HacksLoadedState) {
+                        return PageView.builder(
+                          controller: controller,
+                          itemCount: hacksList.length,
+                          itemBuilder: (context, index) {
+                            List<bool>? isHackSaved =
+                                List.generate(hacksList.length, (index) => false);
+                            savedHacks.forEach((element) {
+                              bool isSaved = savedHacks
+                                  .any((element) => element.hackId == hacksList[index].id);
+                              isHackSaved[index] = isSaved;
+                            });
+                            return Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: GlassmorphicContainer(
+                                  width: 400,
+                                  height: 500,
+                                  borderRadius: 20,
+                                  blur: 5,
+                                  alignment: Alignment.bottomCenter,
+                                  linearGradient: LinearGradient(
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                    colors: [
+                                      const Color(0xFFffffff).withOpacity(0.1),
+                                      const Color(0xFFFFFFFF).withOpacity(0.1),
+                                    ],
+                                    stops: const [
+                                      0.1,
+                                      1,
+                                    ],
+                                  ),
+                                  borderGradient: LinearGradient(
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                    colors: [
+                                      const Color(0xFFffffff).withOpacity(0.1),
+                                      const Color((0xFFFFFFFF)).withOpacity(0.01),
+                                    ],
+                                  ),
+                                  border: 3,
+                                  child: Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(20.0),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            '${state.hacksModel?[index].hackDetails}',
+                                            style: CustomTextTheme.headingNameText,
+                                          ),
+                                          Align(
+                                            alignment: Alignment.bottomRight,
+                                            child: isHackSaved[index] == true
+                                                ? IconButton(
+                                                    onPressed: () {
+                                                      BlocProvider.of<HacksBloc>(context).add(
+                                                          UnSavedHackEvent(
+                                                              documentId: savedHacks[index].id));
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.bookmark,
+                                                      color: Colors.white,
+                                                      size: 40,
+                                                    ),
+                                                  )
+                                                : IconButton(
+                                                    icon: Icon(
+                                                      Icons.bookmark_border,
+                                                      color: Colors.white,
+                                                      size: 40,
+                                                    ),
+                                                    onPressed: () {
+                                                      BlocProvider.of<HacksBloc>(context).add(
+                                                          SaveHacksEvent(
+                                                              hackId: hacksList[index].id ?? "",
+                                                              techId: hacksList[index].techId ?? "",
+                                                              hack_details:
+                                                                  hacksList[index].hackDetails ??
+                                                                      ""));
+                                                    },
+                                                  ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),
                                 ),
-                              );
-                            },
-                          );
-                        }
-                        return Center(
-                          child: Text(
-                            "Data Not Found",
-                            style: TextStyle(color: Colors.white),
-                          ),
+                              ),
+                            );
+                          },
                         );
-                      },
-                    ),
+                      }
+                      return Center(
+                        child: Text(
+                          "Data Not Found",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      );
+                    },
                   );
                 },
               ),

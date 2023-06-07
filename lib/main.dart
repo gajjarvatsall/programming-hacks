@@ -10,6 +10,7 @@ import 'package:programming_hacks/modules/auth/signup_screen.dart';
 import 'package:programming_hacks/modules/details/bloc/hacks_bloc.dart';
 import 'package:programming_hacks/modules/details/view.dart';
 import 'package:programming_hacks/modules/home/bloc/home_bloc.dart';
+import 'package:programming_hacks/modules/home/save_screen.dart';
 import 'package:programming_hacks/modules/home/view.dart';
 import 'package:programming_hacks/modules/onboarding_screen.dart';
 import 'package:programming_hacks/repository/hacks_repo.dart';
@@ -66,6 +67,7 @@ class _MyAppState extends State<MyApp> {
             '/signupScreen': (context) => const SignupScreen(),
             '/homeScreen': (context) => const HomeScreen(),
             '/detailsScreen': (context) => DetailsScreen(),
+            '/saveScreen': (context) => SaveHacksScreen(),
             '/onBoardingScreen': (context) => OnBoardingScreen(),
           },
         ),

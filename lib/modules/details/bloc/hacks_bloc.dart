@@ -23,10 +23,6 @@ class HacksBloc extends Bloc<HacksEvent, HacksState> {
   HacksBloc({required this.hacksRepository}) : super(HacksLoadingState()) {
     on<GetHacksEvent>((event, emit) async {
       try {
-        if (event.id == null) {
-          emit(HacksLoadedState(hacksModel: []));
-          return;
-        }
         emit(HacksLoadingState());
         final response = await hacksRepository.getHacks(event.id);
         emit(HacksLoadedState(hacksModel: response));
@@ -63,7 +59,8 @@ class HacksBloc extends Bloc<HacksEvent, HacksState> {
     on<SaveHacksEvent>((event, emit) async {
       try {
         emit(SaveHackLoadingState());
-        await saveHacksRepository.saveHack(event.hackId, event.techId);
+        emit(SaveHacksLoadedState());
+        await saveHacksRepository.saveHack(event.hackId, event.techId, event.hack_details);
         emit(SaveHacksLoadedState());
       } catch (e) {
         emit(SaveHacksLoadedState());

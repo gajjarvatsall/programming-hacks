@@ -3,7 +3,7 @@ import 'package:appwrite/models.dart';
 import 'package:programming_hacks/models/saved_hacks_model.dart';
 
 class SaveHacksRepository {
-  Future<void> saveHack(String hackId, String techId) async {
+  Future<void> saveHack(String hackId, String techId, String hack_details) async {
     Client client = Client();
     Databases databases = Databases(client);
     Account account = Account(client);
@@ -17,7 +17,12 @@ class SaveHacksRepository {
         collectionId: '647862f5b6979f264cda',
         databaseId: '646f0164d40a9ea03541',
         documentId: ID.unique(),
-        data: {'hack_id': hackId, 'user_id': user.$id, 'tech_id': techId},
+        data: {
+          'hack_id': hackId,
+          'user_id': user.$id,
+          'tech_id': techId,
+          'hack_details': hack_details
+        },
       );
     } catch (e) {
       print(e.toString());
