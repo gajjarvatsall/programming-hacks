@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
+import 'package:programming_hacks/app_theme/app_theme.dart';
 import 'package:programming_hacks/app_theme/constant.dart';
 import 'package:programming_hacks/app_theme/text_theme.dart';
 import 'package:programming_hacks/modules/auth/bloc/auth_bloc.dart';
@@ -26,16 +27,20 @@ class _HomeScreenState extends State<HomeScreen> {
   final ValueNotifier<ScrollDirection> scrollDirectionNotifier =
       ValueNotifier<ScrollDirection>(ScrollDirection.forward);
   TextEditingController hacksController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   String? currentUser;
+  String? _selectedTechnology;
 
   @override
   void initState() {
-    BlocProvider.of<HomeBloc>(context).add(GetLanguagesEvent());
+    getTechnologyData();
     getCurrentUserName();
     super.initState();
   }
 
-  String dropdownValue = 'Option 1';
+  getTechnologyData() {
+    BlocProvider.of<HomeBloc>(context).add(GetTechnologyEvent());
+  }
 
   Future<String?> getCurrentUserName() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -69,9 +74,13 @@ class _HomeScreenState extends State<HomeScreen> {
             BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 70, sigmaY: 70),
               child: BlocConsumer<HomeBloc, HomeState>(
+                buildWhen: (previousState, currentState) {
+                  return currentState is TechnologyLoadedState ||
+                      currentState is TechnologyLoadingState;
+                },
                 listener: (context, state) {},
                 builder: (context, state) {
-                  if (state is LanguagesLoadingState) {
+                  if (state is TechnologyLoadingState) {
                     return Center(
                       child: Lottie.asset(
                         'assets/lottie/loading.json',
@@ -80,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     );
                   }
-                  if (state is LanguagesLoadedState) {
+                  if (state is TechnologyLoadedState) {
                     return LayoutBuilder(
                       builder: (context, constraints) {
                         return CustomScrollView(
@@ -154,13 +163,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             SliverGrid(
                               delegate: SliverChildBuilderDelegate(
-                                childCount: state.languagesModel?.length,
+                                childCount: state.technologyData?.length,
                                 addAutomaticKeepAlives: true,
                                 (context, index) {
                                   return GestureDetector(
                                     onTap: () {
                                       BlocProvider.of<HacksBloc>(context).add(
-                                        GetHacksEvent(id: state.languagesModel?[index].id ?? ""),
+                                        GetHacksEvent(id: state.technologyData?[index].id ?? ""),
                                       );
                                       Navigator.pushNamed(
                                         context,
@@ -178,7 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               CachedNetworkImage(
-                                                imageUrl: "${state.languagesModel?[index].bgImage}",
+                                                imageUrl: "${state.technologyData?[index].bgImage}",
                                                 width: 100,
                                                 height: 100,
                                               ),
@@ -186,7 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 height: sSizedBoxHeight,
                                               ),
                                               Text(
-                                                "${state.languagesModel?[index].name}",
+                                                "${state.technologyData?[index].name}",
                                                 style: CustomTextTheme.headingNameText,
                                               )
                                             ],
@@ -216,86 +225,139 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showModalBottomSheet(
-            isScrollControlled: true,
-            context: context,
-            builder: (_) {
-              return Padding(
-                padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: BlocConsumer<HomeBloc, HomeState>(
-                  listener: (context, state) {
-                    // TODO: implement listener
-                  },
-                  builder: (context, state) {
-                    return Container(
-                      padding: EdgeInsets.all(20),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Text(
-                            "ADD HACKS",
-                            style: CustomTextTheme.titleText.copyWith(color: Colors.black),
-                          ),
-                          SizedBox(
-                            height: mSizedBoxHeight,
-                          ),
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            width: 400,
-                            height: 60,
-                            decoration:
-                                BoxDecoration(border: Border.all(color: Colors.grey, width: 1)),
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton(
-                                value: dropdownValue,
-                                items: <DropdownMenuItem>[
-                                  DropdownMenuItem(
-                                    value: 'Option 1',
-                                    child: Text('Flutter'),
+      floatingActionButton: currentUser == 'admin@gmail.com'
+          ? FloatingActionButton(
+              onPressed: () {
+                showModalBottomSheet(
+                  backgroundColor: Colors.transparent,
+                  isScrollControlled: true,
+                  context: context,
+                  builder: (_) {
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                      child: BlocConsumer<HomeBloc, HomeState>(
+                        listener: (context, state) {
+                          if (state is CreateHacksLoadedState) {
+                            getTechnologyData();
+                          }
+                        },
+                        builder: (context, state) {
+                          if (state is CreateHacksLoadingState) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          if (state is TechnologyLoadingState) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else if (state is TechnologyLoadedState) {
+                            final languageList = state.technologyData;
+                            return BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 70, sigmaY: 70),
+                              child: StatefulBuilder(builder: (BuildContext context, setState) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Form(
+                                    key: _formKey,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text(
+                                          "ADD HACKS",
+                                          style: CustomTextTheme.titleText,
+                                        ),
+                                        SizedBox(
+                                          height: mSizedBoxHeight,
+                                        ),
+                                        DropdownButtonHideUnderline(
+                                          child: DropdownButtonFormField<String>(
+                                            decoration: AppTheme.inputDecoration,
+                                            borderRadius: BorderRadius.circular(12),
+                                            hint: Text('Select a technology'),
+                                            value: _selectedTechnology,
+                                            items: languageList?.map((tech) {
+                                              return DropdownMenuItem<String>(
+                                                value: tech.id,
+                                                child: Text(tech.name ?? ""),
+                                              );
+                                            }).toList(),
+                                            onChanged: (String? selectedTech) {
+                                              setState(() {
+                                                _selectedTechnology = selectedTech;
+                                              });
+                                            },
+                                            validator: (value) {
+                                              if (value == null || value.isEmpty) {
+                                                return 'Please select an option';
+                                              }
+                                              return null;
+                                            },
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: mSizedBoxHeight,
+                                        ),
+                                        TextFormField(
+                                          controller: hacksController,
+                                          decoration: InputDecoration(
+                                            fillColor: Colors.white,
+                                            filled: true,
+                                            focusColor: Colors.white,
+                                            enabledBorder: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(12),
+                                            ),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderRadius: BorderRadius.circular(12),
+                                              borderSide: BorderSide(color: Colors.grey.shade400),
+                                            ),
+                                            hintText: 'Enter Tips here',
+                                          ),
+                                          validator: (value) {
+                                            if (value == null || value.isEmpty) {
+                                              return 'Please enter a value';
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                        SizedBox(
+                                          height: mSizedBoxHeight,
+                                        ),
+                                        CustomButton(
+                                          onTap: () {
+                                            if (_formKey.currentState!.validate()) {
+                                              BlocProvider.of<HomeBloc>(context).add(
+                                                CreateHacksEvent(
+                                                    techId: _selectedTechnology ?? "",
+                                                    hackDetails: hacksController.text),
+                                              );
+                                            }
+                                            hacksController.clear();
+                                          },
+                                          text: 'Submit',
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                  DropdownMenuItem(
-                                    value: 'Option 2',
-                                    child: Text('Option 2'),
-                                  ),
-                                  DropdownMenuItem(
-                                    value: 'Option 3',
-                                    child: Text('Option 3'),
-                                  ),
-                                ],
-                                onChanged: (value) {},
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: mSizedBoxHeight,
-                          ),
-                          TextFormField(
-                            controller: hacksController,
-                            decoration: InputDecoration(
-                              hintText: 'Enter text here',
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
-                          SizedBox(
-                            height: mSizedBoxHeight,
-                          ),
-                          CustomButton(
-                            onTap: () {},
-                            text: 'Submit',
-                          ),
-                        ],
+                                );
+                              }),
+                            );
+                          }
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
                       ),
                     );
                   },
-                ),
-              );
-            },
-          );
-        },
-        child: Icon(Icons.add),
-      ),
+                );
+              },
+              child: Icon(Icons.add),
+            )
+          : Container(
+              height: 0,
+              width: 0,
+            ),
     );
   }
 }

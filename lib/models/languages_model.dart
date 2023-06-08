@@ -1,12 +1,12 @@
-class LanguagesModel {
+class TechnologyModel {
   String? id;
   String? createdAt;
   String? name;
   String? bgImage;
 
-  LanguagesModel({this.id, this.createdAt, this.name, this.bgImage});
+  TechnologyModel({this.id, this.createdAt, this.name, this.bgImage});
 
-  LanguagesModel.fromJson(Map<String, dynamic> json) {
+  TechnologyModel.fromJson(Map<String, dynamic> json) {
     id = json['\$id'];
     createdAt = json['\$created_at'];
     name = json['tech_name'];

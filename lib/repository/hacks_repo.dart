@@ -30,4 +30,23 @@ class HacksRepository {
       throw AppwriteException(e.toString());
     }
   }
+
+  Future<void> addHacks(String techId, String hackDetails) async {
+    Client client = Client();
+    Databases databases = Databases(client);
+    client
+        .setEndpoint('https://cloud.appwrite.io/v1')
+        .setProject('646b25f423d8d38d3471')
+        .setSelfSigned(status: true);
+
+    await databases.createDocument(
+      databaseId: '646f0164d40a9ea03541',
+      collectionId: '646f01b4bb666a8518c1',
+      documentId: ID.unique(),
+      data: {
+        'hack_details': hackDetails,
+        'tech_id': techId,
+      },
+    );
+  }
 }
