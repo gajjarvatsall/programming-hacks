@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:image_downloader_web/image_downloader_web.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:programming_hacks/models/hacks_model.dart';
@@ -31,10 +32,9 @@ class HacksBloc extends Bloc<HacksEvent, HacksState> {
       }
     });
 
-    Future<FutureOr<void>> takeScreenshotAndShare(
-        ShareHacksEvent event, Emitter<HacksState> emit) async {
+    Future<FutureOr<void>> takeScreenshotAndShare(ShareHacksEvent event, Emitter<HacksState> emit) async {
       final pngBytes =
-          await event.controller.capture(delay: Duration(milliseconds: 10), pixelRatio: 2.0);
+          await event.controller.captureFromWidget(event.widget, delay: Duration(milliseconds: 10), pixelRatio: 2.0);
       if (kIsWeb && pngBytes != null) {
         await WebImageDownloader.downloadImageFromUInt8List(
           uInt8List: pngBytes,
@@ -48,7 +48,7 @@ class HacksBloc extends Bloc<HacksEvent, HacksState> {
           XFile file = XFile(imgFile.path);
           Share.shareXFiles(
             [file],
-            text: 'Best Programming Hack app built with Flutter and Supabase',
+            text: 'Best Programming Hack app built with Flutter and Appwrite',
           );
         }
       }

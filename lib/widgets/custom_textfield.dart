@@ -26,26 +26,27 @@ class CustomTextField extends StatelessWidget {
       keyboardType: textInputType,
       textInputAction: textInputAction,
       validator: validator,
-      cursorColor: Colors.black,
+      style: TextStyle(color: Colors.white),
+      cursorColor: Colors.white,
       // magnifierConfiguration: TextMagnifierConfiguration(),
       decoration: InputDecoration(
-        border: InputBorder.none,
-        enabledBorder: const OutlineInputBorder(
+        border: UnderlineInputBorder(),
+        enabledBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.white60),
+        ),
+        focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.white),
         ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey.shade400),
-        ),
         fillColor: Colors.grey.shade200,
-        errorBorder: OutlineInputBorder(
+        errorBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.red.shade500),
         ),
         // errorText: 'Enter email',
         errorStyle: TextStyle(color: Colors.red.shade300),
-        filled: true,
+        // filled: true,
         hintText: hintText,
         hintStyle: TextStyle(
-          color: Colors.grey[600],
+          color: Colors.white60,
         ),
       ),
     );
