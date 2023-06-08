@@ -24,6 +24,7 @@ class _DetailsScreenState extends State<DetailsScreen> with TickerProviderStateM
   ScreenshotController screenshotController = ScreenshotController();
   List<HacksModel> hacksList = [];
   List<SavedHacksModel> savedHacks = [];
+  int cardIndex = 0;
 
   @override
   void initState() {
@@ -98,14 +99,15 @@ class _DetailsScreenState extends State<DetailsScreen> with TickerProviderStateM
                       }
                       if (state is HacksLoadedState) {
                         return PageView.builder(
+                          onPageChanged: (value) {
+                            cardIndex = value;
+                          },
                           controller: controller,
                           itemCount: hacksList.length,
                           itemBuilder: (context, index) {
-                            List<bool>? isHackSaved =
-                                List.generate(hacksList.length, (index) => false);
+                            List<bool>? isHackSaved = List.generate(hacksList.length, (index) => false);
                             savedHacks.forEach((element) {
-                              bool isSaved = savedHacks
-                                  .any((element) => element.hackId == hacksList[index].id);
+                              bool isSaved = savedHacks.any((element) => element.hackId == hacksList[index].id);
                               isHackSaved[index] = isSaved;
                             });
                             return Center(
@@ -153,9 +155,8 @@ class _DetailsScreenState extends State<DetailsScreen> with TickerProviderStateM
                                             child: isHackSaved[index] == true
                                                 ? IconButton(
                                                     onPressed: () {
-                                                      BlocProvider.of<HacksBloc>(context).add(
-                                                          UnSavedHackEvent(
-                                                              documentId: savedHacks[index].id));
+                                                      BlocProvider.of<HacksBloc>(context)
+                                                          .add(UnSavedHackEvent(documentId: savedHacks[index].id));
                                                     },
                                                     icon: Icon(
                                                       Icons.bookmark,
@@ -170,13 +171,10 @@ class _DetailsScreenState extends State<DetailsScreen> with TickerProviderStateM
                                                       size: 40,
                                                     ),
                                                     onPressed: () {
-                                                      BlocProvider.of<HacksBloc>(context).add(
-                                                          SaveHacksEvent(
-                                                              hackId: hacksList[index].id ?? "",
-                                                              techId: hacksList[index].techId ?? "",
-                                                              hack_details:
-                                                                  hacksList[index].hackDetails ??
-                                                                      ""));
+                                                      BlocProvider.of<HacksBloc>(context).add(SaveHacksEvent(
+                                                          hackId: hacksList[index].id ?? "",
+                                                          techId: hacksList[index].techId ?? "",
+                                                          hack_details: hacksList[index].hackDetails ?? ""));
                                                     },
                                                   ),
                                           ),
@@ -220,6 +218,28 @@ class _DetailsScreenState extends State<DetailsScreen> with TickerProviderStateM
                       context.read<HacksBloc>().add(
                             ShareHacksEvent(
                               controller: screenshotController,
+                              widget: Container(
+                                height: 500,
+                                width: 400,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  gradient: LinearGradient(
+                                    colors: [Color(0xff9c27b0), Color(0xff03a9f4)],
+                                    stops: [0.1, 1],
+                                    begin: Alignment.topRight,
+                                    end: Alignment.bottomLeft,
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Text(
+                                      "${hacksList[cardIndex].hackDetails}",
+                                      style: CustomTextTheme.headingNameText,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
                           );
                     },

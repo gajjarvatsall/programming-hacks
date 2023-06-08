@@ -11,8 +11,9 @@ class GetHacksEvent extends HacksEvent {
 
 class ShareHacksEvent extends HacksEvent {
   final ScreenshotController controller;
+  final Widget widget;
 
-  ShareHacksEvent({required this.controller});
+  ShareHacksEvent({required this.controller, required this.widget});
 }
 
 class SaveHacksEvent extends HacksEvent {
