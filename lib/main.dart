@@ -1,4 +1,5 @@
 import 'package:appwrite/appwrite.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +16,7 @@ import 'package:programming_hacks/modules/home/view.dart';
 import 'package:programming_hacks/modules/onboarding_screen.dart';
 import 'package:programming_hacks/repository/hacks_repo.dart';
 import 'package:programming_hacks/repository/languages_repo.dart';
+import 'package:programming_hacks/services/notification_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 bool? isFirstTime;
@@ -26,15 +28,36 @@ Future<void> main() async {
       statusBarIconBrightness: Brightness.light, // dark text for status bar
       statusBarColor: Colors.transparent));
   Client client = Client();
-  client
-      .setEndpoint('https://cloud.appwrite.io/v1')
-      .setProject('646b25f423d8d38d3471')
-      .setSelfSigned(status: true);
+  client.setEndpoint('https://cloud.appwrite.io/v1').setProject('646b25f423d8d38d3471').setSelfSigned(status: true);
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   status = await prefs.getBool('isLoggedIn') ?? false;
   isFirstTime = await prefs.getBool("isFirstTime");
   await prefs.setBool("isFirstTime", true);
+  AwesomeNotifications().initialize(
+    null,
+    [
+      NotificationChannel(
+        channelKey: 'basic_channel',
+        channelName: 'Basic notifications',
+        channelDescription: 'Notification channel for basic notifications',
+        importance: NotificationImportance.Max,
+        channelShowBadge: true,
+        playSound: true,
+        criticalAlerts: true,
+      ),
+      NotificationChannel(
+        channelKey: 'scheduled_channel',
+        channelName: 'Scheduled notifications',
+        channelDescription: 'Notification channel for Scheduled notifications',
+        importance: NotificationImportance.Max,
+        channelShowBadge: true,
+        playSound: true,
+        // locked: true,
+        criticalAlerts: true,
+      ),
+    ],
+  );
   runApp(const MyApp());
 }
 
@@ -51,10 +74,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     Client client = Client();
-    client
-        .setEndpoint('https://cloud.appwrite.io/v1')
-        .setProject('646b25f423d8d38d3471')
-        .setSelfSigned(status: true);
+    client.setEndpoint('https://cloud.appwrite.io/v1').setProject('646b25f423d8d38d3471').setSelfSigned(status: true);
   }
 
   @override
@@ -65,12 +85,9 @@ class _MyAppState extends State<MyApp> {
       ),
       child: MultiBlocProvider(
         providers: [
-          BlocProvider<HomeBloc>(
-              create: (context) => HomeBloc(languagesRepository: LanguagesRepository())),
-          BlocProvider<HacksBloc>(
-              create: (context) => HacksBloc(hacksRepository: HacksRepository())),
-          BlocProvider<AuthUserBloc>(
-              create: (context) => AuthUserBloc(authRepo: AuthenticationRepository()))
+          BlocProvider<HomeBloc>(create: (context) => HomeBloc(languagesRepository: LanguagesRepository())),
+          BlocProvider<HacksBloc>(create: (context) => HacksBloc(hacksRepository: HacksRepository())),
+          BlocProvider<AuthUserBloc>(create: (context) => AuthUserBloc(authRepo: AuthenticationRepository()))
         ],
         child: MaterialApp(
           theme: AppTheme.themeData,

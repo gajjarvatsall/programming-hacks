@@ -59,6 +59,7 @@ dependencies:
   shared_preferences: ^2.1.1
   flutter_native_splash: ^2.3.0
   another_transformer_page_view: ^2.0.1
+  awesome_notifications: ^0.6.19
 
 flutter_native_splash:
   android: true

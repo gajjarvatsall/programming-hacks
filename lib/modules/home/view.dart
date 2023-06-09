@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -11,6 +12,7 @@ import 'package:programming_hacks/app_theme/text_theme.dart';
 import 'package:programming_hacks/modules/auth/bloc/auth_bloc.dart';
 import 'package:programming_hacks/modules/details/bloc/hacks_bloc.dart';
 import 'package:programming_hacks/modules/home/bloc/home_bloc.dart';
+import 'package:programming_hacks/services/notification_service.dart';
 import 'package:programming_hacks/widgets/custom_button.dart';
 import 'package:programming_hacks/widgets/glassmorphic_container.dart';
 import 'package:programming_hacks/widgets/rounded_blur_container.dart';
@@ -35,6 +37,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     getTechnologyData();
     getCurrentUserName();
+    NotificationService.notificationPermission;
+    NotificationService.welcomeNotification;
+    NotificationService.scheduledNotification;
     super.initState();
   }
 
@@ -45,7 +50,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<String?> getCurrentUserName() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     currentUser = prefs.getString("currentUser");
-    print("getCurrentUserName(): ${prefs.getString("currentUser")}");
     return currentUser;
   }
 
@@ -75,8 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
               filter: ImageFilter.blur(sigmaX: 70, sigmaY: 70),
               child: BlocConsumer<HomeBloc, HomeState>(
                 buildWhen: (previousState, currentState) {
-                  return currentState is TechnologyLoadedState ||
-                      currentState is TechnologyLoadingState;
+                  return currentState is TechnologyLoadedState || currentState is TechnologyLoadingState;
                 },
                 listener: (context, state) {},
                 builder: (context, state) {
@@ -125,8 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                           IconButton(
                                             onPressed: () {
-                                              BlocProvider.of<HacksBloc>(context)
-                                                  .add(GetSavedHacksEvent());
+                                              BlocProvider.of<HacksBloc>(context).add(GetSavedHacksEvent());
                                               Navigator.pushNamed(
                                                 context,
                                                 '/saveScreen',
@@ -140,8 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                           IconButton(
                                             onPressed: () {
-                                              BlocProvider.of<AuthUserBloc>(context)
-                                                  .add(UserLogoutEvent());
+                                              BlocProvider.of<AuthUserBloc>(context).add(UserLogoutEvent());
                                               Navigator.pushNamedAndRemoveUntil(
                                                 context,
                                                 '/loginScreen',
@@ -327,8 +328,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       if (_formKey.currentState!.validate()) {
                                         BlocProvider.of<HomeBloc>(context).add(
                                           CreateHacksEvent(
-                                              techId: _selectedTechnology ?? "",
-                                              hackDetails: hacksController.text),
+                                              techId: _selectedTechnology ?? "", hackDetails: hacksController.text),
                                         );
                                       }
                                       hacksController.clear();
