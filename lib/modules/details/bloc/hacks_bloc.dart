@@ -35,22 +35,20 @@ class HacksBloc extends Bloc<HacksEvent, HacksState> {
     Future<FutureOr<void>> takeScreenshotAndShare(ShareHacksEvent event, Emitter<HacksState> emit) async {
       final pngBytes =
           await event.controller.captureFromWidget(event.widget, delay: Duration(milliseconds: 10), pixelRatio: 2.0);
-      if (kIsWeb && pngBytes != null) {
+      if (kIsWeb) {
         await WebImageDownloader.downloadImageFromUInt8List(
           uInt8List: pngBytes,
           name: 'Programming Hacks',
         );
       } else {
         final path = (await getApplicationDocumentsDirectory()).path;
-        if (pngBytes != null) {
-          File imgFile = await File('$path/screenshot.jpeg').create();
-          imgFile.writeAsBytes(pngBytes);
-          XFile file = XFile(imgFile.path);
-          Share.shareXFiles(
-            [file],
-            text: 'Best Programming Hack app built with Flutter and Appwrite',
-          );
-        }
+        File imgFile = await File('$path/screenshot.jpeg').create();
+        imgFile.writeAsBytes(pngBytes);
+        XFile file = XFile(imgFile.path);
+        Share.shareXFiles(
+          [file],
+          text: 'Best Programming Hack app built with Flutter and Appwrite',
+        );
       }
     }
 

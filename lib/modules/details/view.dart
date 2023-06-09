@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glassmorphism/glassmorphism.dart';
@@ -10,6 +11,7 @@ import 'package:programming_hacks/models/saved_hacks_model.dart';
 import 'package:programming_hacks/modules/details/bloc/hacks_bloc.dart';
 import 'package:programming_hacks/widgets/rounded_blur_container.dart';
 import 'package:screenshot/screenshot.dart';
+import 'package:swipable_stack/swipable_stack.dart';
 
 class DetailsScreen extends StatefulWidget {
   DetailsScreen({super.key});
@@ -20,16 +22,19 @@ class DetailsScreen extends StatefulWidget {
 
 class _DetailsScreenState extends State<DetailsScreen> with TickerProviderStateMixin {
   late AnimationController lottieController;
-  PageController controller = PageController(viewportFraction: 0.9, keepPage: true);
+  late final SwipableStackController _controller;
   ScreenshotController screenshotController = ScreenshotController();
   List<HacksModel> hacksList = [];
   List<SavedHacksModel> savedHacks = [];
   int cardIndex = 0;
 
+  void _listenController() => setState(() {});
+
   @override
   void initState() {
     getData();
-    lottieController = AnimationController(vsync: this, duration: Duration(seconds: 2));
+
+    _controller = SwipableStackController()..addListener(_listenController);
     super.initState();
   }
 
@@ -39,7 +44,9 @@ class _DetailsScreenState extends State<DetailsScreen> with TickerProviderStateM
 
   @override
   void dispose() {
-    controller.dispose();
+    _controller
+      ..removeListener(_listenController)
+      ..dispose();
     super.dispose();
   }
 
@@ -98,13 +105,22 @@ class _DetailsScreenState extends State<DetailsScreen> with TickerProviderStateM
                         );
                       }
                       if (state is HacksLoadedState) {
-                        return PageView.builder(
-                          onPageChanged: (value) {
-                            cardIndex = value;
+                        return SwipableStack(
+                          detectableSwipeDirections: const {
+                            SwipeDirection.right,
+                            SwipeDirection.left,
                           },
-                          controller: controller,
-                          itemCount: hacksList.length,
-                          itemBuilder: (context, index) {
+                          controller: _controller,
+                          stackClipBehaviour: Clip.none,
+                          onSwipeCompleted: (index, direction) {
+                            if (kDebugMode) {
+                              print('$index, $direction');
+                            }
+                          },
+                          horizontalSwipeThreshold: 0.8,
+                          verticalSwipeThreshold: 0.8,
+                          builder: (context, properties) {
+                            final index = properties.index % hacksList.length;
                             List<bool>? isHackSaved = List.generate(hacksList.length, (index) => false);
                             savedHacks.forEach((element) {
                               bool isSaved = savedHacks.any((element) => element.hackId == hacksList[index].id);
@@ -117,7 +133,7 @@ class _DetailsScreenState extends State<DetailsScreen> with TickerProviderStateM
                                   width: 400,
                                   height: 500,
                                   borderRadius: 20,
-                                  blur: 5,
+                                  blur: 60,
                                   alignment: Alignment.bottomCenter,
                                   linearGradient: LinearGradient(
                                     begin: Alignment.topLeft,

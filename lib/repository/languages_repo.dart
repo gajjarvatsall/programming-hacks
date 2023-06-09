@@ -1,15 +1,12 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:programming_hacks/models/languages_model.dart';
+import 'package:programming_hacks/repository/appwrite_client.dart';
 
 class LanguagesRepository {
-  Future<List<TechnologyModel>> getLanguages() async {
-    Client client = Client();
-    Databases databases = Databases(client);
-    client
-        .setEndpoint('https://cloud.appwrite.io/v1')
-        .setProject('646b25f423d8d38d3471')
-        .setSelfSigned(status: true);
+  Client client = AppWriteConfig.getClient();
+  Databases databases = AppWriteConfig.getDatabases();
 
+  Future<List<TechnologyModel>> getLanguages() async {
     List<TechnologyModel>? languageList = [];
     final response = await databases.listDocuments(
       collectionId: '646f01ad1349fbecabe9',
