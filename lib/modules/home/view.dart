@@ -225,139 +225,134 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      floatingActionButton: currentUser == 'admin@gmail.com'
-          ? FloatingActionButton(
-              onPressed: () {
-                showModalBottomSheet(
-                  backgroundColor: Colors.transparent,
-                  isScrollControlled: true,
-                  context: context,
-                  builder: (_) {
-                    return Padding(
-                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                      child: BlocConsumer<HomeBloc, HomeState>(
-                        listener: (context, state) {
-                          if (state is CreateHacksLoadedState) {
-                            getTechnologyData();
-                          }
-                        },
-                        builder: (context, state) {
-                          if (state is CreateHacksLoadingState) {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                          if (state is TechnologyLoadingState) {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          } else if (state is TechnologyLoadedState) {
-                            final languageList = state.technologyData;
-                            return BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 70, sigmaY: 70),
-                              child: StatefulBuilder(builder: (BuildContext context, setState) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: Form(
-                                    key: _formKey,
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Text(
-                                          "ADD HACKS",
-                                          style: CustomTextTheme.titleText,
-                                        ),
-                                        SizedBox(
-                                          height: mSizedBoxHeight,
-                                        ),
-                                        DropdownButtonHideUnderline(
-                                          child: DropdownButtonFormField<String>(
-                                            decoration: AppTheme.inputDecoration,
-                                            borderRadius: BorderRadius.circular(12),
-                                            hint: Text('Select a technology'),
-                                            value: _selectedTechnology,
-                                            items: languageList?.map((tech) {
-                                              return DropdownMenuItem<String>(
-                                                value: tech.id,
-                                                child: Text(tech.name ?? ""),
-                                              );
-                                            }).toList(),
-                                            onChanged: (String? selectedTech) {
-                                              setState(() {
-                                                _selectedTechnology = selectedTech;
-                                              });
-                                            },
-                                            validator: (value) {
-                                              if (value == null || value.isEmpty) {
-                                                return 'Please select an option';
-                                              }
-                                              return null;
-                                            },
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: mSizedBoxHeight,
-                                        ),
-                                        TextFormField(
-                                          controller: hacksController,
-                                          decoration: InputDecoration(
-                                            fillColor: Colors.white,
-                                            filled: true,
-                                            focusColor: Colors.white,
-                                            enabledBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(12),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(12),
-                                              borderSide: BorderSide(color: Colors.grey.shade400),
-                                            ),
-                                            hintText: 'Enter Tips here',
-                                          ),
-                                          validator: (value) {
-                                            if (value == null || value.isEmpty) {
-                                              return 'Please enter a value';
-                                            }
-                                            return null;
-                                          },
-                                        ),
-                                        SizedBox(
-                                          height: mSizedBoxHeight,
-                                        ),
-                                        CustomButton(
-                                          onTap: () {
-                                            if (_formKey.currentState!.validate()) {
-                                              BlocProvider.of<HomeBloc>(context).add(
-                                                CreateHacksEvent(
-                                                    techId: _selectedTechnology ?? "",
-                                                    hackDetails: hacksController.text),
-                                              );
-                                            }
-                                            hacksController.clear();
-                                          },
-                                          text: 'Submit',
-                                        ),
-                                      ],
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showModalBottomSheet(
+            backgroundColor: Colors.transparent,
+            isScrollControlled: true,
+            context: context,
+            builder: (_) {
+              return Padding(
+                padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: BlocConsumer<HomeBloc, HomeState>(
+                  listener: (context, state) {
+                    if (state is CreateHacksLoadedState) {
+                      getTechnologyData();
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state is CreateHacksLoadingState) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    if (state is TechnologyLoadingState) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (state is TechnologyLoadedState) {
+                      final languageList = state.technologyData;
+                      return BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 70, sigmaY: 70),
+                        child: StatefulBuilder(builder: (BuildContext context, setState) {
+                          return Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Form(
+                              key: _formKey,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    "ADD HACKS",
+                                    style: CustomTextTheme.titleText,
+                                  ),
+                                  SizedBox(
+                                    height: mSizedBoxHeight,
+                                  ),
+                                  DropdownButtonHideUnderline(
+                                    child: DropdownButtonFormField<String>(
+                                      decoration: AppTheme.inputDecoration,
+                                      borderRadius: BorderRadius.circular(12),
+                                      hint: Text('Select a technology'),
+                                      value: _selectedTechnology,
+                                      items: languageList?.map((tech) {
+                                        return DropdownMenuItem<String>(
+                                          value: tech.id,
+                                          child: Text(tech.name ?? ""),
+                                        );
+                                      }).toList(),
+                                      onChanged: (String? selectedTech) {
+                                        setState(() {
+                                          _selectedTechnology = selectedTech;
+                                        });
+                                      },
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Please select an option';
+                                        }
+                                        return null;
+                                      },
                                     ),
                                   ),
-                                );
-                              }),
-                            );
-                          }
-                          return Center(
-                            child: CircularProgressIndicator(),
+                                  SizedBox(
+                                    height: mSizedBoxHeight,
+                                  ),
+                                  TextFormField(
+                                    controller: hacksController,
+                                    decoration: InputDecoration(
+                                      fillColor: Colors.white,
+                                      filled: true,
+                                      focusColor: Colors.white,
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        borderSide: BorderSide(color: Colors.grey.shade400),
+                                      ),
+                                      hintText: 'Enter Tips here',
+                                    ),
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please enter a value';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: mSizedBoxHeight,
+                                  ),
+                                  CustomButton(
+                                    onTap: () {
+                                      if (_formKey.currentState!.validate()) {
+                                        BlocProvider.of<HomeBloc>(context).add(
+                                          CreateHacksEvent(
+                                              techId: _selectedTechnology ?? "",
+                                              hackDetails: hacksController.text),
+                                        );
+                                      }
+                                      hacksController.clear();
+                                    },
+                                    text: 'Submit',
+                                  ),
+                                ],
+                              ),
+                            ),
                           );
-                        },
-                      ),
+                        }),
+                      );
+                    }
+                    return Center(
+                      child: CircularProgressIndicator(),
                     );
                   },
-                );
-              },
-              child: Icon(Icons.add),
-            )
-          : Container(
-              height: 0,
-              width: 0,
-            ),
+                ),
+              );
+            },
+          );
+        },
+        child: Icon(Icons.add),
+      ),
     );
   }
 }
