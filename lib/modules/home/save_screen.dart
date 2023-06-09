@@ -54,54 +54,97 @@ class _SaveHacksScreenState extends State<SaveHacksScreen> {
                   return Center(child: CircularProgressIndicator());
                 }
                 if (state is GetSavedHackLoadedState) {
-                  return PageView.builder(
-                    controller: controller,
-                    itemCount: savedHacks.length,
-                    itemBuilder: (context, index) {
-                      return Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: GlassmorphicContainer(
-                            width: 400,
-                            height: 500,
-                            borderRadius: 20,
-                            blur: 5,
-                            alignment: Alignment.bottomCenter,
-                            linearGradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [
-                                const Color(0xFFffffff).withOpacity(0.1),
-                                const Color(0xFFFFFFFF).withOpacity(0.1),
-                              ],
-                              stops: const [
-                                0.1,
-                                1,
-                              ],
-                            ),
-                            borderGradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [
-                                const Color(0xFFffffff).withOpacity(0.1),
-                                const Color((0xFFFFFFFF)).withOpacity(0.01),
-                              ],
-                            ),
-                            border: 3,
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.all(20.0),
-                                child: Text(
-                                  savedHacks[index].hackDetails,
-                                  style: CustomTextTheme.headingNameText,
+                  return savedHacks.isEmpty
+                      ? Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: GlassmorphicContainer(
+                              width: 400,
+                              height: 500,
+                              borderRadius: 20,
+                              blur: 5,
+                              alignment: Alignment.bottomCenter,
+                              linearGradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  const Color(0xFFffffff).withOpacity(0.1),
+                                  const Color(0xFFFFFFFF).withOpacity(0.1),
+                                ],
+                                stops: const [
+                                  0.1,
+                                  1,
+                                ],
+                              ),
+                              borderGradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  const Color(0xFFffffff).withOpacity(0.1),
+                                  const Color((0xFFFFFFFF)).withOpacity(0.01),
+                                ],
+                              ),
+                              border: 3,
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Text(
+                                    "Data Not Found",
+                                    style: CustomTextTheme.headingNameText,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      );
-                    },
-                  );
+                        )
+                      : PageView.builder(
+                          controller: controller,
+                          itemCount: savedHacks.length,
+                          itemBuilder: (context, index) {
+                            return Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: GlassmorphicContainer(
+                                  width: 400,
+                                  height: 500,
+                                  borderRadius: 20,
+                                  blur: 5,
+                                  alignment: Alignment.bottomCenter,
+                                  linearGradient: LinearGradient(
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                    colors: [
+                                      const Color(0xFFffffff).withOpacity(0.1),
+                                      const Color(0xFFFFFFFF).withOpacity(0.1),
+                                    ],
+                                    stops: const [
+                                      0.1,
+                                      1,
+                                    ],
+                                  ),
+                                  borderGradient: LinearGradient(
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                    colors: [
+                                      const Color(0xFFffffff).withOpacity(0.1),
+                                      const Color((0xFFFFFFFF)).withOpacity(0.01),
+                                    ],
+                                  ),
+                                  border: 3,
+                                  child: Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(20.0),
+                                      child: Text(
+                                        savedHacks[index].hackDetails,
+                                        style: CustomTextTheme.headingNameText,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
                 }
                 return Center(
                   child: Text("Data Not Found"),

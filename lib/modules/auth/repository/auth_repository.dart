@@ -35,16 +35,13 @@ class AuthenticationRepository {
       Client client = Client();
       client.setEndpoint('https://cloud.appwrite.io/v1').setProject('646b25f423d8d38d3471').setSelfSigned(status: true);
       Account account = Account(client);
-
       final response = await account.createEmailSession(
         email: email,
         password: password,
       );
-
       var currentUser = await account.get();
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString("currentUser", currentUser.name);
-
       return response;
     } catch (e) {
       rethrow;
