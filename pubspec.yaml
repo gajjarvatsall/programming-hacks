@@ -58,6 +58,7 @@ dependencies:
   get_storage: ^2.1.1
   shared_preferences: ^2.1.1
   flutter_native_splash: ^2.3.0
+  awesome_notifications: ^0.6.19
   flutter_staggered_animations: ^1.1.1
   flutter_tinder_swipe: ^0.0.4
   swipable_stack: ^2.0.0

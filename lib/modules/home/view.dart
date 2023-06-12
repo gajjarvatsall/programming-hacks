@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -12,6 +13,7 @@ import 'package:programming_hacks/app_theme/text_theme.dart';
 import 'package:programming_hacks/modules/auth/bloc/auth_bloc.dart';
 import 'package:programming_hacks/modules/details/bloc/hacks_bloc.dart';
 import 'package:programming_hacks/modules/home/bloc/home_bloc.dart';
+import 'package:programming_hacks/services/notification_service.dart';
 import 'package:programming_hacks/widgets/custom_button.dart';
 import 'package:programming_hacks/widgets/glassmorphic_container.dart';
 import 'package:programming_hacks/widgets/rounded_blur_container.dart';
@@ -36,6 +38,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   void initState() {
     getTechnologyData();
     getCurrentUserName();
+    NotificationService.notificationPermission;
+    NotificationService.welcomeNotification;
+    NotificationService.scheduledNotification;
     super.initState();
   }
 
@@ -46,7 +51,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   Future<String?> getCurrentUserName() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     currentUser = prefs.getString("currentUser");
-    print("getCurrentUserName(): ${prefs.getString("currentUser")}");
     return currentUser;
   }
 

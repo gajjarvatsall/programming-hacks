@@ -14,6 +14,7 @@ import 'package:programming_hacks/modules/home/view.dart';
 import 'package:programming_hacks/repository/appwrite_client.dart';
 import 'package:programming_hacks/repository/hacks_repo.dart';
 import 'package:programming_hacks/repository/languages_repo.dart';
+import 'package:programming_hacks/services/notification_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'modules/onboarding_screen.dart';
@@ -32,6 +33,30 @@ Future<void> main() async {
   status = await prefs.getBool('isLoggedIn') ?? false;
   isFirstTime = await prefs.getBool("isFirstTime");
   await prefs.setBool("isFirstTime", true);
+  AwesomeNotifications().initialize(
+    null,
+    [
+      NotificationChannel(
+        channelKey: 'basic_channel',
+        channelName: 'Basic notifications',
+        channelDescription: 'Notification channel for basic notifications',
+        importance: NotificationImportance.Max,
+        channelShowBadge: true,
+        playSound: true,
+        criticalAlerts: true,
+      ),
+      NotificationChannel(
+        channelKey: 'scheduled_channel',
+        channelName: 'Scheduled notifications',
+        channelDescription: 'Notification channel for Scheduled notifications',
+        importance: NotificationImportance.Max,
+        channelShowBadge: true,
+        playSound: true,
+        // locked: true,
+        criticalAlerts: true,
+      ),
+    ],
+  );
   runApp(const MyApp());
 }
 
@@ -43,6 +68,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  late Client client;
+
   @override
   void initState() {
     super.initState();
