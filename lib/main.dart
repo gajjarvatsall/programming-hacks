@@ -32,8 +32,8 @@ Future<void> main() async {
   AppWriteConfig.getDatabases();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   status = await prefs.getBool('isLoggedIn') ?? false;
-  await prefs.setInt("isFirstTime", 1);
   isFirstTime = await prefs.getInt("isFirstTime") ?? 0;
+  await prefs.setInt("isFirstTime", 1);
   print('initScreen ${isFirstTime}');
   AwesomeNotifications().initialize(
     null,
@@ -84,7 +84,7 @@ class _MyAppState extends State<MyApp> {
         child: MaterialApp(
           theme: AppTheme.themeData,
           debugShowCheckedModeBanner: false,
-          initialRoute: isFirstTime == 0 || isFirstTime == null
+          initialRoute: isFirstTime == 0
               ? '/onBoardingScreen'
               : status == true
                   ? '/homeScreen'

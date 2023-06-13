@@ -110,7 +110,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               },
               listener: (context, state) {},
               builder: (context, state) {
-                print(currentUser);
                 if (state is TechnologyLoadingState) {
                   return Center(
                     child: Lottie.asset(
@@ -271,7 +270,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         visible: currentUser == "admin@gmail.com",
         child: FloatingActionButton(
           onPressed: () {
-            print(currentUser);
             showModalBottomSheet(
               backgroundColor: Colors.transparent,
               isScrollControlled: true,

@@ -62,7 +62,12 @@ class NotificationService {
       actionButtons: [
         NotificationActionButton(key: "OPEN", label: "Open"),
       ],
-      schedule: NotificationCalendar(second: 5),
+      schedule: NotificationCalendar(
+        hour: 8,
+        minute: 0,
+        second: 0,
+        repeats: true,
+      ),
     );
   }
 }

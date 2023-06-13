@@ -6,7 +6,6 @@ import 'package:programming_hacks/app_theme/constant.dart';
 import 'package:programming_hacks/app_theme/text_theme.dart';
 import 'package:programming_hacks/widgets/glassmorphic_container.dart';
 import 'package:programming_hacks/widgets/rounded_blur_container.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -131,7 +130,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                           curve: Curves.ease,
                         );
                         if (controller.page == onBoardingScreenData.length - 1) {
-                          SharedPreferences prefs = await SharedPreferences.getInstance();
                           Navigator.pushNamedAndRemoveUntil(context, '/loginScreen', (route) => false);
                         }
                       },
