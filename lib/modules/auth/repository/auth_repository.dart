@@ -39,7 +39,7 @@ class AuthenticationRepository {
       );
       var currentUser = await account.get();
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString("currentUser", currentUser.name);
+      await prefs.setString("currentUser", currentUser.name);
       return response;
     } catch (e) {
       rethrow;

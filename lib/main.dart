@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,29 +11,30 @@ import 'package:programming_hacks/modules/details/bloc/hacks_bloc.dart';
 import 'package:programming_hacks/modules/details/view.dart';
 import 'package:programming_hacks/modules/home/bloc/home_bloc.dart';
 import 'package:programming_hacks/modules/home/save_screen.dart';
+import 'package:programming_hacks/modules/home/settings_screen.dart';
 import 'package:programming_hacks/modules/home/view.dart';
 import 'package:programming_hacks/repository/appwrite_client.dart';
 import 'package:programming_hacks/repository/hacks_repo.dart';
 import 'package:programming_hacks/repository/languages_repo.dart';
-import 'package:programming_hacks/services/notification_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'modules/onboarding_screen.dart';
 
-bool? isFirstTime;
+int isFirstTime = 0;
 bool? status;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarIconBrightness: Brightness.light, // dark text for status bar
-      statusBarColor: Colors.transparent));
+      statusBarColor: Colors.black));
   AppWriteConfig.getClient();
   AppWriteConfig.getDatabases();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   status = await prefs.getBool('isLoggedIn') ?? false;
-  isFirstTime = await prefs.getBool("isFirstTime");
-  await prefs.setBool("isFirstTime", true);
+  await prefs.setInt("isFirstTime", 1);
+  isFirstTime = await prefs.getInt("isFirstTime") ?? 0;
+  print('initScreen ${isFirstTime}');
   AwesomeNotifications().initialize(
     null,
     [
@@ -40,7 +42,7 @@ Future<void> main() async {
         channelKey: 'basic_channel',
         channelName: 'Basic notifications',
         channelDescription: 'Notification channel for basic notifications',
-        importance: NotificationImportance.Max,
+        importance: NotificationImportance.High,
         channelShowBadge: true,
         playSound: true,
         criticalAlerts: true,
@@ -49,10 +51,9 @@ Future<void> main() async {
         channelKey: 'scheduled_channel',
         channelName: 'Scheduled notifications',
         channelDescription: 'Notification channel for Scheduled notifications',
-        importance: NotificationImportance.Max,
+        importance: NotificationImportance.High,
         channelShowBadge: true,
         playSound: true,
-        // locked: true,
         criticalAlerts: true,
       ),
     ],
@@ -68,13 +69,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late Client client;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -90,11 +84,11 @@ class _MyAppState extends State<MyApp> {
         child: MaterialApp(
           theme: AppTheme.themeData,
           debugShowCheckedModeBanner: false,
-          initialRoute: isFirstTime == true
-              ? status == true
+          initialRoute: isFirstTime == 0 || isFirstTime == null
+              ? '/onBoardingScreen'
+              : status == true
                   ? '/homeScreen'
-                  : '/loginScreen'
-              : '/onBoardingScreen',
+                  : '/loginScreen',
           routes: {
             '/loginScreen': (context) => const LoginScreen(),
             '/signupScreen': (context) => const SignupScreen(),
@@ -102,6 +96,7 @@ class _MyAppState extends State<MyApp> {
             '/detailsScreen': (context) => DetailsScreen(),
             '/saveScreen': (context) => SaveHacksScreen(),
             '/onBoardingScreen': (context) => OnBoardingScreen(),
+            '/settingScreen': (context) => SettingScreen(),
           },
         ),
       ),

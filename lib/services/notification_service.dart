@@ -10,7 +10,6 @@ class NotificationService {
   static Future<void> notificationPermission(BuildContext context) async {
     AwesomeNotifications().isNotificationAllowed().then((isAllowed) async {
       if (!isAllowed) {
-        // AwesomeNotifications().requestPermissionToSendNotifications();
         showDialog(
             context: context,
             builder: (context) {
@@ -31,7 +30,6 @@ class NotificationService {
                         await AwesomeNotifications()
                             .requestPermissionToSendNotifications()
                             .then((_) => {Navigator.pop(context)});
-                        print("Navigated to permissions");
                       },
                       child: Text(
                         "Allow",
@@ -46,21 +44,25 @@ class NotificationService {
 
   static Future<void> welcomeNotification() async {
     await AwesomeNotifications().createNotification(
-        content: NotificationContent(
-            id: 10,
-            channelKey: 'basic_channel',
-            title: 'Welcome to ProHacks',
-            body: 'Hacks to make your programming easy'));
+      content: NotificationContent(
+          id: 10,
+          channelKey: 'basic_channel',
+          title: 'Welcome to ProHacks',
+          body: 'Hacks to make your programming easy'),
+    );
   }
 
   static Future<void> scheduledNotification() async {
     await AwesomeNotifications().createNotification(
-        content: NotificationContent(
-            id: 11,
-            channelKey: 'scheduled_channel',
-            title: "Did you missed something !?",
-            body: "Don't want to see the latest hacks of different languages"),
-        actionButtons: [NotificationActionButton(key: "OPEN", label: "Open")],
-        schedule: NotificationCalendar(repeats: true, second: 10));
+      content: NotificationContent(
+          id: 12,
+          channelKey: 'scheduled_channel',
+          title: "Did you missed something !?",
+          body: "Don't want to see the latest hacks of different languages"),
+      actionButtons: [
+        NotificationActionButton(key: "OPEN", label: "Open"),
+      ],
+      schedule: NotificationCalendar(second: 5),
+    );
   }
 }

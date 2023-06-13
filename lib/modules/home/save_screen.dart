@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glassmorphism/glassmorphism.dart';
-import 'package:programming_hacks/app_theme/constant.dart';
 import 'package:programming_hacks/app_theme/text_theme.dart';
 import 'package:programming_hacks/models/saved_hacks_model.dart';
 import 'package:programming_hacks/modules/details/bloc/hacks_bloc.dart';
@@ -182,27 +181,26 @@ class _SaveHacksScreenState extends State<SaveHacksScreen> {
               },
             ),
           ),
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: SizedBox(
-                height: mSizedBoxHeight,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: Icon(
-                        Icons.arrow_back_sharp,
-                        color: Colors.white,
-                        size: 30,
-                      ),
-                    ),
-                  ],
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: AppBar(
+              backgroundColor: Colors.transparent,
+              leading: IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
                 ),
+                onPressed: () {
+                  Navigator.pop(context); // Handle back button press
+                },
               ),
+              title: Text(
+                "Saved Hacks",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              centerTitle: true,
             ),
           ),
         ],
