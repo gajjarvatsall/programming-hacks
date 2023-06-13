@@ -6,8 +6,8 @@ abstract class HomeEvent {}
 class GetTechnologyEvent extends HomeEvent {}
 
 class CreateHacksEvent extends HomeEvent {
-  String techId;
-  String hackDetails;
+  final String techId;
+  final String hackDetails;
 
   CreateHacksEvent({
     required this.techId,

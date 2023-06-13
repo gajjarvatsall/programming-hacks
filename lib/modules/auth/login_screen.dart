@@ -163,10 +163,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     validator: FormBuilderValidators.compose(
                                       [
                                         /// Makes this field required
-                                        FormBuilderValidators.required(
-                                            errorText: 'Email is required'),
-                                        FormBuilderValidators.email(
-                                            errorText: 'Please Provide a Valid Email ID'),
+                                        FormBuilderValidators.required(errorText: 'Email is required'),
+                                        FormBuilderValidators.email(errorText: 'Please Provide a Valid Email ID'),
                                       ],
                                     ),
                                   )
@@ -195,10 +193,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ]),
                                   )
                                       .animate()
-                                      .fadeIn(
-                                          duration: 1000.ms,
-                                          curve: Curves.easeOutCirc,
-                                          delay: 600.ms)
+                                      .fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc, delay: 600.ms)
                                       .slideY(begin: 0.5, end: 0),
 
                                   const SizedBox(height: sSizedBoxHeight),
@@ -254,8 +249,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         onTap: () {
                                           Navigator.pushNamed(context, '/signupScreen');
                                         },
-                                        child: Text('Register now',
-                                            style: CustomTextTheme.textButtonText),
+                                        child: Text('Register now', style: CustomTextTheme.textButtonText),
                                       ),
                                     ],
                                   ),
@@ -287,14 +281,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                BlocProvider.of<AuthUserBloc>(context)
-                                    .add(OAuth2SessionEvent(provider: 'google'));
+                                BlocProvider.of<AuthUserBloc>(context).add(OAuth2SessionEvent(provider: 'google'));
                               },
                               child: SquareTile(imagePath: 'assets/images/google.png'),
-                            )
-                                .animate()
-                                .fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc)
-                                .slideY(begin: 0.5, end: 0),
+                            ).animate().fadeIn(duration: 1000.ms, curve: Curves.easeOutCirc).slideY(begin: 0.5, end: 0),
                           ],
                         ),
                       ],

@@ -1,14 +1,14 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:programming_hacks/models/users_model.dart';
+import 'package:programming_hacks/repository/appwrite_client.dart';
 
 class UsersRepository {
+  Client client = AppWriteConfig.getClient();
+  Databases databases = AppWriteConfig.getDatabases();
+
   Future<List<UsersModel>> getUsers() async {
     try {
-      Client client = Client();
-      Databases databases = Databases(client);
-      client.setEndpoint('https://cloud.appwrite.io/v1').setProject('646b25f423d8d38d3471').setSelfSigned(status: true);
-
       Account account = Account(client);
       User currentUser = await account.get();
 
