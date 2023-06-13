@@ -43,9 +43,9 @@ class HacksBloc extends Bloc<HacksEvent, HacksState> {
       } else {
         final path = (await getApplicationDocumentsDirectory()).path;
         File imgFile = await File('$path/screenshot.jpeg').create();
-        imgFile.writeAsBytes(pngBytes);
+        await imgFile.writeAsBytes(pngBytes);
         XFile file = XFile(imgFile.path);
-        Share.shareXFiles(
+        await Share.shareXFiles(
           [file],
           text: 'Best Programming Hack app built with Flutter and Appwrite',
         );
