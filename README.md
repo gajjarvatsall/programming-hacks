@@ -6,8 +6,10 @@ Programming Hacks Application is a mobile application built with Flutter and App
 
 - **Technology List**: Browse through a comprehensive list of technologies including programming languages, frameworks, and tools.
 - **Tips and Tricks**: Access a collection of useful tips and tricks for each technology to improve proficiency and efficiency.
-- **User Interface and Experience**: Enjoy an intuitive and visually appealing user interface for seamless navigation and readability. - **Daily Notifications**: Receive daily notifications with random programming hacks to keep you motivated and expand your knowledge.
+- **User Interface and Experience**: Enjoy an intuitive and visually appealing user interface for seamless navigation and readability.
+- **Daily Notifications**: Receive daily notifications with random programming hacks to keep you motivated and expand your knowledge.
 - **Hacks Sharing**: Share interesting hacks with your friends and colleagues through various communication channels.
+- **Hacks Bookmarking**: You can bookmark the hacks which you like and then read it later too.
 
 
 ## Tech Stack
