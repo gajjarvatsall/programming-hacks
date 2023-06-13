@@ -1,4 +1,4 @@
-# Programming Hacks Application 🚀
+# Programming Hacks 🚀
 
 Programming Hacks Application is a mobile application built with Flutter and Appwrite that provides a curated list of technologies along with tips and tricks for each technology. The application aims to assist programmers and developers in enhancing their knowledge and skills in various programming languages, frameworks, tools, and technologies. 💡
 
