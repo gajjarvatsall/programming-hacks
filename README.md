@@ -68,7 +68,7 @@ Welcome to our project! We are a dedicated team of four members working together
 - Twitter: [its_me_nikunj_](https://twitter.com/its_me_nikunj_)
 - Role: Flutter Developer
 
-**Vatsal Gajjjar** 🚀
+**Vatsal Gajjar** 🚀
 - GitHub: [gajjarvatsall](https://github.com/gajjarvatsall)
 - Twitter: [gajjarvatsall](https://twitter.com/gajjarvatsall)
 - Role: Flutter Developer
