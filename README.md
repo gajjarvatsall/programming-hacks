@@ -3,12 +3,7 @@
 Programming Hacks Application is a mobile application built with Flutter and Appwrite that provides a curated list of technologies along with tips and tricks for each technology. The application aims to assist programmers and developers in enhancing their knowledge and skills in various programming languages, frameworks, tools, and technologies. 💡
 
 ## Preview 📱
-
-![splashScreen](https://github.com/gajjarvatsall/programming-hacks/assets/114209867/f05ff87a-6f37-451b-9a37-8ec906a001c8)
-![loginScreen](https://github.com/gajjarvatsall/programming-hacks/assets/114209867/42b77caf-ec8f-4325-be0f-32e98f3119f0)
-
-![homeScreen](https://github.com/gajjarvatsall/programming-hacks/assets/114209867/73f2ae34-4985-4fff-9ffb-245261d35fa0)
-![detailScreen](https://github.com/gajjarvatsall/programming-hacks/assets/114209867/6051e92f-ddc2-43a5-b78a-51183f8f7b6f)
+![loginScreen](https://github.com/gajjarvatsall/programming-hacks/assets/114209867/42b77caf-ec8f-4325-be0f-32e98f3119f0)![splashScreen](https://github.com/gajjarvatsall/programming-hacks/assets/114209867/f05ff87a-6f37-451b-9a37-8ec906a001c8)![homeScreen](https://github.com/gajjarvatsall/programming-hacks/assets/114209867/73f2ae34-4985-4fff-9ffb-245261d35fa0)![detailScreen](https://github.com/gajjarvatsall/programming-hacks/assets/114209867/6051e92f-ddc2-43a5-b78a-51183f8f7b6f)
 
 
 ## Features ✨
