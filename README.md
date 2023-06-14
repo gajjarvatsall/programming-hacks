@@ -44,9 +44,7 @@ Appwrite provides user authentication and management features. Here's a brief de
 
 **Authentication with Google**:
 - When a user wants to create an account in the application, they can use the signup feature with their Google account.
-- The user selects the option to sign up with Google and is redirected to the Google authentication
-
- page.
+- The user selects the option to sign up with Google and is redirected to the Google authentication page.
 - After successful authentication with Google, Appwrite creates a new user account and securely stores the user's credentials. 🌐
 
 ## About Us 👥
